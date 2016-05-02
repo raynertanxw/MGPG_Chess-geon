@@ -3,9 +3,24 @@ using System.Collections;
 
 public class DungeonManager : MonoBehaviour
 {
-	public int sizeX, sizeY;
-	public int scaleMultiplier = 1;
+	private static DungeonManager sInstance = null;
+	public static DungeonManager Instance { get { return sInstance; } }
+
+	void OnDestroy()
+	{
+		// Only set sInstance to null if the actual instance is destroyed.
+		if (sInstance == this)
+			sInstance = null;
+	}
+
+	[SerializeField] private int sizeX = 32;
+	[SerializeField] private int sizeY = 32;
+	public int SizeX { get { return sizeX; } }
+	public int SizeY { get { return sizeY; } }
+	[SerializeField] private int scaleMultiplier = 1;
+	public int ScaleMultiplier { get { return scaleMultiplier; } }
 	private float blockSize;
+	public float BlockSize { get { return blockSize; } }
 	private float halfBlockSize;
 	public GameObject dungeonBlockPrefab;
 	public Sprite blackTileSprite, whiteTileSprite, selectableTileSprite, wallTileSprite;
@@ -16,6 +31,11 @@ public class DungeonManager : MonoBehaviour
 
 	void Awake()
 	{
+		if (sInstance != null)
+			return;
+		else
+			sInstance = this;
+
 		blockSize = blackTileSprite.rect.xMax / 100.0f * scaleMultiplier;
 		halfBlockSize = blockSize / 2.0f;
 
@@ -40,6 +60,13 @@ public class DungeonManager : MonoBehaviour
 
 				// Edge Cases
 				if (x == 0 || x == sizeX - 1 || y == 0 || y == sizeY - 1)
+				{
+					curBlock = new DungeonBlock(BlockState.Wall);
+					dungeonBlockGrid[x, y] = curBlock;
+					continue;
+				}
+
+				if (Random.Range(0.0f, 1.0f) < 0.1f)
 				{
 					curBlock = new DungeonBlock(BlockState.Wall);
 					dungeonBlockGrid[x, y] = curBlock;
@@ -81,6 +108,7 @@ public class DungeonManager : MonoBehaviour
 				GameObject curBlock = (GameObject) Instantiate(dungeonBlockPrefab, curBlockPos, Quaternion.identity);
 				curBlock.transform.localScale = Vector3.one * scaleMultiplier;
 				dungeonBlockGameObjectGrid[x, y] = curBlock;
+				curBlock.transform.SetParent(this.transform);
 
 				dungeonBlockSpriteRens[x, y] = curBlock.GetComponent<SpriteRenderer>();
 				switch (dungeonBlockGrid[x, y].State)
