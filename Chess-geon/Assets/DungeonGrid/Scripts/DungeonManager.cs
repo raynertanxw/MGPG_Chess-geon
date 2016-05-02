@@ -61,19 +61,19 @@ public class DungeonManager : MonoBehaviour
 				// Edge Cases
 				if (x == 0 || x == sizeX - 1 || y == 0 || y == sizeY - 1)
 				{
-					curBlock = new DungeonBlock(BlockState.Wall);
+					curBlock = new DungeonBlock(BlockState.Wall, x, y);
 					dungeonBlockGrid[x, y] = curBlock;
 					continue;
 				}
 
 				if (Random.Range(0.0f, 1.0f) < 0.1f)
 				{
-					curBlock = new DungeonBlock(BlockState.Wall);
+					curBlock = new DungeonBlock(BlockState.Wall, x , y);
 					dungeonBlockGrid[x, y] = curBlock;
 					continue;
 				}
 
-				curBlock = new DungeonBlock(BlockState.Empty);
+				curBlock = new DungeonBlock(BlockState.Empty, x, y);
 				dungeonBlockGrid[x, y] = curBlock;
 			}
 		}
