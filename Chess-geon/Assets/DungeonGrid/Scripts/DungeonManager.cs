@@ -26,6 +26,7 @@ public class DungeonManager : MonoBehaviour
 	public Sprite blackTileSprite, whiteTileSprite, selectableTileSprite, wallTileSprite;
 
 	private DungeonBlock[,] dungeonBlockGrid = null;
+    public DungeonBlock[,] DungeonBlocks { get { return dungeonBlockGrid; } }
 	private GameObject[,] dungeonBlockGameObjectGrid = null;
 	private SpriteRenderer[,] dungeonBlockSpriteRens = null;
 
