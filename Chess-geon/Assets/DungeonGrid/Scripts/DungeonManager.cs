@@ -37,12 +37,27 @@ public class DungeonManager : MonoBehaviour
 		else
 			sInstance = this;
 
+		Generate();
+	}
+
+	[ContextMenu("Generate")]
+	private void Generate()
+	{
+		dungeonBlockGrid = null;
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			Destroy(transform.GetChild(0).gameObject);
+		}
+		dungeonBlockGameObjectGrid = null;
+		dungeonBlockSpriteRens = null;
+
 		blockSize = blackTileSprite.rect.xMax / 100.0f * scaleMultiplier;
 		halfBlockSize = blockSize / 2.0f;
 
 		CreateDungeonBlocks();
 		CreateDungeonGameObjects();
 	}
+
 
 	private void CreateDungeonBlocks()
 	{
