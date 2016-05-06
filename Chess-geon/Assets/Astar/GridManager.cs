@@ -2,20 +2,37 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum GridType { Rook, Bishop, Knight, King }
+
 public class GridManager
 {
     private int mnSizeX;
     private int mnSizeY;
     public Node[,] nodes { get; set; }
 	private DungeonManager mDungeonManager = null;
+	AddNeighbourStratergy addNeighbourAlgorithm;
 
-    public GridManager(DungeonManager _dungeon)
+	public GridManager(DungeonManager _dungeon, GridType _type)
     {
 		mDungeonManager = _dungeon;
 		mnSizeX = mDungeonManager.SizeX;
 		mnSizeY = mDungeonManager.SizeY;
 
         nodes = new Node[mnSizeX, mnSizeY];
+
+		switch (_type)
+		{
+		case GridType.Rook:
+			addNeighbourAlgorithm = new AddNeighbourStratergyRook(mnSizeX, mnSizeY, nodes);
+			break;
+		case GridType.Bishop:
+			addNeighbourAlgorithm = new AddNeighbourStratergyBishop(mnSizeX, mnSizeY, nodes);
+			break;
+		case GridType.Knight:
+			break;
+		case GridType.King:
+			break;
+		}
 
         for (int y = 0; y < mnSizeY; y++)
         {
@@ -29,33 +46,8 @@ public class GridManager
 		{
 			for (int x = 0; x < mnSizeX; x++)
 			{
-				GetNSetNodeNeighbours(nodes[x, y]);
+				addNeighbourAlgorithm.GetNSetNodeNeighbours(nodes[x, y]);
 			}
 		}
-    }
-
-    public void GetNSetNodeNeighbours(Node _node)
-    {
-		_node.neighbours = new LinkedList<Node>();
-
-		// Up
-		AssignNeighbour(_node.PosX, _node.PosY + 1, _node);
-		// Down
-		AssignNeighbour(_node.PosX, _node.PosY - 1, _node);
-		// Left
-		AssignNeighbour(_node.PosX - 1, _node.PosY, _node);
-		// Right
-		AssignNeighbour(_node.PosX + 1, _node.PosY, _node);
-    }
-
-	private void AssignNeighbour(int _x, int _y, Node _node)
-    {
-		if (_x < 0 || _y < 0 || _x >= mnSizeX || _y >= mnSizeY)
-		{
-//			Debug.LogWarning("Failed Attempt to Assigne Node: Neighbour out of index.");
-			return;
-		}
-
-		_node.neighbours.AddFirst(nodes[_x, _y]);
     }
 }

@@ -33,6 +33,7 @@ public class DungeonManager : MonoBehaviour
 
 	//AStar
 	GridManager rookGrid = null;
+	GridManager bishopGrid = null;
 	LinkedList<Node> testPath = null;
 	public GameObject testMarker;
 
@@ -45,13 +46,15 @@ public class DungeonManager : MonoBehaviour
 
 		Generate();
 
-		rookGrid = new GridManager(this);
+		rookGrid = new GridManager(this, GridType.Rook);
+		bishopGrid = new GridManager(this, GridType.Bishop);
 	}
 
 	void Start()
 	{
 		// ASTAR TEST!!!!!!
-		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[16, 27], rookGrid);
+//		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[16, 27], rookGrid);
+		testPath = AStarManager.FindPath(bishopGrid.nodes[1, 1], bishopGrid.nodes[17, 27], bishopGrid);
 		// END OF ASTAR TEST!!!!!
 	}
 
