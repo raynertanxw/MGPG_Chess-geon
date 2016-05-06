@@ -177,7 +177,7 @@ public class DungeonManager : MonoBehaviour
 		{
 			for (int x = 0; x < SizeX; x++)
 			{
-				if (rookGrid.nodes[x, y].dungeonBlock.State == BlockState.Wall)
+				if (rookGrid.nodes[x, y].State == BlockState.Wall)
 				{
 					DebugDrawSquare_AnchorCenter(GridPosToWorldPos(x, y), blockSize, Color.red);
 				}
@@ -190,8 +190,8 @@ public class DungeonManager : MonoBehaviour
 		{
 			Node node = (Node) j.Value;
 			Node next = (Node) j.Next.Value;
-			Debug.DrawLine(GridPosToWorldPos(node.dungeonBlock.PosX, node.dungeonBlock.PosY),
-				GridPosToWorldPos(next.dungeonBlock.PosX, next.dungeonBlock.PosY),
+			Debug.DrawLine(GridPosToWorldPos(node.PosX, node.PosY),
+				GridPosToWorldPos(next.PosX, next.PosY),
 				Color.magenta);
 		}
 	}

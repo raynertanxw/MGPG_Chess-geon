@@ -19,14 +19,14 @@ public class AStarManager
 
 	private static int HeuristicEstimatedCost(Node _curNode, Node _goalNode)
 	{
-		return Mathf.Abs(_curNode.dungeonBlock.PosX - _goalNode.dungeonBlock.PosX)
-			+ Mathf.Abs(_curNode.dungeonBlock.PosY - _goalNode.dungeonBlock.PosY);
+		return Mathf.Abs(_curNode.PosX - _goalNode.PosX)
+			+ Mathf.Abs(_curNode.PosY - _goalNode.PosY);
 	}
 
 	private static int NeighbourPathCost(Node _curNode, Node _neighbourNode)
 	{
-		return Mathf.Abs(_curNode.dungeonBlock.PosX - _neighbourNode.dungeonBlock.PosX)
-			+ Mathf.Abs(_curNode.dungeonBlock.PosY - _neighbourNode.dungeonBlock.PosY);
+		return Mathf.Abs(_curNode.PosX - _neighbourNode.PosX)
+			+ Mathf.Abs(_curNode.PosY - _neighbourNode.PosY);
 	}
 
 	private static void AddToOpenList(Node _node)
@@ -43,15 +43,15 @@ public class AStarManager
 
 	public static LinkedList<Node> FindPath(Node _startNode, Node _goalNode, GridManager _grid)
 	{
-		if (_startNode.dungeonBlock.State == BlockState.Wall || _startNode.dungeonBlock.State == BlockState.Enemy)
+		if (_startNode.State == BlockState.Wall || _startNode.State == BlockState.Enemy)
 			return null;
-		if (_goalNode.dungeonBlock.State == BlockState.Wall || _goalNode.dungeonBlock.State == BlockState.Enemy)
+		if (_goalNode.State == BlockState.Wall || _goalNode.State == BlockState.Enemy)
 			return null;
 
 		openList = new List<Node>();
 		AddToOpenList(_startNode);
 		_startNode.nodePathCost = 0.0f;
-		_startNode.totalCost = HeuristicEstimatedCost(_startNode, _goalNode) + _startNode.nodePathCost;
+		_startNode.totalCost = HeuristicEstimatedCost(_startNode, _goalNode);// + _startNode.nodePathCost;
 
 		closedList = new List<Node>();
 		Node curNode = null;
@@ -69,7 +69,7 @@ public class AStarManager
 			for (LinkedListNode<Node> curLinkedNode = curNode.neighbours.First; curLinkedNode != null; curLinkedNode = curLinkedNode.Next)
 			{
 				Node curNeighbourNode = (Node)curLinkedNode.Value;
-				if (curNeighbourNode.dungeonBlock.State == BlockState.Wall || curNeighbourNode.dungeonBlock.State == BlockState.Enemy)
+				if (curNeighbourNode.State == BlockState.Wall || curNeighbourNode.State == BlockState.Enemy)
 					continue;
 
 				if (!closedList.Contains(curNeighbourNode))
@@ -108,14 +108,9 @@ public class AStarManager
 			RemoveFromOpenList(curNode);
 		}
 
-		//If finished looping and cannot find the goal then return null
-		if (curNode.dungeonBlock != _goalNode.dungeonBlock)
-		{
-			Debug.LogError("Goal Not Found");
-			return null;
-		}
+		if (closedList.Contains(_goalNode))
+			return ConvertToPath(curNode);
 
-		//Calculate the path based on the final node
-		return ConvertToPath(curNode);
+		return null;
 	}
 }

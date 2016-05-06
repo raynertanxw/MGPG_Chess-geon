@@ -39,13 +39,13 @@ public class GridManager
 		_node.neighbours = new LinkedList<Node>();
 
 		// Up
-		AssignNeighbour(_node.dungeonBlock.PosX, _node.dungeonBlock.PosY + 1, _node);
+		AssignNeighbour(_node.PosX, _node.PosY + 1, _node);
 		// Down
-		AssignNeighbour(_node.dungeonBlock.PosX, _node.dungeonBlock.PosY - 1, _node);
+		AssignNeighbour(_node.PosX, _node.PosY - 1, _node);
 		// Left
-		AssignNeighbour(_node.dungeonBlock.PosX - 1, _node.dungeonBlock.PosY, _node);
+		AssignNeighbour(_node.PosX - 1, _node.PosY, _node);
 		// Right
-		AssignNeighbour(_node.dungeonBlock.PosX + 1, _node.dungeonBlock.PosY, _node);
+		AssignNeighbour(_node.PosX + 1, _node.PosY, _node);
     }
 
 	private void AssignNeighbour(int _x, int _y, Node _node)

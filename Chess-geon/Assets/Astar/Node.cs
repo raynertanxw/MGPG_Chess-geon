@@ -6,8 +6,11 @@ public class Node
 {
     public float nodePathCost;
     public float totalCost;	// To get Heuristic, totalCost - nodePathCost.
-    public DungeonBlock dungeonBlock;
-    public Node parent;
+    private DungeonBlock dungeonBlock;
+	public BlockState State { get { return dungeonBlock.State; } }
+	public int PosX { get { return dungeonBlock.PosX; } }
+	public int PosY { get { return dungeonBlock.PosY; } }
+	public Node parent;
 	public LinkedList<Node> neighbours;
 
 	public Node(DungeonBlock _dungeonBlock)
