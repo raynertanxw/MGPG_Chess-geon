@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DungeonManager : MonoBehaviour
 {
@@ -30,6 +31,11 @@ public class DungeonManager : MonoBehaviour
 	private GameObject[,] dungeonBlockGameObjectGrid = null;
 	private SpriteRenderer[,] dungeonBlockSpriteRens = null;
 
+	//AStar
+	GridManager rookGrid = null;
+	LinkedList<Node> testPath = null;
+	public GameObject testMarker;
+
 	void Awake()
 	{
 		if (sInstance != null)
@@ -38,6 +44,15 @@ public class DungeonManager : MonoBehaviour
 			sInstance = this;
 
 		Generate();
+
+		rookGrid = new GridManager(this);
+	}
+
+	void Start()
+	{
+		// ASTAR TEST!!!!!!
+		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[16, 27], rookGrid);
+		// END OF ASTAR TEST!!!!!
 	}
 
 	[ContextMenu("Generate")]
@@ -143,6 +158,79 @@ public class DungeonManager : MonoBehaviour
 					break;
 				}
 			}
+		}
+	}
+
+	private Vector3 GridPosToWorldPos(int _x, int _y)
+	{
+		return dungeonBlockGameObjectGrid[_x, _y].transform.position;
+	}
+
+	private void OnDrawGizmos()
+	{
+		if (!Application.isPlaying)
+			return;
+		
+		DebugDrawGrid(this.transform.position, SizeY, sizeX, blockSize, Color.cyan);
+
+		for (int y = 0; y < SizeY; y++)
+		{
+			for (int x = 0; x < SizeX; x++)
+			{
+				if (rookGrid.nodes[x, y].dungeonBlock.State == BlockState.Wall)
+				{
+					DebugDrawSquare_AnchorCenter(GridPosToWorldPos(x, y), blockSize, Color.red);
+				}
+			}
+		}
+
+		if (testPath == null)
+			return;
+		for (LinkedListNode<Node> j = testPath.First; j.Next != null; j = j.Next)
+		{
+			Node node = (Node) j.Value;
+			Node next = (Node) j.Next.Value;
+			Debug.DrawLine(GridPosToWorldPos(node.dungeonBlock.PosX, node.dungeonBlock.PosY),
+				GridPosToWorldPos(next.dungeonBlock.PosX, next.dungeonBlock.PosY),
+				Color.magenta);
+		}
+	}
+
+	private void DebugDrawSquare_AnchorCenter(Vector3 origin, float cellsize, Color color)
+	{
+		float halfSize = cellsize / 2.0f;
+		// v0, v1, v2, v3 (btm-left, btm-right, top-right, top-left).
+		Vector3 v0 = new Vector3(origin.x - halfSize, origin.y - halfSize, origin.z);
+		Vector3 v1 = new Vector3(origin.x + halfSize, origin.y - halfSize, origin.z);
+		Vector3 v2 = new Vector3(origin.x + halfSize, origin.y + halfSize, origin.z);
+		Vector3 v3 = new Vector3(origin.x - halfSize, origin.y + halfSize, origin.z);
+
+		Debug.DrawLine(v0, v1, color);
+		Debug.DrawLine(v1, v2, color);
+		Debug.DrawLine(v2, v3, color);
+		Debug.DrawLine(v3, v0, color);
+
+	}
+
+	private void DebugDrawGrid(Vector3 origin, int numRows, int numCols, float cellSize, Color color)
+	{
+		float width = (numCols * cellSize);
+		float height = (numRows * cellSize);
+
+		// Draw the horizontal grid lines
+		for (int i = 0; i < numRows + 1; i++)
+		{
+			Vector3 startPos = origin + i * cellSize * Vector3.up;
+			Vector3 endPos = startPos + width * Vector3.right;
+			Debug.DrawLine(startPos, endPos, color);
+		}
+
+		// Draw the vertical grid lines
+		for (int i = 0; i < numCols + 1; i++)
+		{
+			Vector3 startPos = origin + i * cellSize * Vector3.right;
+			Vector3 endPos = startPos + height * Vector3.up;
+			Debug.DrawLine(startPos, endPos, color);
 		}
 	}
 }

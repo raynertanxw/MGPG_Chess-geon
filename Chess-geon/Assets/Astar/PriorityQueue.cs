@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PriorityQueue : MonoBehaviour
+public class PriorityQueue
 {
     public List<Node> nodes = new List<Node>();
 
@@ -24,12 +24,12 @@ public class PriorityQueue : MonoBehaviour
     public void Push(Node _node)
     {
         this.nodes.Add(_node);
-        this.nodes.Sort();
+		this.nodes.Sort((n1, n2) => n1.totalCost.CompareTo(n2.totalCost));
     }
 
     public void Remove(Node _node)
     {
         this.nodes.Remove(_node);
-        this.nodes.Sort();
+		this.nodes.Sort((n1, n2) => n1.totalCost.CompareTo(n2.totalCost));
     }
 }
