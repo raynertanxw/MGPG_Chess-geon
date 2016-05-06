@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AStarManager
 {
-	private static PriorityQueue openList, closedList;
+	private static List<Node> openList, closedList;
 
 	private static LinkedList<Node> ConvertToPath(Node _node)
 	{
@@ -29,6 +29,18 @@ public class AStarManager
 			+ Mathf.Abs(_curNode.dungeonBlock.PosY - _neighbourNode.dungeonBlock.PosY);
 	}
 
+	private static void AddToOpenList(Node _node)
+	{
+		openList.Add(_node);
+		openList.Sort((n1, n2) => n1.totalCost.CompareTo(n2.totalCost));
+	}
+
+	private static void RemoveFromOpenList(Node _node)
+	{
+		openList.Remove(_node);
+		openList.Sort((n1, n2) => n1.totalCost.CompareTo(n2.totalCost));
+	}
+
 	public static LinkedList<Node> FindPath(Node _startNode, Node _goalNode, GridManager _grid)
 	{
 		if (_startNode.dungeonBlock.State == BlockState.Wall || _startNode.dungeonBlock.State == BlockState.Enemy)
@@ -36,15 +48,15 @@ public class AStarManager
 		if (_goalNode.dungeonBlock.State == BlockState.Wall || _goalNode.dungeonBlock.State == BlockState.Enemy)
 			return null;
 
-		openList = new PriorityQueue();
-		openList.Push(_startNode);
+		openList = new List<Node>();
+		AddToOpenList(_startNode);
 		_startNode.nodePathCost = 0.0f;
 		_startNode.totalCost = HeuristicEstimatedCost(_startNode, _goalNode) + _startNode.nodePathCost;
 
-		closedList = new PriorityQueue();
+		closedList = new List<Node>();
 		Node curNode = null;
 
-		while (openList.Length > 0)
+		while (openList.Count > 0)
 		{
 			// Check if the closed List contains the _goalNode.
 			if (closedList.Contains(_goalNode))
@@ -52,7 +64,7 @@ public class AStarManager
 				return ConvertToPath(curNode);
 			}
 
-			curNode = openList.First();
+			curNode = openList[0];
 
 			for (LinkedListNode<Node> curLinkedNode = curNode.neighbours.First; curLinkedNode != null; curLinkedNode = curLinkedNode.Next)
 			{
@@ -87,13 +99,13 @@ public class AStarManager
 						curNeighbourNode.totalCost = totalPathCost + neighbourNodeEstCost;
 
 						//Add the neighbour node to the list if not already existed in the list
-						openList.Push(curNeighbourNode);
+						AddToOpenList(curNeighbourNode);
 					}
 				}
 			}
 
-			closedList.Push(curNode);
-			openList.Remove(curNode);
+			closedList.Add(curNode);
+			RemoveFromOpenList(curNode);
 		}
 
 		//If finished looping and cannot find the goal then return null
