@@ -57,9 +57,9 @@ public class DungeonManager : MonoBehaviour
 	void Start()
 	{
 		// ASTAR TEST!!!!!!
-//		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[16, 27], rookGrid);
+		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[17, 27], rookGrid);
 //		testPath = AStarManager.FindPath(bishopGrid.nodes[1, 1], bishopGrid.nodes[17, 27], bishopGrid);
-		testPath = AStarManager.FindPath(knightGrid.nodes[1, 1], knightGrid.nodes[17, 27], knightGrid);
+//		testPath = AStarManager.FindPath(knightGrid.nodes[1, 1], knightGrid.nodes[17, 27], knightGrid);
 //		testPath = AStarManager.FindPath(kingGrid.nodes[1, 1], kingGrid.nodes[17, 27], kingGrid);
 		// END OF ASTAR TEST!!!!!
 	}
