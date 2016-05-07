@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AddNeighbourStratergy
+public abstract class GridStratergy
 {
 	protected int mnSizeX;
 	protected int mnSizeY;
 	protected Node[,] nodes;
 
-	public virtual void GetNSetNodeNeighbours(Node _node) {}
+	public abstract void GetNSetNodeNeighbours(Node _node);
+	public abstract int HeuristicEstimatedCost(Node _curNode, Node _goalNode);
+	public abstract int NeighbourPathCost(Node _curNode, Node _neighbourNode);
 
 	protected void AssignNeighbour(int _x, int _y, Node _node)
 	{

@@ -17,18 +17,6 @@ public class AStarManager
 		return path;
 	}
 
-	private static int HeuristicEstimatedCost(Node _curNode, Node _goalNode)
-	{
-		return Mathf.Abs(_curNode.PosX - _goalNode.PosX)
-			+ Mathf.Abs(_curNode.PosY - _goalNode.PosY);
-	}
-
-	private static int NeighbourPathCost(Node _curNode, Node _neighbourNode)
-	{
-		return Mathf.Abs(_curNode.PosX - _neighbourNode.PosX)
-			+ Mathf.Abs(_curNode.PosY - _neighbourNode.PosY);
-	}
-
 	private static void AddToOpenList(Node _node)
 	{
 		openList.Add(_node);
@@ -51,7 +39,7 @@ public class AStarManager
 		openList = new List<Node>();
 		AddToOpenList(_startNode);
 		_startNode.nodePathCost = 0.0f;
-		_startNode.totalCost = HeuristicEstimatedCost(_startNode, _goalNode);// + _startNode.nodePathCost;
+		_startNode.totalCost = _grid.GridAlgorithms.HeuristicEstimatedCost(_startNode, _goalNode);// + _startNode.nodePathCost;
 
 		closedList = new List<Node>();
 		Node curNode = null;
@@ -75,13 +63,13 @@ public class AStarManager
 				if (!closedList.Contains(curNeighbourNode))
 				{
 					//Cost from current node to this neighbour node
-					float cost = NeighbourPathCost(curNode, curNeighbourNode);
+					float cost = _grid.GridAlgorithms.NeighbourPathCost(curNode, curNeighbourNode);
 
 					//Total Cost So Far from start to this neighbour node
 					float totalPathCost = curNode.nodePathCost + cost;
 
 					//Estimated cost for neighbour node to the goal
-					float neighbourNodeEstCost = HeuristicEstimatedCost(curNeighbourNode, _goalNode);
+					float neighbourNodeEstCost = _grid.GridAlgorithms.HeuristicEstimatedCost(curNeighbourNode, _goalNode);
 
 					if (openList.Contains(curNeighbourNode)) // Calculated before?
 					{

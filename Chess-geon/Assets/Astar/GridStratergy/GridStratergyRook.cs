@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class AddNeighbourStratergyRook : AddNeighbourStratergy
+public class GridStratergyRook : GridStratergy
 {
-	public AddNeighbourStratergyRook(int _sizeX, int _sizeY, Node[,] _nodes)
+	public GridStratergyRook(int _sizeX, int _sizeY, Node[,] _nodes)
 	{
 		mnSizeX = _sizeX;
 		mnSizeY = _sizeY;
@@ -13,8 +13,6 @@ public class AddNeighbourStratergyRook : AddNeighbourStratergy
 
 	public override void GetNSetNodeNeighbours (Node _node)
 	{
-		base.GetNSetNodeNeighbours (_node);
-
 		_node.neighbours = new LinkedList<Node>();
 
 		// Up
@@ -25,5 +23,17 @@ public class AddNeighbourStratergyRook : AddNeighbourStratergy
 		AssignNeighbour(_node.PosX - 1, _node.PosY, _node);
 		// Right
 		AssignNeighbour(_node.PosX + 1, _node.PosY, _node);
+	}
+
+	public override int HeuristicEstimatedCost(Node _curNode, Node _goalNode)
+	{
+		return Mathf.Abs(_curNode.PosX - _goalNode.PosX)
+			+ Mathf.Abs(_curNode.PosY - _goalNode.PosY);
+	}
+
+	public override int NeighbourPathCost(Node _curNode, Node _neighbourNode)
+	{
+		return Mathf.Abs(_curNode.PosX - _neighbourNode.PosX)
+			+ Mathf.Abs(_curNode.PosY - _neighbourNode.PosY);
 	}
 }
