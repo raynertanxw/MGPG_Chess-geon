@@ -26,7 +26,7 @@ public class DungeonManager : MonoBehaviour
 	public float BlockSize { get { return blockSize; } }
 	private float halfBlockSize;
 	public GameObject dungeonBlockPrefab;
-	public Sprite blackTileSprite, whiteTileSprite, selectableTileSprite, wallTileSprite;
+	public Sprite blackTileSprite, whiteTileSprite, wallTileSprite;
 
 	private DungeonBlock[,] dungeonBlockGrid = null;
     public DungeonBlock[,] DungeonBlocks { get { return dungeonBlockGrid; } }
@@ -39,7 +39,6 @@ public class DungeonManager : MonoBehaviour
 	GridManager knightGrid = null;
 	GridManager kingGrid = null;
 	LinkedList<Node> testPath = null;
-	public GameObject testMarker;
 
 	void Awake()
 	{
@@ -120,6 +119,12 @@ public class DungeonManager : MonoBehaviour
 			}
 		}
 
+		RoomPattern[] patterns = Resources.FindObjectsOfTypeAll<RoomPattern>();
+		#if UNITY_EDITOR
+		if (patterns.Length == 0)
+			Debug.LogError("There are no Room Patterns found.");
+		#endif
+
 		// Actually floor terrain, generated in batches of 5x5 grids.
 		for (int divY = 0; divY < numYDiv; divY++)
 		{
@@ -127,6 +132,9 @@ public class DungeonManager : MonoBehaviour
 			{
 				int anchorX = divXSize * divX + 1;
 				int anchorY = divYSize * divY + 1;
+
+				RoomPattern curPattern = patterns[Random.Range(0, patterns.Length)];
+
 				for (int y = 0; y < divYSize; y++)
 				{
 					for (int x = 0; x < divXSize; x++)
@@ -134,13 +142,8 @@ public class DungeonManager : MonoBehaviour
 						int indexX = anchorX + x;
 						int indexY = anchorY + y;
 						DungeonBlock curBlock;
-						if (x == 0 || x == 4 || y == 0 || y == 4)
-							curBlock = new DungeonBlock(TerrainType.Wall, indexX, indexY);
-						else
-//						if (Random.Range(0.0f, 1.0f) < 0.1f)
-//							curBlock = new DungeonBlock(TerrainType.Wall, indexX, indexY);
-//						else
-							curBlock = new DungeonBlock(TerrainType.Tile, indexX, indexY);
+
+						curBlock = new DungeonBlock(curPattern.BlockTerrainType[y * curPattern.RoomSizeY + x], indexX, indexY);
 						dungeonBlockGrid[indexX, indexY] = curBlock;
 					}
 				}
