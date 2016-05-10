@@ -14,6 +14,8 @@ public class DungeonManager : MonoBehaviour
 			sInstance = null;
 	}
 
+	private int divXSize = 5;
+	private int divYSize = 5;
 	[SerializeField] private int sizeX = 32;
 	[SerializeField] private int sizeY = 32;
 	public int SizeX { get { return sizeX; } }
@@ -57,9 +59,9 @@ public class DungeonManager : MonoBehaviour
 	void Start()
 	{
 		// ASTAR TEST!!!!!!
-		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[17, 27], rookGrid);
+//		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[17, 27], rookGrid);
 //		testPath = AStarManager.FindPath(bishopGrid.nodes[1, 1], bishopGrid.nodes[17, 27], bishopGrid);
-//		testPath = AStarManager.FindPath(knightGrid.nodes[1, 1], knightGrid.nodes[17, 27], knightGrid);
+		testPath = AStarManager.FindPath(knightGrid.nodes[1, 1], knightGrid.nodes[17, 27], knightGrid);
 //		testPath = AStarManager.FindPath(kingGrid.nodes[1, 1], kingGrid.nodes[17, 27], kingGrid);
 		// END OF ASTAR TEST!!!!!
 	}
@@ -82,7 +84,6 @@ public class DungeonManager : MonoBehaviour
 		CreateDungeonGameObjects();
 	}
 
-
 	private void CreateDungeonBlocks()
 	{
 		if (dungeonBlockGrid != null)
@@ -92,34 +93,59 @@ public class DungeonManager : MonoBehaviour
 		}
 
 		dungeonBlockGrid = new DungeonBlock[sizeX, sizeY];
-		for (int y = 0; y < sizeY; y++)
+		int numXDiv = (sizeX - 2) / divXSize;
+		int numYDiv = (sizeY - 2) / divYSize;
+
+		// Fill up edges with wall states.
+		for (int edgeX = 0; edgeX < sizeX; edgeX++)
 		{
-			for (int x = 0; x < sizeX; x++)
+			DungeonBlock curTopRowBlock = new DungeonBlock(BlockState.Wall, edgeX, 0);
+			dungeonBlockGrid[edgeX, 0] = curTopRowBlock;
+
+			for (int edgeY = numYDiv * divYSize + 1; edgeY < SizeY; edgeY++)
 			{
-				DungeonBlock curBlock;
+				DungeonBlock curBtmRowBlock = new DungeonBlock(BlockState.Wall, edgeX, edgeY);
+				dungeonBlockGrid[edgeX, edgeY] = curBtmRowBlock;
+			}
+		}
+		for (int edgeY = 1; edgeY < sizeY - 1; edgeY++)
+		{
+			DungeonBlock curLeftColBlock = new DungeonBlock(BlockState.Wall, 0, edgeY);
+			dungeonBlockGrid[0, edgeY] = curLeftColBlock;
 
-				// Edge Cases
-				if (x == 0 || x == sizeX - 1 || y == 0 || y == sizeY - 1)
+			for (int edgeX = numXDiv * divXSize + 1; edgeX < SizeX; edgeX++)
+			{
+				DungeonBlock curRightColBlock = new DungeonBlock(BlockState.Wall, edgeX, edgeY);
+				dungeonBlockGrid[edgeX, edgeY] = curRightColBlock;
+			}
+		}
+
+
+		for (int divY = 0; divY < numYDiv; divY++)
+		{
+			for (int divX = 0; divX < numXDiv; divX++)
+			{
+				int anchorX = divXSize * divX + 1;
+				int anchorY = divYSize * divY + 1;
+				for (int y = 0; y < divYSize; y++)
 				{
-					curBlock = new DungeonBlock(BlockState.Wall, x, y);
-					dungeonBlockGrid[x, y] = curBlock;
-					continue;
+					for (int x = 0; x < divXSize; x++)
+					{
+						int indexX = anchorX + x;
+						int indexY = anchorY + y;
+						DungeonBlock curBlock;
+						if (x == 0 || x == 4 || y == 0 || y == 4)
+							curBlock = new DungeonBlock(BlockState.Wall, indexX, indexY);
+						else
+							curBlock = new DungeonBlock(BlockState.Empty, indexX, indexY);
+						dungeonBlockGrid[indexX, indexY] = curBlock;
+					}
 				}
-
-				if (Random.Range(0.0f, 1.0f) < 0.1f)
-				{
-					curBlock = new DungeonBlock(BlockState.Wall, x , y);
-					dungeonBlockGrid[x, y] = curBlock;
-					continue;
-				}
-
-				curBlock = new DungeonBlock(BlockState.Empty, x, y);
-				dungeonBlockGrid[x, y] = curBlock;
 			}
 		}
 	}
 
-	private bool IsWhiteTile(int x, int y)
+	public static bool IsWhiteTile(int x, int y)
 	{
 		// White is even-even, odd-odd. Black is even-odd, odd-even.
 		if (x % 2 == y % 2)
