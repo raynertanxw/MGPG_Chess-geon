@@ -92,12 +92,12 @@ public class DungeonManager : MonoBehaviour
 			return;
 		}
 
-		dungeonBlockGrid = new DungeonBlock[sizeX, sizeY];
-		int numXDiv = (sizeX - 2) / divXSize;
-		int numYDiv = (sizeY - 2) / divYSize;
+		dungeonBlockGrid = new DungeonBlock[SizeX, SizeY];
+		int numXDiv = (SizeX - 2) / divXSize;
+		int numYDiv = (SizeY - 2) / divYSize;
 
 		// Fill up edges with wall states.
-		for (int edgeX = 0; edgeX < sizeX; edgeX++)
+		for (int edgeX = 0; edgeX < SizeX; edgeX++)
 		{
 			DungeonBlock curTopRowBlock = new DungeonBlock(BlockState.Wall, edgeX, 0);
 			dungeonBlockGrid[edgeX, 0] = curTopRowBlock;
@@ -108,7 +108,7 @@ public class DungeonManager : MonoBehaviour
 				dungeonBlockGrid[edgeX, edgeY] = curBtmRowBlock;
 			}
 		}
-		for (int edgeY = 1; edgeY < sizeY - 1; edgeY++)
+		for (int edgeY = 1; edgeY < SizeY - 1; edgeY++)
 		{
 			DungeonBlock curLeftColBlock = new DungeonBlock(BlockState.Wall, 0, edgeY);
 			dungeonBlockGrid[0, edgeY] = curLeftColBlock;
@@ -162,11 +162,11 @@ public class DungeonManager : MonoBehaviour
 			return;
 		}
 
-		dungeonBlockGameObjectGrid	= new GameObject[sizeX, sizeY];
-		dungeonBlockSpriteRens		= new SpriteRenderer[sizeX, sizeY];
-		for (int y = 0; y < sizeY; y++)
+		dungeonBlockGameObjectGrid	= new GameObject[SizeX, SizeY];
+		dungeonBlockSpriteRens		= new SpriteRenderer[SizeX, SizeY];
+		for (int y = 0; y < SizeY; y++)
 		{
-			for (int x = 0; x < sizeX; x++)
+			for (int x = 0; x < SizeX; x++)
 			{
 				Vector3 curBlockPos = transform.position;
 				curBlockPos.x += halfBlockSize + (x * blockSize);
@@ -206,7 +206,7 @@ public class DungeonManager : MonoBehaviour
 		if (!Application.isPlaying)
 			return;
 		
-		DebugDrawGrid(this.transform.position, SizeY, sizeX, blockSize, Color.cyan);
+		DebugDrawGrid(this.transform.position, SizeY, SizeX, blockSize, Color.cyan);
 
 		for (int y = 0; y < SizeY; y++)
 		{
