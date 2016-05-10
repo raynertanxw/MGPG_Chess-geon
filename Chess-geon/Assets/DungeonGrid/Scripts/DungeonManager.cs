@@ -96,31 +96,31 @@ public class DungeonManager : MonoBehaviour
 		int numXDiv = (SizeX - 2) / divXSize;
 		int numYDiv = (SizeY - 2) / divYSize;
 
-		// Fill up edges with wall states.
+		// Fill up edges with walls.
 		for (int edgeX = 0; edgeX < SizeX; edgeX++)
 		{
-			DungeonBlock curTopRowBlock = new DungeonBlock(BlockState.Wall, edgeX, 0);
+			DungeonBlock curTopRowBlock = new DungeonBlock(TerrainType.Wall, edgeX, 0);
 			dungeonBlockGrid[edgeX, 0] = curTopRowBlock;
 
 			for (int edgeY = numYDiv * divYSize + 1; edgeY < SizeY; edgeY++)
 			{
-				DungeonBlock curBtmRowBlock = new DungeonBlock(BlockState.Wall, edgeX, edgeY);
+				DungeonBlock curBtmRowBlock = new DungeonBlock(TerrainType.Wall, edgeX, edgeY);
 				dungeonBlockGrid[edgeX, edgeY] = curBtmRowBlock;
 			}
 		}
 		for (int edgeY = 1; edgeY < SizeY - 1; edgeY++)
 		{
-			DungeonBlock curLeftColBlock = new DungeonBlock(BlockState.Wall, 0, edgeY);
+			DungeonBlock curLeftColBlock = new DungeonBlock(TerrainType.Wall, 0, edgeY);
 			dungeonBlockGrid[0, edgeY] = curLeftColBlock;
 
 			for (int edgeX = numXDiv * divXSize + 1; edgeX < SizeX; edgeX++)
 			{
-				DungeonBlock curRightColBlock = new DungeonBlock(BlockState.Wall, edgeX, edgeY);
+				DungeonBlock curRightColBlock = new DungeonBlock(TerrainType.Wall, edgeX, edgeY);
 				dungeonBlockGrid[edgeX, edgeY] = curRightColBlock;
 			}
 		}
 
-
+		// Actually floor terrain, generated in batches of 5x5 grids.
 		for (int divY = 0; divY < numYDiv; divY++)
 		{
 			for (int divX = 0; divX < numXDiv; divX++)
@@ -135,9 +135,12 @@ public class DungeonManager : MonoBehaviour
 						int indexY = anchorY + y;
 						DungeonBlock curBlock;
 						if (x == 0 || x == 4 || y == 0 || y == 4)
-							curBlock = new DungeonBlock(BlockState.Wall, indexX, indexY);
+							curBlock = new DungeonBlock(TerrainType.Wall, indexX, indexY);
 						else
-							curBlock = new DungeonBlock(BlockState.Empty, indexX, indexY);
+//						if (Random.Range(0.0f, 1.0f) < 0.1f)
+//							curBlock = new DungeonBlock(TerrainType.Wall, indexX, indexY);
+//						else
+							curBlock = new DungeonBlock(TerrainType.Tile, indexX, indexY);
 						dungeonBlockGrid[indexX, indexY] = curBlock;
 					}
 				}
@@ -177,15 +180,12 @@ public class DungeonManager : MonoBehaviour
 				curBlock.transform.SetParent(this.transform);
 
 				dungeonBlockSpriteRens[x, y] = curBlock.GetComponent<SpriteRenderer>();
-				switch (dungeonBlockGrid[x, y].State)
+				switch (dungeonBlockGrid[x, y].Terrain)
 				{
-				case BlockState.Wall:
+				case TerrainType.Wall:
 					dungeonBlockSpriteRens[x, y].sprite = wallTileSprite;
 					break;
-				case BlockState.Selectable:
-					dungeonBlockSpriteRens[x, y].sprite = selectableTileSprite;
-					break;
-				default:
+				case TerrainType.Tile:
 					if (IsWhiteTile(x, y))	// White Tile
 						dungeonBlockSpriteRens[x, y].sprite = whiteTileSprite;
 					else	// Black Tile
@@ -212,7 +212,7 @@ public class DungeonManager : MonoBehaviour
 		{
 			for (int x = 0; x < SizeX; x++)
 			{
-				if (rookGrid.nodes[x, y].State == BlockState.Wall)
+				if (rookGrid.nodes[x, y].State == BlockState.Obstacle)
 				{
 					DebugDrawSquare_AnchorCenter(GridPosToWorldPos(x, y), blockSize, Color.red);
 				}

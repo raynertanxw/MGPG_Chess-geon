@@ -31,9 +31,9 @@ public class AStarManager
 
 	public static LinkedList<Node> FindPath(Node _startNode, Node _goalNode, GridManager _grid)
 	{
-		if (_startNode.State == BlockState.Wall || _startNode.State == BlockState.Enemy)
+		if (_startNode.State != BlockState.Empty)
 			return null;
-		if (_goalNode.State == BlockState.Wall || _goalNode.State == BlockState.Enemy)
+		if (_goalNode.State != BlockState.Empty)
 			return null;
 
 		openList = new List<Node>();
@@ -57,7 +57,7 @@ public class AStarManager
 			for (LinkedListNode<Node> curLinkedNode = curNode.neighbours.First; curLinkedNode != null; curLinkedNode = curLinkedNode.Next)
 			{
 				Node curNeighbourNode = (Node)curLinkedNode.Value;
-				if (curNeighbourNode.State == BlockState.Wall || curNeighbourNode.State == BlockState.Enemy)
+				if (curNeighbourNode.State != BlockState.Empty)
 					continue;
 
 				if (!closedList.Contains(curNeighbourNode))
