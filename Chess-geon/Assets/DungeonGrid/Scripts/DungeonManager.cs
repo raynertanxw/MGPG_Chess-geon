@@ -28,6 +28,14 @@ public class DungeonManager : MonoBehaviour
 	public GameObject dungeonBlockPrefab;
 	public Sprite blackTileSprite, whiteTileSprite, wallTileSprite;
 
+	public float patternsBias = 10.0f;
+	public float structuredPatternsBias = 5.0f;
+	public float emptyPatternBias = 50.0f;
+
+	public RoomPattern[] patterns;
+	public RoomPattern[] structuredPatterns;
+	public RoomPattern EmptyRoom;
+
 	private DungeonBlock[,] dungeonBlockGrid = null;
     public DungeonBlock[,] DungeonBlocks { get { return dungeonBlockGrid; } }
 	private GameObject[,] dungeonBlockGameObjectGrid = null;
@@ -119,11 +127,12 @@ public class DungeonManager : MonoBehaviour
 			}
 		}
 
-		RoomPattern[] patterns = Resources.FindObjectsOfTypeAll<RoomPattern>();
-		#if UNITY_EDITOR
-		if (patterns.Length == 0)
-			Debug.LogError("There are no Room Patterns found.");
-		#endif
+//		RoomPattern[] patterns = Resources.FindObjectsOfTypeAll<RoomPattern>();
+//		#if UNITY_EDITOR
+//		Debug.Log(patterns.Length);
+//		if (patterns.Length == 0)
+//			Debug.LogError("There are no Room Patterns found.");
+//		#endif
 
 		// Actually floor terrain, generated in batches of 5x5 grids.
 		for (int divY = 0; divY < numYDiv; divY++)
@@ -133,7 +142,7 @@ public class DungeonManager : MonoBehaviour
 				int anchorX = divXSize * divX + 1;
 				int anchorY = divYSize * divY + 1;
 
-				RoomPattern curPattern = patterns[Random.Range(0, patterns.Length)];
+				RoomPattern curPattern = GetRandPattern();
 
 				for (int y = 0; y < divYSize; y++)
 				{
@@ -143,12 +152,34 @@ public class DungeonManager : MonoBehaviour
 						int indexY = anchorY + y;
 						DungeonBlock curBlock;
 
-						curBlock = new DungeonBlock(curPattern.BlockTerrainType[y * curPattern.RoomSizeY + x], indexX, indexY);
+						TerrainType terrainType = curPattern.BlockTerrainType[y * curPattern.SizeY + x];
+						if (terrainType == TerrainType.Wall)
+							if ((Random.value - curPattern.MatchPercentage) > 0.0f)
+								terrainType = TerrainType.Tile;
+
+						curBlock = new DungeonBlock(terrainType, indexX, indexY);
 						dungeonBlockGrid[indexX, indexY] = curBlock;
 					}
 				}
 			}
 		}
+	}
+
+	private RoomPattern GetRandPattern()
+	{
+		float totalBias = patternsBias + structuredPatternsBias + emptyPatternBias;
+		float rangeCheck = patternsBias;
+		float randNum = Random.Range(0.0f, totalBias);
+		if (randNum < rangeCheck)
+		{
+			return patterns[Random.Range(0, patterns.Length)];
+		}
+		rangeCheck += structuredPatternsBias;
+		if (randNum < rangeCheck)
+		{
+			return structuredPatterns[Random.Range(0, structuredPatterns.Length)];
+		}
+		return EmptyRoom;
 	}
 
 	public static bool IsWhiteTile(int x, int y)

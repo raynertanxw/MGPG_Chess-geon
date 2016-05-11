@@ -8,19 +8,21 @@ public class RoomPatternEditor : Editor
 {
 	private SerializedProperty mSP_RoomSizeX;
 	private SerializedProperty mSP_RoomSizeY;
-	private SerializedProperty mSP_BlockTerrainType;
+	private SerializedProperty mSP_mfMatchPercentage;
+	private SerializedProperty mSP_mArrBlockTerrainType;
 
 	private void OnEnable()
 	{
 		mSP_RoomSizeX			= serializedObject.FindProperty("RoomSizeX");
 		mSP_RoomSizeY			= serializedObject.FindProperty("RoomSizeY");
-		mSP_BlockTerrainType	= serializedObject.FindProperty("BlockTerrainType");
+		mSP_mfMatchPercentage	= serializedObject.FindProperty("mfMatchPercentage");
+		mSP_mArrBlockTerrainType	= serializedObject.FindProperty("mArrBlockTerrainType");
 
 		int arrSize = mSP_RoomSizeX.intValue * mSP_RoomSizeY.intValue;
 
-		if (mSP_BlockTerrainType.arraySize != arrSize)
+		if (mSP_mArrBlockTerrainType.arraySize != arrSize)
 		{
-			mSP_BlockTerrainType.arraySize = arrSize;
+			mSP_mArrBlockTerrainType.arraySize = arrSize;
 		}
 
 		serializedObject.ApplyModifiedProperties();
@@ -35,8 +37,14 @@ public class RoomPatternEditor : Editor
 		EditorGUILayout.PropertyField(mSP_RoomSizeY);
 		if (EditorGUI.EndChangeCheck())
 		{
-			mSP_BlockTerrainType.arraySize = mSP_RoomSizeX.intValue * mSP_RoomSizeY.intValue;
+			mSP_mArrBlockTerrainType.arraySize = mSP_RoomSizeX.intValue * mSP_RoomSizeY.intValue;
 		}
+
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.LabelField("Match Percentage", GUILayout.MaxWidth(120.0f));
+		GUILayout.FlexibleSpace();
+		mSP_mfMatchPercentage.floatValue = EditorGUILayout.Slider(mSP_mfMatchPercentage.floatValue, 0.0f, 1.0f);
+		EditorGUILayout.EndHorizontal();
 
 		serializedObject.ApplyModifiedProperties();
 
@@ -53,7 +61,7 @@ public class RoomPatternEditor : Editor
 				int index = y * mSP_RoomSizeY.intValue + x;
 				bool toggleVal = false;
 				bool inspectorVal;
-				switch (mSP_BlockTerrainType.GetArrayElementAtIndex(index).enumValueIndex)
+				switch (mSP_mArrBlockTerrainType.GetArrayElementAtIndex(index).enumValueIndex)
 				{
 				case 0:
 					toggleVal = false;
@@ -68,9 +76,9 @@ public class RoomPatternEditor : Editor
 				if (EditorGUI.EndChangeCheck())
 				{
 					if (inspectorVal)
-						mSP_BlockTerrainType.GetArrayElementAtIndex(index).enumValueIndex = 1;
+						mSP_mArrBlockTerrainType.GetArrayElementAtIndex(index).enumValueIndex = 1;
 					else
-						mSP_BlockTerrainType.GetArrayElementAtIndex(index).enumValueIndex = 0;
+						mSP_mArrBlockTerrainType.GetArrayElementAtIndex(index).enumValueIndex = 0;
 				}
 			}
 			GUILayout.FlexibleSpace();
