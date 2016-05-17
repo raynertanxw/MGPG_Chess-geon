@@ -22,19 +22,14 @@ public class CameraGLDrawer : MonoBehaviour
 			Destroy(this.gameObject);
 			return;
 		}
-
-		SetUp();
 	}
 
-	private void SetUp()
-	{
-		MiniMapSetUp();
-	}
 
 
 	#region GL Minimap
 	// For GL MiniMap
 	static Material lineMaterial;
+	public Color MiniMapBGCol, MiniMapCamAreaCol;
 
 	// Ratio of screen.
 	private float mfScaleRatio = 0.05f;
@@ -45,24 +40,26 @@ public class CameraGLDrawer : MonoBehaviour
 	private float mfMiniMapAnchorX, mfMiniMapAnchorY;
 	private Vector2 mVec2MiniMapCamAnchorOffset;
 
-	private void MiniMapSetUp()
-	{
-		mfMiniMapAnchorX = 0.05f;
-		mfMiniMapAnchorY = 0.5f;
-	}
-
 	public void SetMiniMapAnchor(float _anchorX, float _anchorY)
 	{
 		mfMiniMapAnchorX = _anchorX;
 		mfMiniMapAnchorY = _anchorY;
 	}
 
-	public void SetMiniMapValues(float _BGWidth, float _BGHeight, float _CamWidth, float _CamHeight, Vector2 _CamOffset)
+	// Values passed in should be in (Unity Unit * 100.0f) / Screen DesignWidth or DesignHeight.
+	// 100.0f is because we want the pixel unit.
+	public void SetMiniMapValues(float _BGWidth, float _BGHeight, float _CamWidth, float _CamHeight)
 	{
 		mfMiniMapBGAreaWidth = _BGWidth * mfScaleRatio;
 		mfMiniMapBGAreaHeight = _BGHeight * mfScaleRatio;
 		mfMiniMapCamAreaWidth = _CamWidth * mfScaleRatio;
 		mfMiniMapCamAreaHeight = _CamHeight * mfScaleRatio;
+	}
+
+	// Values passed in should be in (Unity Unit * 100.0f) / Screen DesignWidth or DesignHeight.
+	// 100.0f is because we want the pixel unit.
+	public void UpdateMiniMap(Vector2 _CamOffset)
+	{
 		mVec2MiniMapCamAnchorOffset = _CamOffset * mfScaleRatio;
 	}
 
@@ -93,30 +90,33 @@ public class CameraGLDrawer : MonoBehaviour
 
 		GL.Begin(GL.QUADS);
 
-		GL.Color(Color.blue);
-		GL.Vertex(new Vector3(mfMiniMapAnchorX, mfMiniMapAnchorY, 0.0f));
-		GL.Vertex(new Vector3(mfMiniMapAnchorX, mfMiniMapAnchorY + mfMiniMapBGAreaHeight, 0.0f));
-		GL.Vertex(new Vector3(mfMiniMapAnchorX + mfMiniMapBGAreaWidth, mfMiniMapAnchorY + mfMiniMapBGAreaHeight, 0.0f));
-		GL.Vertex(new Vector3(mfMiniMapAnchorX + mfMiniMapBGAreaWidth, mfMiniMapAnchorY, 0.0f));
+		GL.Color(MiniMapBGCol);
+		// Btm-Left
+		Vector3 vert = new Vector3(mfMiniMapAnchorX, mfMiniMapAnchorY);
+		GL.Vertex(vert);
+		// Top-Left
+		vert.y += mfMiniMapBGAreaHeight;
+		GL.Vertex(vert);
+		// Top-Right
+		vert.x += mfMiniMapBGAreaWidth;
+		GL.Vertex(vert);
+		// Btm-Right
+		vert.y -= mfMiniMapBGAreaHeight;
+		GL.Vertex(vert);
 
-		GL.Color(Color.red);
-		float camAnchorX = mfMiniMapAnchorX + mVec2MiniMapCamAnchorOffset.x;
-		float camAnchorY = mfMiniMapAnchorY + mVec2MiniMapCamAnchorOffset.y;
-		GL.Vertex(new Vector3(camAnchorX, camAnchorY, 0.0f));
-		GL.Vertex(new Vector3(camAnchorX, camAnchorY + mfMiniMapCamAreaHeight, 0.0f));
-		GL.Vertex(new Vector3(camAnchorX + mfMiniMapCamAreaWidth, camAnchorY + mfMiniMapCamAreaHeight, 0.0f));
-		GL.Vertex(new Vector3(camAnchorX + mfMiniMapCamAreaWidth, camAnchorY, 0.0f));
-
-		GL.End();
-
-
-		GL.Begin(GL.LINES);
-
-		GL.Color(Color.green);
-		GL.Vertex(new Vector3(0.5f, 0.5f, 0.0f));
-//		GL.Vertex(new Vector3(0.0f, Input.mousePosition.y / Screen.height, 0.0f));
-		GL.Vertex(new Vector3(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height, 0.0f));
-//		GL.Vertex(new Vector3(Input.mousePosition.x / Screen.width, 0.0f, 0.0f));
+		GL.Color(MiniMapCamAreaCol);
+		// Btm-Left
+		vert = new Vector3(mfMiniMapAnchorX + mVec2MiniMapCamAnchorOffset.x, mfMiniMapAnchorY + mVec2MiniMapCamAnchorOffset.y);
+		GL.Vertex(vert);
+		// Top-Left
+		vert.y += mfMiniMapCamAreaHeight;
+		GL.Vertex(vert);
+		// Top-Right
+		vert.x += mfMiniMapCamAreaWidth;
+		GL.Vertex(vert);
+		// Btm-Right
+		vert.y -= mfMiniMapCamAreaHeight;
+		GL.Vertex(vert);
 
 		GL.End();
 
