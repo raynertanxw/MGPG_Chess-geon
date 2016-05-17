@@ -45,6 +45,12 @@ public class CameraGLDrawer : MonoBehaviour
 	private float mfMiniMapAnchorX, mfMiniMapAnchorY;
 	private Vector2 mVec2MiniMapCamAnchorOffset;
 
+	private void MiniMapSetUp()
+	{
+		mfMiniMapAnchorX = 0.05f;
+		mfMiniMapAnchorY = 0.5f;
+	}
+
 	public void SetMiniMapAnchor(float _anchorX, float _anchorY)
 	{
 		mfMiniMapAnchorX = _anchorX;
