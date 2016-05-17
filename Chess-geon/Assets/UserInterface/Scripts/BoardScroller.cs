@@ -24,6 +24,14 @@ public class BoardScroller : MonoBehaviour
 		mvec2MaxPos.y -= (mfDesignWidth - mfFrameBorderWidth * 2.0f) / 100.0f;
 	}
 
+	void Start()
+	{
+		SendMiniMapValues();
+		float anchorX = (mfFrameBorderWidth * 2.0f) / mfDesignWidth;
+		float anchorY = (mfDesignHeight - mfDesignWidth + mfFrameBorderWidth * 2.0f) / mfDesignHeight;
+		CameraGLDrawer.Instance.SetMiniMapAnchor(anchorX, anchorY);
+	}
+
 	private void ConstrainCamera()
 	{
 		Vector3 camPos = camTransform.position;
@@ -41,5 +49,24 @@ public class BoardScroller : MonoBehaviour
 		camTransform.position += offset;
 
 		ConstrainCamera();
+		SendMiniMapValues();
+	}
+
+	private void SendMiniMapValues()
+	{
+		float Xscaler = 1.0f / mfDesignWidth * 100.0f;
+		float Yscaler = 1.0f / mfDesignHeight * 100.0f;
+
+		float BGWidth = DungeonManager.Instance.SizeX * DungeonManager.Instance.BlockSize * Xscaler;
+		float BGHeight = DungeonManager.Instance.SizeY * DungeonManager.Instance.BlockSize * Yscaler;
+		float CamWidth = (mfDesignWidth - (mfFrameBorderWidth * 2.0f)) / 100.0f * Xscaler;
+		float CamHeight = (mfDesignWidth - (mfFrameBorderWidth * 2.0f)) / 100.0f * Yscaler;
+		Vector2 CamOffset = camTransform.position;
+		CamOffset.x -= mvec2MinPos.x;
+		CamOffset.x *= Xscaler;
+		CamOffset.y -= mvec2MinPos.y;
+		CamOffset.y *= Yscaler;
+
+		CameraGLDrawer.Instance.SetMiniMapValues(BGWidth, BGHeight, CamWidth, CamHeight, CamOffset);
 	}
 }
