@@ -29,6 +29,14 @@ public class BoardScroller : MonoBehaviour
 
 		// MiniMap
 		Xscaler = 1.0f / mfDesignWidth * 100.0f;
+
+		// Getting ratio of design width : actual width scaled to design ratio.
+		// In other words, getting the ratio of design resolution,
+		// to the actual width scaled to design size.
+		float ratioAdjuster = mfDesignWidth / (Screen.width * mfDesignHeight / Screen.height);
+
+		Xscaler *= ratioAdjuster;
+
 		Yscaler = 1.0f / mfDesignHeight * 100.0f;
 	}
 
@@ -62,11 +70,13 @@ public class BoardScroller : MonoBehaviour
 	{
 		float BGWidth = DungeonManager.Instance.SizeX * DungeonManager.Instance.BlockSize * Xscaler;
 		float BGHeight = DungeonManager.Instance.SizeY * DungeonManager.Instance.BlockSize * Yscaler;
-		float CamWidth = (mfDesignWidth - (mfFrameBorderWidth * 2.0f)) / mfDesignWidth;
-		float CamHeight = (mfDesignWidth - (mfFrameBorderWidth * 2.0f)) / mfDesignHeight;
+		float CamWidth = (mfDesignWidth - (mfFrameBorderWidth * 2.0f)) * Xscaler / 100.0f;
+		float CamHeight = (mfDesignWidth - (mfFrameBorderWidth * 2.0f)) * Yscaler / 100.0f;
 		CameraGLDrawer.Instance.SetMiniMapValues(BGWidth, BGHeight, CamWidth, CamHeight);
 
-		float anchorX = (mfFrameBorderWidth * 2.0f) / mfDesignWidth;
+		float actualWidthScaled = Screen.width * mfDesignHeight / Screen.height;
+		float halfFrame = (mfDesignWidth / 2.0f - (mfFrameBorderWidth * 2.0f)) / actualWidthScaled;
+		float anchorX = 0.5f - halfFrame;
 		float anchorY = (mfDesignHeight - mfDesignWidth + mfFrameBorderWidth * 2.0f) / mfDesignHeight;
 		CameraGLDrawer.Instance.SetMiniMapAnchor(anchorX, anchorY);
 	}
