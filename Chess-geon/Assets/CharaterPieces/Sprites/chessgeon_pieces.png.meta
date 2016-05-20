@@ -1,0 +1,699 @@
+fileFormatVersion: 2
+guid: 2566f89b105554a88b3ea158d69d9138
+timeCreated: 1463717861
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: black_pawn
+    21300002: black_rook
+    21300004: black_bishop
+    21300006: black_knight
+    21300008: black_king
+    21300010: stone_pawn
+    21300012: stone_rook
+    21300014: stone_bishop
+    21300016: stone_knight
+    21300018: stone_king
+    21300020: slime_pawn
+    21300022: slime_rook
+    21300024: slime_bishop
+    21300026: slime_knight
+    21300028: slime_king
+    21300030: glass_pawn
+    21300032: glass_rook
+    21300034: glass_bishop
+    21300036: glass_knight
+    21300038: glass_king
+    21300040: gold_pawn
+    21300042: gold_rook
+    21300044: gold_bishop
+    21300046: gold_knight
+    21300048: gold_king
+    21300050: cursed_pawn
+    21300052: cursed_rook
+    21300054: cursed_bishop
+    21300056: cursed_knight
+    21300058: cursed_king
+    21300060: player_pawn
+    21300062: player_rook
+    21300064: player_bishop
+    21300066: player_knight
+    21300068: player_king
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -5
+  maxTextureSize: 256
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 100
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: black_pawn
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 15}
+        - {x: -7, y: 11}
+        - {x: -11, y: -3}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 2}
+        - {x: 5, y: 15}
+    - name: black_rook
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 15}
+        - {x: -11, y: -13}
+        - {x: -9, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 15}
+    - name: black_bishop
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 15}
+        - {x: -11, y: 8}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 6}
+        - {x: 5, y: 13}
+        - {x: 1, y: 15}
+    - name: black_knight
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 15}
+        - {x: -13, y: 11}
+        - {x: -13, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 5}
+        - {x: 4, y: 15}
+    - name: black_king
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 15}
+        - {x: -3, y: 15}
+        - {x: -11, y: 11}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 1}
+        - {x: 7, y: 13}
+    - name: stone_pawn
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 15}
+        - {x: -7, y: 11}
+        - {x: -11, y: -3}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 2}
+        - {x: 5, y: 15}
+    - name: stone_rook
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 15}
+        - {x: -11, y: -13}
+        - {x: -9, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 15}
+    - name: stone_bishop
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 15}
+        - {x: -11, y: 8}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 6}
+        - {x: 5, y: 13}
+        - {x: 1, y: 15}
+    - name: stone_knight
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 15}
+        - {x: -13, y: 11}
+        - {x: -13, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 5}
+        - {x: 4, y: 15}
+    - name: stone_king
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 15}
+        - {x: -3, y: 15}
+        - {x: -11, y: 11}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 1}
+        - {x: 7, y: 13}
+    - name: slime_pawn
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 15}
+        - {x: -7, y: 11}
+        - {x: -11, y: -3}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 2}
+        - {x: 5, y: 15}
+    - name: slime_rook
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 15}
+        - {x: -11, y: -13}
+        - {x: -9, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 15}
+    - name: slime_bishop
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 15}
+        - {x: -11, y: 8}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 6}
+        - {x: 5, y: 13}
+        - {x: 1, y: 15}
+    - name: slime_knight
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 15}
+        - {x: -13, y: 11}
+        - {x: -13, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 5}
+        - {x: 4, y: 15}
+    - name: slime_king
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 15}
+        - {x: -3, y: 15}
+        - {x: -11, y: 11}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 1}
+        - {x: 7, y: 13}
+    - name: glass_pawn
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 15}
+        - {x: -7, y: 11}
+        - {x: -11, y: -3}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 2}
+        - {x: 5, y: 15}
+    - name: glass_rook
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 15}
+        - {x: -11, y: -13}
+        - {x: -9, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 15}
+    - name: glass_bishop
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 15}
+        - {x: -11, y: 8}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 6}
+        - {x: 5, y: 13}
+        - {x: 1, y: 15}
+    - name: glass_knight
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 15}
+        - {x: -13, y: 11}
+        - {x: -13, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 5}
+        - {x: 4, y: 15}
+    - name: glass_king
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 15}
+        - {x: -3, y: 15}
+        - {x: -11, y: 11}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 1}
+        - {x: 7, y: 13}
+    - name: gold_pawn
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 15}
+        - {x: -7, y: 11}
+        - {x: -11, y: -3}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 2}
+        - {x: 5, y: 15}
+    - name: gold_rook
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 15}
+        - {x: -11, y: -13}
+        - {x: -9, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 15}
+    - name: gold_bishop
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 15}
+        - {x: -11, y: 8}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 6}
+        - {x: 5, y: 13}
+        - {x: 1, y: 15}
+    - name: gold_knight
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 15}
+        - {x: -13, y: 11}
+        - {x: -13, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 5}
+        - {x: 4, y: 15}
+    - name: gold_king
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 15}
+        - {x: -3, y: 15}
+        - {x: -11, y: 11}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 1}
+        - {x: 7, y: 13}
+    - name: cursed_pawn
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 16}
+        - {x: -12, y: 9}
+        - {x: -12, y: -16}
+        - {x: 12, y: -16}
+        - {x: 12, y: 16}
+    - name: cursed_rook
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 16}
+        - {x: -12, y: -16}
+        - {x: 12, y: -16}
+        - {x: 12, y: 9}
+        - {x: 10, y: 16}
+    - name: cursed_bishop
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10, y: 16}
+        - {x: -12, y: 9}
+        - {x: -12, y: -15}
+        - {x: -10, y: -16}
+        - {x: 12, y: -16}
+        - {x: 12, y: 12}
+        - {x: 7, y: 16}
+    - name: cursed_knight
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -1, y: 16}
+        - {x: -14, y: 10}
+        - {x: -14, y: -16}
+        - {x: 12, y: -16}
+        - {x: 12, y: 5}
+        - {x: 5, y: 16}
+    - name: cursed_king
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 16}
+        - {x: -9, y: 9}
+        - {x: -12, y: -4}
+        - {x: -12, y: -16}
+        - {x: 12, y: -16}
+        - {x: 12, y: 10}
+        - {x: 3, y: 16}
+    - name: player_pawn
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 15}
+        - {x: -7, y: 11}
+        - {x: -11, y: -3}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 2}
+        - {x: 5, y: 15}
+    - name: player_rook
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 15}
+        - {x: -11, y: -13}
+        - {x: -9, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 15}
+    - name: player_bishop
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 15}
+        - {x: -11, y: 8}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 6}
+        - {x: 5, y: 13}
+        - {x: 1, y: 15}
+    - name: player_knight
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 15}
+        - {x: -13, y: 11}
+        - {x: -13, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 5}
+        - {x: 4, y: 15}
+    - name: player_king
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 15}
+        - {x: -3, y: 15}
+        - {x: -11, y: 11}
+        - {x: -11, y: -15}
+        - {x: 11, y: -15}
+        - {x: 11, y: 1}
+        - {x: 7, y: 13}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
