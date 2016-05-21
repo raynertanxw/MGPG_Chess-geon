@@ -41,6 +41,14 @@ public class DungeonManager : MonoBehaviour
 	private GameObject[,] dungeonBlockGameObjectGrid = null;
 	private SpriteRenderer[,] dungeonBlockSpriteRens = null;
 
+	// Game Logic
+	private int mnExitPosX, mnExitPosY;
+	public int ExitPosX { get { return mnExitPosX; } }
+	public int ExitPosY { get { return mnExitPosY; } }
+	private int mnSpawnPosX, mnSpawnPosY;
+	public int SpawnPosX { get { return mnSpawnPosX; } }
+	public int SpawnPosY { get { return mnSpawnPosY; } }
+
 	//AStar
 	GridManager rookGrid = null;
 	GridManager bishopGrid = null;
@@ -63,15 +71,15 @@ public class DungeonManager : MonoBehaviour
 		kingGrid = new GridManager(this, GridType.King);
 	}
 
-	void Start()
-	{
-		// ASTAR TEST!!!!!!
-//		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[17, 27], rookGrid);
-//		testPath = AStarManager.FindPath(bishopGrid.nodes[1, 1], bishopGrid.nodes[17, 27], bishopGrid);
-		testPath = AStarManager.FindPath(knightGrid.nodes[1, 1], knightGrid.nodes[17, 27], knightGrid);
-//		testPath = AStarManager.FindPath(kingGrid.nodes[1, 1], kingGrid.nodes[17, 27], kingGrid);
-		// END OF ASTAR TEST!!!!!
-	}
+//	void Start()
+//	{
+//		// ASTAR TEST!!!!!!
+////		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[17, 27], rookGrid);
+////		testPath = AStarManager.FindPath(bishopGrid.nodes[1, 1], bishopGrid.nodes[17, 27], bishopGrid);
+//		testPath = AStarManager.FindPath(knightGrid.nodes[1, 1], knightGrid.nodes[17, 27], knightGrid);
+////		testPath = AStarManager.FindPath(kingGrid.nodes[1, 1], kingGrid.nodes[17, 27], kingGrid);
+//		// END OF ASTAR TEST!!!!!
+//	}
 
 	[ContextMenu("Generate")]
 	private void Generate()
@@ -134,7 +142,7 @@ public class DungeonManager : MonoBehaviour
 //			Debug.LogError("There are no Room Patterns found.");
 //		#endif
 
-		// Actually floor terrain, generated in batches of 5x5 grids.
+		// Actual floor terrain, generated in batches of 5x5 grids.
 		for (int divY = 0; divY < numYDiv; divY++)
 		{
 			for (int divX = 0; divX < numXDiv; divX++)
@@ -163,6 +171,20 @@ public class DungeonManager : MonoBehaviour
 				}
 			}
 		}
+
+		// Set the EndTile.
+		mnExitPosX = divXSize * (numXDiv - 1) + 1;
+		mnExitPosY = divYSize * (numYDiv - 1) + 1;
+		mnExitPosX += divXSize / 2;
+		mnExitPosY += divYSize / 2;
+		dungeonBlockGrid[ExitPosX, ExitPosY] = new DungeonBlock(TerrainType.Stairs, ExitPosX, ExitPosY);
+		SetSurroundingTilesToEmpty(ExitPosX, ExitPosY);
+
+		// Set the PlayerSpawnPosition
+		mnSpawnPosX = divXSize / 2 + 1;
+		mnSpawnPosY = divYSize / 2 + 1;
+		dungeonBlockGrid[SpawnPosX, SpawnPosY] = new DungeonBlock(TerrainType.Spawn, SpawnPosX, SpawnPosY);
+		SetSurroundingTilesToEmpty(SpawnPosX, SpawnPosY);
 	}
 
 	private RoomPattern GetRandPattern()
@@ -180,6 +202,32 @@ public class DungeonManager : MonoBehaviour
 			return structuredPatterns[Random.Range(0, structuredPatterns.Length)];
 		}
 		return EmptyRoom;
+	}
+
+	private void SetSurroundingTilesToEmpty(int _posX, int _posY)
+	{
+		if (_posX < 1 || _posX > SizeX - 2 || _posY < 1 || _posY > SizeY - 2)
+		{
+			Debug.LogError("Tile (" + _posX + ", " + _posY + ") is too near the edge for surrounding tiles to be set to empty.");
+			return;
+		}
+
+		// Btm-Left
+		dungeonBlockGrid[_posX - 1, _posY - 1].SetBlockState(BlockState.Empty);
+		// Left
+		dungeonBlockGrid[_posX - 1, _posY].SetBlockState(BlockState.Empty);
+		// Top-Left
+		dungeonBlockGrid[_posX - 1, _posY + 1].SetBlockState(BlockState.Empty);
+		// Top
+		dungeonBlockGrid[_posX, _posY + 1].SetBlockState(BlockState.Empty);
+		// Top-Right
+		dungeonBlockGrid[_posX + 1, _posY + 1].SetBlockState(BlockState.Empty);
+		// Right
+		dungeonBlockGrid[_posX + 1, _posY].SetBlockState(BlockState.Empty);
+		// Btm-Right
+		dungeonBlockGrid[_posX + 1, _posY - 1].SetBlockState(BlockState.Empty);
+		// Btm
+		dungeonBlockGrid[_posX, _posY - 1].SetBlockState(BlockState.Empty);
 	}
 
 	public static bool IsWhiteTile(int x, int y)
@@ -224,6 +272,14 @@ public class DungeonManager : MonoBehaviour
 						dungeonBlockSpriteRens[x, y].sprite = whiteTileSprite;
 					else	// Black Tile
 						dungeonBlockSpriteRens[x, y].sprite = blackTileSprite;
+					break;
+				case TerrainType.Stairs:
+					dungeonBlockSpriteRens[x, y].sprite = whiteTileSprite;
+					dungeonBlockSpriteRens[x, y].color = Color.green;
+					break;
+				case TerrainType.Spawn:
+					dungeonBlockSpriteRens[x, y].sprite = whiteTileSprite;
+					dungeonBlockSpriteRens[x, y].color = Color.yellow;
 					break;
 				}
 			}

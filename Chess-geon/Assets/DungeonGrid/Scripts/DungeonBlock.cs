@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum BlockState { Empty, Obstacle, EnemyPiece };	// Only Empty is traversable.
-public enum TerrainType { Tile, Wall };
+public enum BlockState { Empty, Obstacle, EnemyPiece, DungeonExit, DungeonEntrance };	// Only Empty is traversable.
+public enum TerrainType { Tile, Wall, Stairs, Spawn };
 
 public class DungeonBlock
 {
@@ -28,6 +28,12 @@ public class DungeonBlock
 		case TerrainType.Wall:
 			mState = BlockState.Obstacle;
 			break;
+		case TerrainType.Stairs:
+			mState = BlockState.DungeonExit;
+			break;
+		case TerrainType.Spawn:
+			mState = BlockState.DungeonEntrance;
+			break;
 		}
 	}
 
@@ -36,8 +42,18 @@ public class DungeonBlock
 		#if UNITY_EDITOR
 		if (_newBlockState == BlockState.Obstacle)
 			Debug.LogWarning("Are you sure you want to set a dungeonblock to obstacle? There shouldn't be such a case");
+		else if (_newBlockState == BlockState.DungeonExit)
+			Debug.LogWarning("Are you sure you want to set a dungeonblock to dungeonExit? There shouldn't be such as case");
 		#endif
 
+		switch (_newBlockState)
+		{
+		case BlockState.Empty:
+			mTerrain = TerrainType.Tile;
+			break;
+		default:
+			break;
+		}
 		mState = _newBlockState;
 	}
 }
