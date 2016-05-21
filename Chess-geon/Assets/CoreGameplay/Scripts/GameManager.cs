@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
 	private GamePhase mPhase;
 	public GamePhase Phase { get { return mPhase; } }
-	public LinkedList<IEnemyPiece> Enemies;
+	public LinkedList<IEnemyPiece> mEnemyList;
 
 	private void Awake()
 	{
@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
 
 	private void Setup()
 	{
+		// Variable setups
+		mEnemyList = new LinkedList<IEnemyPiece>();
+
 		// Generate all the enemies and place them.
 		GenerateNPlaceEnemies();
 
@@ -96,9 +99,24 @@ public class GameManager : MonoBehaviour
 
 	private void SpawnEnemy(int _posX, int _posY, EnemyUnit enemyType)
 	{
-		DungeonManager.Instance.PlaceEnemy(_posX, _posY);
-
-		Instantiate(EnemyUnitPrefabs[(int)enemyType], DungeonManager.Instance.GridPosToWorldPos(_posX, _posY), Quaternion.identity);
-		// TODO: Add to enemy linked list.
+		switch (enemyType)
+		{
+		case EnemyUnit.BlackPawn:
+			break;
+		case EnemyUnit.BlackRook:
+			IEnemyPiece curPiece = new RookEnemyPiece(EnemyUnitPrefabs[(int)enemyType]);
+			mEnemyList.AddFirst(curPiece);
+			curPiece.Spawn(_posX, _posY, 1);
+			break;
+		case EnemyUnit.BlackBishop:
+			break;
+		case EnemyUnit.BlackKnight:
+			break;
+		case EnemyUnit.BlackKing:
+			break;
+		default:
+			Debug.LogError("No enemyType handling found");
+			break;
+		}
 	}
 }
