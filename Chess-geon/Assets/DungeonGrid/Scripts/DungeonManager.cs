@@ -16,6 +16,7 @@ public class DungeonManager : MonoBehaviour
 
 	private int divXSize = 5;
 	private int divYSize = 5;
+	[Header("Render Options")]
 	[SerializeField] private int sizeX = 32;
 	[SerializeField] private int sizeY = 32;
 	public int SizeX { get { return sizeX; } }
@@ -28,6 +29,7 @@ public class DungeonManager : MonoBehaviour
 	public GameObject dungeonBlockPrefab;
 	public Sprite blackTileSprite, whiteTileSprite, wallTileSprite;
 
+	[Header("Gameplay Options")]
 	public float patternsBias = 10.0f;
 	public float structuredPatternsBias = 5.0f;
 	public float emptyPatternBias = 50.0f;
@@ -80,6 +82,8 @@ public class DungeonManager : MonoBehaviour
 ////		testPath = AStarManager.FindPath(kingGrid.nodes[1, 1], kingGrid.nodes[17, 27], kingGrid);
 //		// END OF ASTAR TEST!!!!!
 //	}
+
+	#region Dungeon Generation
 
 	[ContextMenu("Generate")]
 	private void Generate()
@@ -230,7 +234,7 @@ public class DungeonManager : MonoBehaviour
 		dungeonBlockGrid[_posX, _posY - 1].SetBlockState(BlockState.Empty);
 	}
 
-	public static bool IsWhiteTile(int x, int y)
+	private bool IsWhiteTile(int x, int y)
 	{
 		// White is even-even, odd-odd. Black is even-odd, odd-even.
 		if (x % 2 == y % 2)
@@ -286,10 +290,50 @@ public class DungeonManager : MonoBehaviour
 		}
 	}
 
-	private Vector3 GridPosToWorldPos(int _x, int _y)
+	#endregion
+
+	public Vector3 GridPosToWorldPos(int _x, int _y)
 	{
 		return dungeonBlockGameObjectGrid[_x, _y].transform.position;
 	}
+
+	public void PlaceEnemy(int _posX, int _posY)
+	{
+		if (dungeonBlockGrid[_posX, _posY].State != BlockState.Empty)
+		{
+			Debug.LogError("Unable to place Enemy. (" + _posX + ", " + _posY + ") is not empty.");
+			return;
+		}
+
+		dungeonBlockGrid[_posX, _posY].SetBlockState(BlockState.EnemyPiece);
+	}
+
+	public void RemoveEnemy(int _posX, int _posY)
+	{
+		if (dungeonBlockGrid[_posX, _posY].State != BlockState.EnemyPiece)
+		{
+			Debug.LogError("Unable to remove Enemy. (" + _posX + ", " + _posY + ") does not have an enemy piece on it.");
+			return;
+		}
+
+		dungeonBlockGrid[_posX, _posY].SetBlockState(BlockState.Empty);
+	}
+
+	public void MoveEnemy(int _fromX, int _fromY, int _toX, int _toY)
+	{
+		PlaceEnemy(_toX, _toY);
+		RemoveEnemy(_fromX, _fromY);
+	}
+
+	public bool IsCellEmpty(int _posX, int _posY)
+	{
+		if (dungeonBlockGrid[_posX, _posY].State == BlockState.Empty)
+			return true;
+		else
+			return false;
+	}
+
+	#region Debug Tools
 
 	private void OnDrawGizmos()
 	{
@@ -302,7 +346,7 @@ public class DungeonManager : MonoBehaviour
 		{
 			for (int x = 0; x < SizeX; x++)
 			{
-				if (rookGrid.nodes[x, y].State == BlockState.Obstacle)
+				if (rookGrid.nodes[x, y].State != BlockState.Empty)
 				{
 					DebugDrawSquare_AnchorCenter(GridPosToWorldPos(x, y), blockSize, Color.red);
 				}
@@ -358,4 +402,6 @@ public class DungeonManager : MonoBehaviour
 			Debug.DrawLine(startPos, endPos, color);
 		}
 	}
+
+	#endregion
 }
