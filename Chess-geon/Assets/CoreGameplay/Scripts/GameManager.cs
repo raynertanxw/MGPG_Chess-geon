@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
 	private GamePhase mPhase;
 	public GamePhase Phase { get { return mPhase; } }
-	public LinkedList<IEnemyPiece> mEnemyList;
+	public LinkedList<EnemyPiece> mEnemyList;
 
 	private void Awake()
 	{
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 	private void Setup()
 	{
 		// Variable setups
-		mEnemyList = new LinkedList<IEnemyPiece>();
+		mEnemyList = new LinkedList<EnemyPiece>();
 
 		// Generate all the enemies and place them.
 		GenerateNPlaceEnemies();
@@ -104,9 +104,8 @@ public class GameManager : MonoBehaviour
 		case EnemyUnit.BlackPawn:
 			break;
 		case EnemyUnit.BlackRook:
-			IEnemyPiece curPiece = new RookEnemyPiece(EnemyUnitPrefabs[(int)enemyType]);
+			EnemyPiece curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Black);
 			mEnemyList.AddFirst(curPiece);
-			curPiece.Spawn(_posX, _posY, 1);
 			break;
 		case EnemyUnit.BlackBishop:
 			break;

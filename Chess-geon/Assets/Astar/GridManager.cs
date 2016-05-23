@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum GridType { Rook, Bishop, Knight, King }
+public enum GridType { Pawn, Rook, Bishop, Knight, King }
 
 public class GridManager
 {
@@ -38,6 +38,11 @@ public class GridManager
 		case GridType.King:
 			mGridAlgorithms = new GridStratergyKing(mnSizeX, mnSizeY, nodes);
 			break;
+		#if UNITY_EDITOR
+		case GridType.Pawn:
+			Debug.LogError("There is no such thing as a Pawn AStar Grid");
+			break;
+		#endif
 		}
 
         for (int y = 0; y < mnSizeY; y++)
