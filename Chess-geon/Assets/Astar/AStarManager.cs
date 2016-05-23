@@ -36,6 +36,13 @@ public class AStarManager
 		if (_goalNode.State != BlockState.Empty)
 			return null;
 
+		// RESET ALL NODES.
+		IEnumerator gridEnumurator = _grid.nodes.GetEnumerator();
+		while (gridEnumurator.MoveNext())
+		{
+			(gridEnumurator.Current as Node).Reset();
+		}
+
 		openList = new List<Node>();
 		AddToOpenList(_startNode);
 		_startNode.nodePathCost = 0.0f;

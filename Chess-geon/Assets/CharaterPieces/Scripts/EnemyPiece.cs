@@ -133,8 +133,12 @@ public class EnemyPiece : MonoBehaviour
 			grid.nodes[PosX, PosY],
 			grid.nodes[GameManager.Instance.Player.PosX, GameManager.Instance.Player.PosY],
 			grid);
-		DungeonManager.DrawPath(path);
-		Debug.Log(grid.nodes[GameManager.Instance.Player.PosX, GameManager.Instance.Player.PosY].State);
+
+		if (path == null)
+		{
+			Debug.LogWarning("Path returned Null");
+			return;
+		}
 
 		Node targetNode = path.First.Next.Value;
 		MovePosition(targetNode.PosX, targetNode.PosY);

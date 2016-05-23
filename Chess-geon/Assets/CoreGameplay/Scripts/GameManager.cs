@@ -93,20 +93,19 @@ public class GameManager : MonoBehaviour
 	
 	private void EnterEnemyPhase()
 	{
-		enemyEnumerator = mEnemyList.GetEnumerator();
+		
 	}
 
 	private void ExitEnemyPhase()
 	{
-
+		
 	}
 
-	List<EnemyPiece>.Enumerator enemyEnumerator;
 	private void ExeucteEnemyPhase()
 	{
-		while (enemyEnumerator.MoveNext())
+		for (int i = 0; i < mEnemyList.Count; i++)
 		{
-			enemyEnumerator.Current.ExecuteTurn();
+			mEnemyList[i].ExecuteTurn();
 		}
 
 		// End of enumeration.
@@ -130,6 +129,8 @@ public class GameManager : MonoBehaviour
 			EnterPlayerPhase();
 			break;
 		}
+
+		Debug.Log(mPhase);
 	}
 	#endregion
 

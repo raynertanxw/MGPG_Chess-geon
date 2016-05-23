@@ -31,7 +31,6 @@ public class Node
         return 0;
     }
 
-	// TODO: Might not need. Do check.
 	public void Reset()
 	{
 		this.nodePathCost = 1.0f;
