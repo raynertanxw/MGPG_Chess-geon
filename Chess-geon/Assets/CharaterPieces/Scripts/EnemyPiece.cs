@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public enum EnemyType { Black, Stone, Slime, Glass, Gold, Cursed };
 
@@ -8,12 +9,21 @@ public class EnemyPiece : MonoBehaviour
 {
 	#region Object Pooling
 	private static List<EnemyPiece> enemyPool = null;
+	private static Sprite[] enemySprites = null;
+	private static string[] enemySpriteNames = null;
 
 	private void Awake()
 	{
 		if (enemyPool == null)
 		{
 			enemyPool = new List<EnemyPiece>();
+
+			enemySprites = Resources.LoadAll<Sprite>("Sprites/chessgeon_pieces");
+			enemySpriteNames = new string[enemySprites.Length];
+
+			for(int i = 0; i < enemySpriteNames.Length; i++) {
+				enemySpriteNames[i] = enemySprites[i].name;
+			}
 		}
 
 		mbIsAlive = false;
@@ -27,6 +37,8 @@ public class EnemyPiece : MonoBehaviour
 		if (enemyPool.Count == 0)
 		{
 			enemyPool = null;
+			enemySprites = null;
+			enemySpriteNames = null;
 		}
 	}
 
@@ -46,6 +58,8 @@ public class EnemyPiece : MonoBehaviour
 				curPiece.mnHealth = _health;
 				curPiece.SetMovementType(_movementType);
 				curPiece.SetUnitType(_unitType);
+				int spriteIndex = Array.IndexOf(enemySpriteNames, _unitType.ToString() + "_" + _movementType.ToString());
+				curPiece.mSpriteRen.sprite = enemySprites[spriteIndex];
 
 				DungeonManager.Instance.PlaceEnemy(_posX, _posY);
 				curPiece.transform.position = DungeonManager.Instance.GridPosToWorldPos(_posX, _posY);
@@ -63,7 +77,7 @@ public class EnemyPiece : MonoBehaviour
 	}
 	#endregion
 
-	private SpriteRenderer mSpriteRen;
+	public SpriteRenderer mSpriteRen;
 
 	private void Setup()
 	{

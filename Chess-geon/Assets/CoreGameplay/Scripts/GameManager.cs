@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
 
 			if (DungeonManager.Instance.IsCellEmpty(posX, posY))
 			{
-				SpawnEnemy(posX, posY, EnemyUnit.BlackRook);
+				SpawnEnemy(posX, posY, EnemyUnit.BlackKnight);
 				numEnemiesSpawned++;
 			}
 		}
@@ -99,23 +99,31 @@ public class GameManager : MonoBehaviour
 
 	private void SpawnEnemy(int _posX, int _posY, EnemyUnit enemyType)
 	{
+		EnemyPiece curPiece = null;
+
 		switch (enemyType)
 		{
 		case EnemyUnit.BlackPawn:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Black);
 			break;
 		case EnemyUnit.BlackRook:
-			EnemyPiece curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Black);
-			mEnemyList.AddFirst(curPiece);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Rook, EnemyType.Black);
 			break;
 		case EnemyUnit.BlackBishop:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Bishop, EnemyType.Black);
 			break;
 		case EnemyUnit.BlackKnight:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Knight, EnemyType.Black);
 			break;
 		case EnemyUnit.BlackKing:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.King, EnemyType.Black);
 			break;
 		default:
 			Debug.LogError("No enemyType handling found");
 			break;
 		}
+
+		if (curPiece != null)
+			mEnemyList.AddFirst(curPiece);
 	}
 }

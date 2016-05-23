@@ -1,44 +1,44 @@
 fileFormatVersion: 2
 guid: 2566f89b105554a88b3ea158d69d9138
-timeCreated: 1463717861
+timeCreated: 1463995613
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: black_pawn
-    21300002: black_rook
-    21300004: black_bishop
-    21300006: black_knight
-    21300008: black_king
-    21300010: stone_pawn
-    21300012: stone_rook
-    21300014: stone_bishop
-    21300016: stone_knight
-    21300018: stone_king
-    21300020: slime_pawn
-    21300022: slime_rook
-    21300024: slime_bishop
-    21300026: slime_knight
-    21300028: slime_king
-    21300030: glass_pawn
-    21300032: glass_rook
-    21300034: glass_bishop
-    21300036: glass_knight
-    21300038: glass_king
-    21300040: gold_pawn
-    21300042: gold_rook
-    21300044: gold_bishop
-    21300046: gold_knight
-    21300048: gold_king
-    21300050: cursed_pawn
-    21300052: cursed_rook
-    21300054: cursed_bishop
-    21300056: cursed_knight
-    21300058: cursed_king
-    21300060: player_pawn
-    21300062: player_rook
-    21300064: player_bishop
-    21300066: player_knight
-    21300068: player_king
+    21300000: Black_Pawn
+    21300002: Black_Rook
+    21300004: Black_Bishop
+    21300006: Black_Knight
+    21300008: Black_King
+    21300010: Stone_Pawn
+    21300012: Stone_Rook
+    21300014: Stone_Bishop
+    21300016: Stone_Knight
+    21300018: Stone_King
+    21300020: Slime_Pawn
+    21300022: Slime_Rook
+    21300024: Slime_Bishop
+    21300026: Slime_Knight
+    21300028: Slime_King
+    21300030: Glass_Pawn
+    21300032: Glass_Rook
+    21300034: Glass_Bishop
+    21300036: Glass_Knight
+    21300038: Glass_King
+    21300040: Gold_Pawn
+    21300042: Gold_Rook
+    21300044: Gold_Bishop
+    21300046: Gold_Knight
+    21300048: Gold_King
+    21300050: Cursed_Pawn
+    21300052: Cursed_Rook
+    21300054: Cursed_Bishop
+    21300056: Cursed_Knight
+    21300058: Cursed_King
+    21300060: Player_Pawn
+    21300062: Player_Rook
+    21300064: Player_Bishop
+    21300066: Player_Knight
+    21300068: Player_King
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -85,7 +85,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: black_pawn
+    - name: Black_Pawn
       rect:
         serializedVersion: 2
         x: 0
@@ -103,7 +103,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 2}
         - {x: 5, y: 15}
-    - name: black_rook
+    - name: Black_Rook
       rect:
         serializedVersion: 2
         x: 32
@@ -119,7 +119,7 @@ TextureImporter:
         - {x: -9, y: -15}
         - {x: 11, y: -15}
         - {x: 11, y: 15}
-    - name: black_bishop
+    - name: Black_Bishop
       rect:
         serializedVersion: 2
         x: 64
@@ -137,7 +137,7 @@ TextureImporter:
         - {x: 11, y: 6}
         - {x: 5, y: 13}
         - {x: 1, y: 15}
-    - name: black_knight
+    - name: Black_Knight
       rect:
         serializedVersion: 2
         x: 96
@@ -154,7 +154,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 5}
         - {x: 4, y: 15}
-    - name: black_king
+    - name: Black_King
       rect:
         serializedVersion: 2
         x: 128
@@ -172,7 +172,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 1}
         - {x: 7, y: 13}
-    - name: stone_pawn
+    - name: Stone_Pawn
       rect:
         serializedVersion: 2
         x: 0
@@ -190,7 +190,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 2}
         - {x: 5, y: 15}
-    - name: stone_rook
+    - name: Stone_Rook
       rect:
         serializedVersion: 2
         x: 32
@@ -206,7 +206,7 @@ TextureImporter:
         - {x: -9, y: -15}
         - {x: 11, y: -15}
         - {x: 11, y: 15}
-    - name: stone_bishop
+    - name: Stone_Bishop
       rect:
         serializedVersion: 2
         x: 64
@@ -224,7 +224,7 @@ TextureImporter:
         - {x: 11, y: 6}
         - {x: 5, y: 13}
         - {x: 1, y: 15}
-    - name: stone_knight
+    - name: Stone_Knight
       rect:
         serializedVersion: 2
         x: 96
@@ -241,7 +241,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 5}
         - {x: 4, y: 15}
-    - name: stone_king
+    - name: Stone_King
       rect:
         serializedVersion: 2
         x: 128
@@ -259,7 +259,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 1}
         - {x: 7, y: 13}
-    - name: slime_pawn
+    - name: Slime_Pawn
       rect:
         serializedVersion: 2
         x: 0
@@ -277,7 +277,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 2}
         - {x: 5, y: 15}
-    - name: slime_rook
+    - name: Slime_Rook
       rect:
         serializedVersion: 2
         x: 32
@@ -293,7 +293,7 @@ TextureImporter:
         - {x: -9, y: -15}
         - {x: 11, y: -15}
         - {x: 11, y: 15}
-    - name: slime_bishop
+    - name: Slime_Bishop
       rect:
         serializedVersion: 2
         x: 64
@@ -311,7 +311,7 @@ TextureImporter:
         - {x: 11, y: 6}
         - {x: 5, y: 13}
         - {x: 1, y: 15}
-    - name: slime_knight
+    - name: Slime_Knight
       rect:
         serializedVersion: 2
         x: 96
@@ -328,7 +328,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 5}
         - {x: 4, y: 15}
-    - name: slime_king
+    - name: Slime_King
       rect:
         serializedVersion: 2
         x: 128
@@ -346,7 +346,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 1}
         - {x: 7, y: 13}
-    - name: glass_pawn
+    - name: Glass_Pawn
       rect:
         serializedVersion: 2
         x: 0
@@ -364,7 +364,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 2}
         - {x: 5, y: 15}
-    - name: glass_rook
+    - name: Glass_Rook
       rect:
         serializedVersion: 2
         x: 32
@@ -380,7 +380,7 @@ TextureImporter:
         - {x: -9, y: -15}
         - {x: 11, y: -15}
         - {x: 11, y: 15}
-    - name: glass_bishop
+    - name: Glass_Bishop
       rect:
         serializedVersion: 2
         x: 64
@@ -398,7 +398,7 @@ TextureImporter:
         - {x: 11, y: 6}
         - {x: 5, y: 13}
         - {x: 1, y: 15}
-    - name: glass_knight
+    - name: Glass_Knight
       rect:
         serializedVersion: 2
         x: 96
@@ -415,7 +415,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 5}
         - {x: 4, y: 15}
-    - name: glass_king
+    - name: Glass_King
       rect:
         serializedVersion: 2
         x: 128
@@ -433,7 +433,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 1}
         - {x: 7, y: 13}
-    - name: gold_pawn
+    - name: Gold_Pawn
       rect:
         serializedVersion: 2
         x: 0
@@ -451,7 +451,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 2}
         - {x: 5, y: 15}
-    - name: gold_rook
+    - name: Gold_Rook
       rect:
         serializedVersion: 2
         x: 32
@@ -467,7 +467,7 @@ TextureImporter:
         - {x: -9, y: -15}
         - {x: 11, y: -15}
         - {x: 11, y: 15}
-    - name: gold_bishop
+    - name: Gold_Bishop
       rect:
         serializedVersion: 2
         x: 64
@@ -485,7 +485,7 @@ TextureImporter:
         - {x: 11, y: 6}
         - {x: 5, y: 13}
         - {x: 1, y: 15}
-    - name: gold_knight
+    - name: Gold_Knight
       rect:
         serializedVersion: 2
         x: 96
@@ -502,7 +502,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 5}
         - {x: 4, y: 15}
-    - name: gold_king
+    - name: Gold_King
       rect:
         serializedVersion: 2
         x: 128
@@ -520,7 +520,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 1}
         - {x: 7, y: 13}
-    - name: cursed_pawn
+    - name: Cursed_Pawn
       rect:
         serializedVersion: 2
         x: 0
@@ -536,7 +536,7 @@ TextureImporter:
         - {x: -12, y: -16}
         - {x: 12, y: -16}
         - {x: 12, y: 16}
-    - name: cursed_rook
+    - name: Cursed_Rook
       rect:
         serializedVersion: 2
         x: 32
@@ -552,7 +552,7 @@ TextureImporter:
         - {x: 12, y: -16}
         - {x: 12, y: 9}
         - {x: 10, y: 16}
-    - name: cursed_bishop
+    - name: Cursed_Bishop
       rect:
         serializedVersion: 2
         x: 64
@@ -570,7 +570,7 @@ TextureImporter:
         - {x: 12, y: -16}
         - {x: 12, y: 12}
         - {x: 7, y: 16}
-    - name: cursed_knight
+    - name: Cursed_Knight
       rect:
         serializedVersion: 2
         x: 96
@@ -587,7 +587,7 @@ TextureImporter:
         - {x: 12, y: -16}
         - {x: 12, y: 5}
         - {x: 5, y: 16}
-    - name: cursed_king
+    - name: Cursed_King
       rect:
         serializedVersion: 2
         x: 128
@@ -605,7 +605,7 @@ TextureImporter:
         - {x: 12, y: -16}
         - {x: 12, y: 10}
         - {x: 3, y: 16}
-    - name: player_pawn
+    - name: Player_Pawn
       rect:
         serializedVersion: 2
         x: 0
@@ -623,7 +623,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 2}
         - {x: 5, y: 15}
-    - name: player_rook
+    - name: Player_Rook
       rect:
         serializedVersion: 2
         x: 32
@@ -639,7 +639,7 @@ TextureImporter:
         - {x: -9, y: -15}
         - {x: 11, y: -15}
         - {x: 11, y: 15}
-    - name: player_bishop
+    - name: Player_Bishop
       rect:
         serializedVersion: 2
         x: 64
@@ -657,7 +657,7 @@ TextureImporter:
         - {x: 11, y: 6}
         - {x: 5, y: 13}
         - {x: 1, y: 15}
-    - name: player_knight
+    - name: Player_Knight
       rect:
         serializedVersion: 2
         x: 96
@@ -674,7 +674,7 @@ TextureImporter:
         - {x: 11, y: -15}
         - {x: 11, y: 5}
         - {x: 4, y: 15}
-    - name: player_king
+    - name: Player_King
       rect:
         serializedVersion: 2
         x: 128
