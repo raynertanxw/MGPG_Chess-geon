@@ -52,11 +52,8 @@ public class DungeonManager : MonoBehaviour
 	public int SpawnPosY { get { return mnSpawnPosY; } }
 
 	//AStar
-	GridManager rookGrid = null;
-	GridManager bishopGrid = null;
-	GridManager knightGrid = null;
-	GridManager kingGrid = null;
-	LinkedList<Node> testPath = null;
+	private GridManager[] mGrids = null;
+	public GridManager[] Grids { get { return mGrids; } }
 
 	void Awake()
 	{
@@ -67,21 +64,14 @@ public class DungeonManager : MonoBehaviour
 
 		Generate();
 
-		rookGrid = new GridManager(this, GridType.Rook);
-		bishopGrid = new GridManager(this, GridType.Bishop);
-		knightGrid = new GridManager(this, GridType.Knight);
-		kingGrid = new GridManager(this, GridType.King);
-	}
+		mGrids = new GridManager[5];
 
-//	void Start()
-//	{
-//		// ASTAR TEST!!!!!!
-////		testPath = AStarManager.FindPath(rookGrid.nodes[1, 1], rookGrid.nodes[17, 27], rookGrid);
-////		testPath = AStarManager.FindPath(bishopGrid.nodes[1, 1], bishopGrid.nodes[17, 27], bishopGrid);
-//		testPath = AStarManager.FindPath(knightGrid.nodes[1, 1], knightGrid.nodes[17, 27], knightGrid);
-////		testPath = AStarManager.FindPath(kingGrid.nodes[1, 1], kingGrid.nodes[17, 27], kingGrid);
-//		// END OF ASTAR TEST!!!!!
-//	}
+		mGrids[0] = null;
+		mGrids[1] = new GridManager(this, GridType.Rook);
+		mGrids[2] = new GridManager(this, GridType.Bishop);
+		mGrids[3] = new GridManager(this, GridType.Knight);
+		mGrids[4] = new GridManager(this, GridType.King);
+	}
 
 	#region Dungeon Generation
 
@@ -346,21 +336,24 @@ public class DungeonManager : MonoBehaviour
 		{
 			for (int x = 0; x < SizeX; x++)
 			{
-				if (rookGrid.nodes[x, y].State != BlockState.Empty)
+				if (dungeonBlockGrid[x, y].State != BlockState.Empty)
 				{
 					DebugDrawSquare_AnchorCenter(GridPosToWorldPos(x, y), blockSize, Color.red);
 				}
 			}
 		}
+	}
 
-		if (testPath == null)
+	public static void DrawPath(LinkedList<Node> _path)
+	{
+		if (_path == null)
 			return;
-		for (LinkedListNode<Node> j = testPath.First; j.Next != null; j = j.Next)
+		for (LinkedListNode<Node> j = _path.First; j.Next != null; j = j.Next)
 		{
 			Node node = (Node) j.Value;
 			Node next = (Node) j.Next.Value;
-			Debug.DrawLine(GridPosToWorldPos(node.PosX, node.PosY),
-				GridPosToWorldPos(next.PosX, next.PosY),
+			Debug.DrawLine(Instance.GridPosToWorldPos(node.PosX, node.PosY),
+				Instance.GridPosToWorldPos(next.PosX, next.PosY),
 				Color.magenta);
 		}
 	}

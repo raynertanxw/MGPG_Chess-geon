@@ -31,7 +31,7 @@ public class AStarManager
 
 	public static LinkedList<Node> FindPath(Node _startNode, Node _goalNode, GridManager _grid)
 	{
-		if (_startNode.State != BlockState.Empty)
+		if (_startNode.State != BlockState.EnemyPiece)
 			return null;
 		if (_goalNode.State != BlockState.Empty)
 			return null;

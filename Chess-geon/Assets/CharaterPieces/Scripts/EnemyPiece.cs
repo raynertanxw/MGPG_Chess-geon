@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using DaburuTools;
+using DaburuTools.Action;
 
 public enum EnemyType { Black, Stone, Slime, Glass, Gold, Cursed };
 
@@ -110,12 +112,35 @@ public class EnemyPiece : MonoBehaviour
 	protected int mnHealth = -1;
 	public int Health { get { return mnHealth; } }
 
-	public void SetPosition(int _newX, int _newY)
+	public void MovePosition(int _newX, int _newY)
 	{
-		// TODO: Checking???
+		// Checking
+		if (DungeonManager.Instance.IsCellEmpty(_newX, _newY) == false)
+		{
+			Debug.LogWarning("Enemy is attempting move to NON-empty cell");
+			return;
+		}
 
+		DungeonManager.Instance.MoveEnemy(mnPosX, mnPosY, _newX, _newY);
 		mnPosX = _newX;
 		mnPosY = _newY;
+	}
+
+	public void ExecuteTurn()
+	{
+		GridManager grid = DungeonManager.Instance.Grids[(int)MovementType];
+		LinkedList<Node> path = AStarManager.FindPath(
+			grid.nodes[PosX, PosY],
+			grid.nodes[GameManager.Instance.Player.PosX, GameManager.Instance.Player.PosY],
+			grid);
+		DungeonManager.DrawPath(path);
+		Debug.Log(grid.nodes[GameManager.Instance.Player.PosX, GameManager.Instance.Player.PosY].State);
+
+		Node targetNode = path.First.Next.Value;
+		MovePosition(targetNode.PosX, targetNode.PosY);
+		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.SmoothStep,
+			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 1.0f);
+		ActionHandler.RunAction(moveToPos);
 	}
 
 	public void TakeDamage(int _damage)
@@ -123,5 +148,9 @@ public class EnemyPiece : MonoBehaviour
 		mnHealth -= _damage;
 
 		// TODO: Check if piece died. Handling for dying.
+		if (mnHealth <= 0)
+		{
+			ReturnToPool();
+		}
 	}
 }

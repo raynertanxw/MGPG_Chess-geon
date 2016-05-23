@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum BlockState { Empty, Obstacle, EnemyPiece, DungeonExit, DungeonEntrance };	// Only Empty is traversable.
+public enum BlockState { Empty, Obstacle, EnemyPiece, DungeonExit };	// Only Empty is traversable.
 public enum TerrainType { Tile, Wall, Stairs, Spawn };
 
 public class DungeonBlock
@@ -32,7 +32,7 @@ public class DungeonBlock
 			mState = BlockState.DungeonExit;
 			break;
 		case TerrainType.Spawn:
-			mState = BlockState.DungeonEntrance;
+			mState = BlockState.Empty;
 			break;
 		}
 	}

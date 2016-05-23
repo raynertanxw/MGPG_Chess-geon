@@ -25,8 +25,9 @@ public class GameManager : MonoBehaviour
 
 	private GamePhase mPhase;
 	public GamePhase Phase { get { return mPhase; } }
-	public LinkedList<EnemyPiece> mEnemyList;
+	public List<EnemyPiece> mEnemyList;
 	private PlayerPiece mPlayerPiece;
+	public PlayerPiece Player { get { return mPlayerPiece; } }
 
 	private void Awake()
 	{
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
 	private void Setup()
 	{
 		// Variable setups
-		mEnemyList = new LinkedList<EnemyPiece>();
+		mEnemyList = new List<EnemyPiece>();
 
 		GenerateNPlaceEnemies();
 		PlacePlayer();
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
 	
 	private void EnterEnemyPhase()
 	{
-
+		enemyEnumerator = mEnemyList.GetEnumerator();
 	}
 
 	private void ExitEnemyPhase()
@@ -100,14 +101,34 @@ public class GameManager : MonoBehaviour
 
 	}
 
+	List<EnemyPiece>.Enumerator enemyEnumerator;
 	private void ExeucteEnemyPhase()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
+		while (enemyEnumerator.MoveNext())
 		{
+			enemyEnumerator.Current.ExecuteTurn();
+		}
+
+		// End of enumeration.
+		SwitchPhase(GamePhase.PlayerPhase);
+	}
+
+	private void SwitchPhase(GamePhase _toPhase)
+	{
+		switch (_toPhase)
+		{
+		case GamePhase.PlayerPhase:
 			ExitEnemyPhase();
 			Debug.Log("Switching from Enemy to Player");
 			mPhase = GamePhase.PlayerPhase;
 			EnterPlayerPhase();
+			break;
+		case GamePhase.EnemyPhase:
+			ExitEnemyPhase();
+			Debug.Log("Switching from Enemy to Player");
+			mPhase = GamePhase.PlayerPhase;
+			EnterPlayerPhase();
+			break;
 		}
 	}
 	#endregion
@@ -138,6 +159,7 @@ public class GameManager : MonoBehaviour
 			PlayerPrefab,
 			DungeonManager.Instance.GridPosToWorldPos(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY),
 			Quaternion.identity)).GetComponent<PlayerPiece>();
+		mPlayerPiece.SetPosition(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY);
 	}
 
 	private void SpawnEnemy(int _posX, int _posY, EnemyUnit enemyType)
@@ -167,6 +189,6 @@ public class GameManager : MonoBehaviour
 		}
 
 		if (curPiece != null)
-			mEnemyList.AddFirst(curPiece);
+			mEnemyList.Add(curPiece);
 	}
 }
