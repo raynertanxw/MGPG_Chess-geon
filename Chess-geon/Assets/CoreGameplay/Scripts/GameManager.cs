@@ -68,15 +68,49 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	#region Phase Functions
+	private void EnterPlayerPhase()
+	{
+
+	}
+
+	private void ExitPlayerPhase()
+	{
+		
+	}
+
 	private void ExecutePlayerPhase()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			ExitPlayerPhase();
+			Debug.Log("Switching from Player to Enemy");
+			mPhase = GamePhase.EnemyPhase;
+			EnterEnemyPhase();
+		}
+	}
+	
+	private void EnterEnemyPhase()
+	{
+
+	}
+
+	private void ExitEnemyPhase()
 	{
 
 	}
 
 	private void ExeucteEnemyPhase()
 	{
-
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			ExitEnemyPhase();
+			Debug.Log("Switching from Enemy to Player");
+			mPhase = GamePhase.PlayerPhase;
+			EnterPlayerPhase();
+		}
 	}
+	#endregion
 
 	private void GenerateNPlaceEnemies()
 	{
