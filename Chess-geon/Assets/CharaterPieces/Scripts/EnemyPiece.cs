@@ -26,9 +26,9 @@ public class EnemyPiece : MonoBehaviour
 			}
 		}
 
-		mbIsAlive = false;
-		enemyPool.Add(this);
 		Setup();
+		ReturnToPool();
+		enemyPool.Add(this);
 	}
 
 	private void OnDestroy()
@@ -52,6 +52,7 @@ public class EnemyPiece : MonoBehaviour
 			{
 				curPiece = enemyPool[i];
 				curPiece.mbIsAlive = true;
+				curPiece.mSpriteRen.enabled = true;
 
 				curPiece.mnPosX = _posX;
 				curPiece.mnPosY = _posY;
@@ -74,6 +75,12 @@ public class EnemyPiece : MonoBehaviour
 		#endif
 
 		return curPiece;
+	}
+
+	private void ReturnToPool()
+	{
+		mbIsAlive = false;
+		mSpriteRen.enabled = false;
 	}
 	#endregion
 

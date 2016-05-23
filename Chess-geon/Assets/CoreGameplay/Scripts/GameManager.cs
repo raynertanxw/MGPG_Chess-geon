@@ -21,11 +21,12 @@ public class GameManager : MonoBehaviour
 	{
 		BlackPawn, BlackRook, BlackBishop, BlackKnight, BlackKing
 	};
-	public GameObject[] EnemyUnitPrefabs;
+	public GameObject PlayerPrefab;
 
 	private GamePhase mPhase;
 	public GamePhase Phase { get { return mPhase; } }
 	public LinkedList<EnemyPiece> mEnemyList;
+	private PlayerPiece mPlayerPiece;
 
 	private void Awake()
 	{
@@ -46,12 +47,10 @@ public class GameManager : MonoBehaviour
 		// Variable setups
 		mEnemyList = new LinkedList<EnemyPiece>();
 
-		// Generate all the enemies and place them.
 		GenerateNPlaceEnemies();
+		PlacePlayer();
 
-		// TODO: Place the player piece.
-
-		// Draw One More Card.
+		// TODO: Draw One More Card.
 
 		mPhase = GamePhase.PlayerPhase;
 	}
@@ -84,7 +83,7 @@ public class GameManager : MonoBehaviour
 		// TODO: TEMP IMPLEMENTATION.
 
 		int numEnemiesSpawned = 0;
-		while (numEnemiesSpawned < 10)
+		while (numEnemiesSpawned < 5)
 		{
 			int posX = Random.Range(1, DungeonManager.Instance.SizeX - 2);
 			int posY = Random.Range(1, DungeonManager.Instance.SizeY - 2);
@@ -95,6 +94,16 @@ public class GameManager : MonoBehaviour
 				numEnemiesSpawned++;
 			}
 		}
+	}
+
+	private void PlacePlayer()
+	{
+		// TODO: Load player health from previous level if any.
+
+		mPlayerPiece = ((GameObject)Instantiate(
+			PlayerPrefab,
+			DungeonManager.Instance.GridPosToWorldPos(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY),
+			Quaternion.identity)).GetComponent<PlayerPiece>();
 	}
 
 	private void SpawnEnemy(int _posX, int _posY, EnemyUnit enemyType)
