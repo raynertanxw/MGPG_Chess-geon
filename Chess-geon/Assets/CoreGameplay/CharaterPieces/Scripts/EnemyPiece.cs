@@ -98,6 +98,8 @@ public class EnemyPiece : MonoBehaviour
 	private bool mbIsAlive = false;
 	public bool IsAlive { get { return mbIsAlive; } }
 
+	private LinkedList<Node> mPath;
+
 	private GridType mMovementType = GridType.Pawn;
 	public GridType MovementType { get { return mMovementType; } }
 	public void SetMovementType(GridType _movementType) { mMovementType = _movementType; }
@@ -112,7 +114,7 @@ public class EnemyPiece : MonoBehaviour
 	protected int mnHealth = -1;
 	public int Health { get { return mnHealth; } }
 
-	public void MovePosition(int _newX, int _newY)
+	private void MovePosition(int _newX, int _newY)
 	{
 		// Checking
 		if (DungeonManager.Instance.IsCellEmpty(_newX, _newY) == false)
@@ -126,27 +128,6 @@ public class EnemyPiece : MonoBehaviour
 		mnPosY = _newY;
 	}
 
-	public void ExecuteTurn()
-	{
-		GridManager grid = DungeonManager.Instance.Grids[(int)MovementType];
-		LinkedList<Node> path = AStarManager.FindPath(
-			grid.nodes[PosX, PosY],
-			grid.nodes[GameManager.Instance.Player.PosX, GameManager.Instance.Player.PosY],
-			grid);
-
-		if (path == null)
-		{
-			Debug.LogWarning("Path returned Null");
-			return;
-		}
-
-		Node targetNode = path.First.Next.Value;
-		MovePosition(targetNode.PosX, targetNode.PosY);
-		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.SmoothStep,
-			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 1.0f);
-		ActionHandler.RunAction(moveToPos);
-	}
-
 	public void TakeDamage(int _damage)
 	{
 		mnHealth -= _damage;
@@ -155,6 +136,67 @@ public class EnemyPiece : MonoBehaviour
 		if (mnHealth <= 0)
 		{
 			ReturnToPool();
+		}
+	}
+
+	private void GeneratePath()
+	{
+		GridManager grid = DungeonManager.Instance.Grids[(int)MovementType];
+		mPath = AStarManager.FindPath(
+			grid.nodes[PosX, PosY],
+			grid.nodes[GameManager.Instance.Player.PosX, GameManager.Instance.Player.PosY],
+			grid);
+	}
+
+	private void ExecuteMove()
+	{
+		Node targetNode = mPath.First.Next.Value;
+		MovePosition(targetNode.PosX, targetNode.PosY);
+		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.SmoothStep,
+			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 1.0f);
+		ActionHandler.RunAction(moveToPos);
+	}
+
+	private void ExecuteAttack()
+	{
+		Node targetNode = mPath.First.Next.Value;
+		// Do not move the enemy in the grid for attack.
+		ScaleToAction scaleUp = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.75f, 0.5f);
+
+		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.Dipper,
+			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 0.25f);
+		ScaleToAction scaleDownHit = new ScaleToAction(this.transform, Graph.Dipper, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.1f, 0.25f);
+		ActionParallel hitParallel = new ActionParallel(moveToPos, scaleDownHit);
+
+		DelayAction returnDelay = new DelayAction(0.1f);
+
+		MoveToAction moveBack = new MoveToAction(this.transform, Graph.SmoothStep,
+			DungeonManager.Instance.GridPosToWorldPos(PosX, PosY), 1.0f);
+		ScaleToAction scaleDownReturn = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier, 1.0f);
+		ActionParallel returnParallel = new ActionParallel(moveBack, scaleDownReturn);
+		
+		ActionSequence sequence = new ActionSequence(scaleUp, hitParallel, returnDelay, returnParallel);
+		ActionHandler.RunAction(sequence);
+	}
+	
+	public void ExecuteTurn()
+	{
+		GeneratePath();
+		
+		if (mPath == null)
+		{
+			Debug.LogWarning("Path returned Null");
+			return;
+		}
+
+		Node targetNode = mPath.First.Next.Value;
+		if (DungeonManager.Instance.IsPlayerPos(targetNode.PosX, targetNode.PosY))
+		{
+			ExecuteAttack();
+		}
+		else
+		{
+			ExecuteMove();
 		}
 	}
 }

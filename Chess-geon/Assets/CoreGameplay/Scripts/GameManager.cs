@@ -84,10 +84,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			ExitPlayerPhase();
-			Debug.Log("Switching from Player to Enemy");
-			mPhase = GamePhase.EnemyPhase;
-			EnterEnemyPhase();
+			SwitchPhase(GamePhase.EnemyPhase);
 		}
 	}
 	
@@ -118,19 +115,17 @@ public class GameManager : MonoBehaviour
 		{
 		case GamePhase.PlayerPhase:
 			ExitEnemyPhase();
-			Debug.Log("Switching from Enemy to Player");
-			mPhase = GamePhase.PlayerPhase;
+//			Debug.Log("Switching from Enemy to Player");
+			mPhase = _toPhase;
 			EnterPlayerPhase();
 			break;
 		case GamePhase.EnemyPhase:
-			ExitEnemyPhase();
-			Debug.Log("Switching from Enemy to Player");
-			mPhase = GamePhase.PlayerPhase;
-			EnterPlayerPhase();
+			ExitPlayerPhase();
+//			Debug.Log("Switching from Enemy to Player");
+			mPhase = _toPhase;
+			EnterEnemyPhase();
 			break;
 		}
-
-		Debug.Log(mPhase);
 	}
 	#endregion
 

@@ -323,6 +323,17 @@ public class DungeonManager : MonoBehaviour
 			return false;
 	}
 
+	public bool IsPlayerPos(int _posX, int _posY)
+	{
+		if (_posX != GameManager.Instance.Player.PosX)
+			return false;
+
+		if (_posY != GameManager.Instance.Player.PosY)
+			return false;
+
+		return true;
+	}
+
 	#region Debug Tools
 
 	private void OnDrawGizmos()
