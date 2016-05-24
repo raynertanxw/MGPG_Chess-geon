@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class AStarManager
 {
-	private static List<Node> openList, closedList;
+	private static List<Node> openList = new List<Node>();
+	private static List<Node> closedList = new List<Node>();
 
 	private static LinkedList<Node> ConvertToPath(Node _node)
 	{
@@ -43,12 +44,12 @@ public class AStarManager
 			(gridEnumurator.Current as Node).Reset();
 		}
 
-		openList = new List<Node>();
+		openList.Clear();
 		AddToOpenList(_startNode);
 		_startNode.nodePathCost = 0.0f;
 		_startNode.totalCost = _grid.GridAlgorithms.HeuristicEstimatedCost(_startNode, _goalNode);// + _startNode.nodePathCost;
 
-		closedList = new List<Node>();
+		closedList.Clear();
 		Node curNode = null;
 
 		while (openList.Count > 0)
