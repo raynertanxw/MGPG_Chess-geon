@@ -66,7 +66,7 @@ public class DungeonManager : MonoBehaviour
 
 		mGrids = new GridManager[5];
 
-		mGrids[0] = null;
+		mGrids[0] = new GridManager(this, GridType.Pawn);
 		mGrids[1] = new GridManager(this, GridType.Rook);
 		mGrids[2] = new GridManager(this, GridType.Bishop);
 		mGrids[3] = new GridManager(this, GridType.Knight);

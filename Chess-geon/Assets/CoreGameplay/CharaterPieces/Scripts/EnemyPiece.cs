@@ -13,6 +13,7 @@ public class EnemyPiece : MonoBehaviour
 	private static List<EnemyPiece> enemyPool = null;
 	private static Sprite[] enemySprites = null;
 	private static string[] enemySpriteNames = null;
+	private static EnemyStratergy[] enemyAlgorithms = null;
 
 	private void Awake()
 	{
@@ -26,6 +27,13 @@ public class EnemyPiece : MonoBehaviour
 			for(int i = 0; i < enemySpriteNames.Length; i++) {
 				enemySpriteNames[i] = enemySprites[i].name;
 			}
+
+			enemyAlgorithms = new EnemyStratergy[5];
+			enemyAlgorithms[0] = new EnemyStratergyPawn();
+			enemyAlgorithms[1] = new EnemyStratergyRook();
+			enemyAlgorithms[2] = new EnemyStratergyBishop();
+			enemyAlgorithms[3] = new EnemyStratergyKnight();
+			enemyAlgorithms[4] = new EnemyStratergyKing();
 		}
 
 		Setup();
@@ -41,6 +49,7 @@ public class EnemyPiece : MonoBehaviour
 			enemyPool = null;
 			enemySprites = null;
 			enemySpriteNames = null;
+			enemyAlgorithms = null;
 		}
 	}
 
@@ -141,11 +150,7 @@ public class EnemyPiece : MonoBehaviour
 
 	private void GeneratePath()
 	{
-		GridManager grid = DungeonManager.Instance.Grids[(int)MovementType];
-		mPath = AStarManager.FindPath(
-			grid.nodes[PosX, PosY],
-			grid.nodes[GameManager.Instance.Player.PosX, GameManager.Instance.Player.PosY],
-			grid);
+		mPath = enemyAlgorithms[(int)MovementType].GeneratePath(PosX, PosY);
 	}
 
 	private void ExecuteMove()

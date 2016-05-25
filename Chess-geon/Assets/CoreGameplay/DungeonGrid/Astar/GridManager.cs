@@ -38,11 +38,9 @@ public class GridManager
 		case GridType.King:
 			mGridAlgorithms = new GridStratergyKing(mnSizeX, mnSizeY, nodes);
 			break;
-		#if UNITY_EDITOR
 		case GridType.Pawn:
-			Debug.LogError("There is no such thing as a Pawn AStar Grid");
+			mGridAlgorithms = new GridStratergyPawn(mnSizeX, mnSizeY, nodes);
 			break;
-		#endif
 		}
 
         for (int y = 0; y < mnSizeY; y++)
