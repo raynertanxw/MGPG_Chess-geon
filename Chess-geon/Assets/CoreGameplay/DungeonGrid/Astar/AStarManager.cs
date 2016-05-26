@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class AStarManager
 {
 	private static NodeBinaryHeap openBHList = new NodeBinaryHeap(HeapType.MinHeap);
-	private static List<Node> closedList = new List<Node>();
+	private static HashSet<Node> closedList = new HashSet<Node>();
 
 	private static LinkedList<Node> ConvertToPath(Node _node)
 	{
