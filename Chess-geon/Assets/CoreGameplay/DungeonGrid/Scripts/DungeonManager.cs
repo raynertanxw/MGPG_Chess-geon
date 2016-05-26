@@ -224,15 +224,6 @@ public class DungeonManager : MonoBehaviour
 		dungeonBlockGrid[_posX, _posY - 1].SetBlockState(BlockState.Empty);
 	}
 
-	private bool IsWhiteTile(int x, int y)
-	{
-		// White is even-even, odd-odd. Black is even-odd, odd-even.
-		if (x % 2 == y % 2)
-			return true;
-		else
-			return false;
-	}
-
 	private void CreateDungeonGameObjects()
 	{
 		if (dungeonBlockGameObjectGrid != null || dungeonBlockSpriteRens != null)
@@ -285,6 +276,15 @@ public class DungeonManager : MonoBehaviour
 	public Vector3 GridPosToWorldPos(int _x, int _y)
 	{
 		return dungeonBlockGameObjectGrid[_x, _y].transform.position;
+	}
+
+	public bool IsWhiteTile(int x, int y)
+	{
+		// White is even-even, odd-odd. Black is even-odd, odd-even.
+		if (x % 2 == y % 2)
+			return true;
+		else
+			return false;
 	}
 
 	public void PlaceEnemy(int _posX, int _posY)

@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
 
 			if (DungeonManager.Instance.IsCellEmpty(posX, posY))
 			{
-				SpawnEnemy(posX, posY, EnemyUnit.BlackRook);
+				SpawnEnemy(posX, posY, EnemyUnit.BlackBishop);
 				numEnemiesSpawned++;
 			}
 		}

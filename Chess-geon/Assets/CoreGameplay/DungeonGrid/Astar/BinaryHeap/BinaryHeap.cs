@@ -11,6 +11,7 @@ public enum HeapType
 public class NodeBinaryHeap
 {
 	List<Node> mNodes;
+	HashSet<Node> mHashNodes;
 
 	public HeapType MinOrMax { get; private set; }
 	public int Count { get { return mNodes.Count; } }
@@ -23,12 +24,14 @@ public class NodeBinaryHeap
 	public NodeBinaryHeap(HeapType type)
 	{
 		mNodes = new List<Node>();
+		mHashNodes = new HashSet<Node>();
 		this.MinOrMax = type;
 	}
 
 	public void Insert(Node _node)
 	{
 		mNodes.Add(_node);
+		mHashNodes.Add(_node);
 
 		int index = mNodes.Count - 1;
 
@@ -50,7 +53,7 @@ public class NodeBinaryHeap
 		}
 	}
 
-	public void DeleteRoot()
+	private void DeleteRoot()
 	{
 		int index = mNodes.Count - 1;
 
@@ -96,6 +99,7 @@ public class NodeBinaryHeap
 	public Node PopRoot()
 	{
 		Node result = mNodes[0];
+		mHashNodes.Remove(result);
 
 		DeleteRoot();
 
@@ -105,10 +109,11 @@ public class NodeBinaryHeap
 	public void Clear()
 	{
 		mNodes.Clear();
+		mHashNodes.Clear();
 	}
 
 	public bool Contains(Node _node)
 	{
-		return mNodes.Contains(_node);
+		return mHashNodes.Contains(_node);
 	}
 }
