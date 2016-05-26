@@ -315,8 +315,21 @@ public class DungeonManager : MonoBehaviour
 		RemoveEnemy(_fromX, _fromY);
 	}
 
+	public bool IsValidCell(int _posX, int _posY)
+	{
+		if (_posX < 0 || _posY < 0 || _posX >= SizeX || _posY >= SizeY)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	public bool IsCellEmpty(int _posX, int _posY)
 	{
+		if (IsValidCell(_posX, _posY) == false)
+			return false;
+
 		if (dungeonBlockGrid[_posX, _posY].State == BlockState.Empty)
 			return true;
 		else
