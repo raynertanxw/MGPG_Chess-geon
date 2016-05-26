@@ -6,6 +6,7 @@ using DaburuTools;
 using DaburuTools.Action;
 
 public enum EnemyType { Black, Stone, Slime, Glass, Gold, Cursed };
+public enum EnemyTurnStatus { Unprocessed, Running, Waiting, Processed };
 
 public class EnemyPiece : MonoBehaviour
 {
@@ -107,6 +108,9 @@ public class EnemyPiece : MonoBehaviour
 	private bool mbIsAlive = false;
 	public bool IsAlive { get { return mbIsAlive; } }
 
+	private EnemyTurnStatus mbTurnStatus = EnemyTurnStatus.Unprocessed;
+	public EnemyTurnStatus TurnStatus { get { return mbTurnStatus; } }
+
 	private LinkedList<Node> mPath;
 
 	private GridType mMovementType = GridType.Pawn;
@@ -157,13 +161,16 @@ public class EnemyPiece : MonoBehaviour
 	{
 		Node targetNode = mPath.First.Next.Value;
 		MovePosition(targetNode.PosX, targetNode.PosY);
-		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.SmoothStep,
-			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 1.0f);
+		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.InverseExponential,
+			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 0.5f);
+		moveToPos.OnActionFinish = () => { mbTurnStatus = EnemyTurnStatus.Processed; };
 		ActionHandler.RunAction(moveToPos);
 	}
 
 	private void ExecuteAttack()
 	{
+		mbTurnStatus = EnemyTurnStatus.Running;
+
 		Node targetNode = mPath.First.Next.Value;
 		// Do not move the enemy in the grid for attack.
 		ScaleToAction scaleUp = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.75f, 0.5f);
@@ -176,32 +183,47 @@ public class EnemyPiece : MonoBehaviour
 		DelayAction returnDelay = new DelayAction(0.1f);
 
 		MoveToAction moveBack = new MoveToAction(this.transform, Graph.SmoothStep,
-			DungeonManager.Instance.GridPosToWorldPos(PosX, PosY), 1.0f);
-		ScaleToAction scaleDownReturn = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier, 1.0f);
+			DungeonManager.Instance.GridPosToWorldPos(PosX, PosY), 0.5f);
+		ScaleToAction scaleDownReturn = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier, 0.5f);
 		ActionParallel returnParallel = new ActionParallel(moveBack, scaleDownReturn);
 		
 		ActionSequence sequence = new ActionSequence(scaleUp, hitParallel, returnDelay, returnParallel);
+		sequence.OnActionFinish = () => { mbTurnStatus = EnemyTurnStatus.Processed; };
 		ActionHandler.RunAction(sequence);
 	}
 	
 	public void ExecuteTurn()
 	{
+		if (mbTurnStatus == EnemyTurnStatus.Waiting)
+		{
+			ExecuteAttack();
+			return;
+		}
+
+		mbTurnStatus = EnemyTurnStatus.Running;
+
 		GeneratePath();
 		
 		if (mPath == null)
 		{
 			Debug.LogWarning("Path returned Null");
+			mbTurnStatus = EnemyTurnStatus.Processed;
 			return;
 		}
 
 		Node targetNode = mPath.First.Next.Value;
 		if (DungeonManager.Instance.IsPlayerPos(targetNode.PosX, targetNode.PosY))
 		{
-			ExecuteAttack();
+			mbTurnStatus = EnemyTurnStatus.Waiting;
 		}
 		else
 		{
 			ExecuteMove();
 		}
+	}
+
+	public void ResetTurnStatus()
+	{
+		mbTurnStatus = EnemyTurnStatus.Unprocessed;
 	}
 }

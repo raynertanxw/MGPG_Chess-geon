@@ -98,14 +98,72 @@ public class GameManager : MonoBehaviour
 		
 	}
 
+	// Vairables only for EnemyPhase. Prefixed with EP.
+	private int EPcurEnemyIndex = 0;
+	private EnemyTurnStatus EPprocessingMode = EnemyTurnStatus.Unprocessed;
 	private void ExeucteEnemyPhase()
 	{
-		for (int i = 0; i < mEnemyList.Count; i++)
+		// If there are not even one enemy. Nothing to do here.
+		if (mEnemyList.Count < 1)
 		{
-			mEnemyList[i].ExecuteTurn();
+			EndEnemyPhase();
+			return;
 		}
 
-		// End of enumeration.
+		EnemyPiece curEnemy = null;
+
+		if (EPcurEnemyIndex < mEnemyList.Count)
+			curEnemy = mEnemyList[EPcurEnemyIndex];
+
+		if (EPprocessingMode == EnemyTurnStatus.Unprocessed)
+		{
+			switch (curEnemy.TurnStatus)
+			{
+			case EnemyTurnStatus.Unprocessed:
+				curEnemy.ExecuteTurn();
+				break;
+			case EnemyTurnStatus.Running:
+				return;	// Do nothing, just let it run.
+			default:	// Both processed and waiting, move on to the next EnemyPiece.
+				EPcurEnemyIndex++;
+				if (EPcurEnemyIndex >= mEnemyList.Count)	// If went through the whole thing once already.
+				{
+					EPcurEnemyIndex = 0;
+					EPprocessingMode = EnemyTurnStatus.Waiting;
+				}
+				break;
+			}
+		}
+		else if (EPprocessingMode == EnemyTurnStatus.Waiting)
+		{
+			switch (curEnemy.TurnStatus)
+			{
+			case EnemyTurnStatus.Waiting:
+				curEnemy.ExecuteTurn();
+				break;
+			case EnemyTurnStatus.Running:
+				return;	// Do nothing, just let it run.
+			default:	// Move on to the next one. Only search for those that are Waiting status.
+				EPcurEnemyIndex++;
+				if (EPcurEnemyIndex >= mEnemyList.Count)	// If went finish second pass.
+					EndEnemyPhase();
+				break;
+			}
+		}
+		else
+		{
+			Debug.LogError("Invalid EPprocessingMode");
+		}
+	}
+
+	private void EndEnemyPhase()
+	{
+		EPcurEnemyIndex = 0;
+		EPprocessingMode = EnemyTurnStatus.Unprocessed;
+		for (int i = 0; i < mEnemyList.Count; i++)
+		{
+			mEnemyList[i].ResetTurnStatus();
+		}
 		SwitchPhase(GamePhase.PlayerPhase);
 	}
 
@@ -134,7 +192,7 @@ public class GameManager : MonoBehaviour
 		// TODO: TEMP IMPLEMENTATION.
 
 		int numEnemiesSpawned = 0;
-		while (numEnemiesSpawned < 10)
+		while (numEnemiesSpawned < 8)
 		{
 			int posX = Random.Range(1, DungeonManager.Instance.SizeX - 2);
 			int posY = Random.Range(1, DungeonManager.Instance.SizeY - 2);
