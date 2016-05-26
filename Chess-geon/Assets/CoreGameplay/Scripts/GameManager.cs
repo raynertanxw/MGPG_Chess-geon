@@ -134,14 +134,14 @@ public class GameManager : MonoBehaviour
 		// TODO: TEMP IMPLEMENTATION.
 
 		int numEnemiesSpawned = 0;
-		while (numEnemiesSpawned < 5)
+		while (numEnemiesSpawned < 10)
 		{
 			int posX = Random.Range(1, DungeonManager.Instance.SizeX - 2);
 			int posY = Random.Range(1, DungeonManager.Instance.SizeY - 2);
 
 			if (DungeonManager.Instance.IsCellEmpty(posX, posY))
 			{
-				SpawnEnemy(posX, posY, EnemyUnit.BlackBishop);
+				SpawnEnemy(posX, posY, EnemyUnit.BlackKing);
 				numEnemiesSpawned++;
 			}
 		}
