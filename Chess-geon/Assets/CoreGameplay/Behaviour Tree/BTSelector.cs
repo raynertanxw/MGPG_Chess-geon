@@ -11,13 +11,19 @@ public class BTSelector : IBTNode
 		mNodeList = new List<IBTNode>();
 
 		for (int i = 0; i < _nodes.Length; i++)
+		{
 			mNodeList.Add(_nodes[i]);
+			_nodes[i].SetParent(this);
+		}
 	}
 
 	public void AddBTNode(params IBTNode[] _nodes)
 	{
 		for (int i = 0; i < _nodes.Length; i++)
+		{
 			mNodeList.Add(_nodes[i]);
+			_nodes[i].SetParent(this);
+		}
 	}
 
 	public override List<IBTNode> GetChildren()
@@ -31,6 +37,7 @@ public class BTSelector : IBTNode
 		{
 			mStatus = BTStatus.Failure;
 			mTree.SetCurNode(mParent);
+			return;
 		}
 		IBTNode node = mNodeList[curIndex];
 		// If the node is Running, means haven't been started yet.
@@ -60,5 +67,13 @@ public class BTSelector : IBTNode
 
 		for (int i = 0; i < mNodeList.Count; i++)
 			mNodeList[i].ResetNode();
+	}
+
+	public override void SetTree(BehaviourTree _mTree)
+	{
+		mTree = _mTree;
+
+		for (int i = 0; i < mNodeList.Count; i++)
+			mNodeList[i].SetTree(_mTree);
 	}
 }

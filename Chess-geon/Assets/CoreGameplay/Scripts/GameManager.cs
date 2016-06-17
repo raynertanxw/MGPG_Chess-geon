@@ -19,11 +19,13 @@ public class GameManager : MonoBehaviour
 
 	public GameObject PlayerPrefab;
 
+	private BehaviourTree mBehaviourTree;
 	private GamePhase mPhase;
 	public GamePhase Phase { get { return mPhase; } }
 	public List<EnemyPiece> mEnemyList;
 	private PlayerPiece mPlayerPiece;
 	public PlayerPiece Player { get { return mPlayerPiece; } }
+	private bool mPlayerToEndPhase;
 
 	private void Awake()
 	{
@@ -43,6 +45,8 @@ public class GameManager : MonoBehaviour
 	{
 		// Variable setups
 		mEnemyList = new List<EnemyPiece>();
+		mPlayerToEndPhase = false;
+		InitializeBehaviourTree();
 
 		GenerateNPlaceEnemies();
 		PlacePlayer();
@@ -50,6 +54,39 @@ public class GameManager : MonoBehaviour
 		// TODO: Draw One More Card.
 
 		mPhase = GamePhase.PlayerPhase;
+	}
+
+	private void InitializeBehaviourTree()
+	{
+		BTAction BTAct_CheckEndTurn = new BTAction(
+			() =>
+			{
+				Debug.Log("Running CheckEndTurn");
+				if (mPlayerToEndPhase)
+				{
+					SwitchPhase(GamePhase.EnemyPhase);
+					return BTStatus.Running;
+				}
+				return BTStatus.Success;
+			}
+		);
+		BTAction BTAct_MoveCard = new BTAction(
+			() =>
+			{
+				Debug.Log("Running MoveCard");
+				return BTStatus.Success;
+			}
+		);
+		BTAction BTAct_ExecuteCard = new BTAction(
+			() =>
+			{
+				Debug.Log("Running ExecuteCard");
+				return BTStatus.Success;
+			}
+		);
+		BTSequence BT_Root = new BTSequence(BTAct_CheckEndTurn, BTAct_MoveCard, BTAct_ExecuteCard);
+
+		mBehaviourTree = new BehaviourTree(BT_Root);
 	}
 	
 	private void Update()
@@ -68,7 +105,8 @@ public class GameManager : MonoBehaviour
 	#region Phase Functions
 	private void EnterPlayerPhase()
 	{
-
+		// Reset variable to make sure player can end phase again.
+		mPlayerToEndPhase = false;
 	}
 
 	private void ExitPlayerPhase()
@@ -78,10 +116,21 @@ public class GameManager : MonoBehaviour
 
 	private void ExecutePlayerPhase()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
+//		if (mPlayerToEndPhase)
+//		{
+//			SwitchPhase(GamePhase.EnemyPhase);
+//		}
+		mBehaviourTree.Tick();
+	}
+
+	public void EndPlayerPhase()
+	{
+		if (mPlayerToEndPhase)
 		{
-			SwitchPhase(GamePhase.EnemyPhase);
+			Debug.LogWarning("mPlayerToEndPhase is already set to true");
 		}
+
+		mPlayerToEndPhase = true;
 	}
 	
 	private void EnterEnemyPhase()

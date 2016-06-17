@@ -10,6 +10,7 @@ public class BehaviourTree
 	public BehaviourTree(IBTNode _rootNode)
 	{
 		mRootNode = _rootNode;
+		mRootNode.SetTree(this);
 		ResetTree();
 	}
 

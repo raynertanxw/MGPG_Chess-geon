@@ -32,4 +32,9 @@ public class BTAction : IBTNode
 	{
 		mStatus = BTStatus.Running;
 	}
+
+	public override void SetTree(BehaviourTree _mTree)
+	{
+		mTree = _mTree;
+	}
 }
