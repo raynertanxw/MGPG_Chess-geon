@@ -17,10 +17,6 @@ public class GameManager : MonoBehaviour
 
 
 
-	private enum EnemyUnit
-	{
-		BlackPawn, BlackRook, BlackBishop, BlackKnight, BlackKing
-	};
 	public GameObject PlayerPrefab;
 
 	private GamePhase mPhase;
@@ -199,7 +195,7 @@ public class GameManager : MonoBehaviour
 
 			if (DungeonManager.Instance.IsCellEmpty(posX, posY))
 			{
-				SpawnEnemy(posX, posY, EnemyUnit.BlackKing);
+				mEnemyList.Add(EnemyPiece.Spawn(posX, posY, EnemyUnit.BlackKing));
 				numEnemiesSpawned++;
 			}
 		}
@@ -214,35 +210,5 @@ public class GameManager : MonoBehaviour
 			DungeonManager.Instance.GridPosToWorldPos(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY),
 			Quaternion.identity)).GetComponent<PlayerPiece>();
 		mPlayerPiece.SetPosition(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY);
-	}
-
-	private void SpawnEnemy(int _posX, int _posY, EnemyUnit enemyType)
-	{
-		EnemyPiece curPiece = null;
-
-		switch (enemyType)
-		{
-		case EnemyUnit.BlackPawn:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Black);
-			break;
-		case EnemyUnit.BlackRook:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Rook, EnemyType.Black);
-			break;
-		case EnemyUnit.BlackBishop:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Bishop, EnemyType.Black);
-			break;
-		case EnemyUnit.BlackKnight:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Knight, EnemyType.Black);
-			break;
-		case EnemyUnit.BlackKing:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.King, EnemyType.Black);
-			break;
-		default:
-			Debug.LogError("No enemyType handling found");
-			break;
-		}
-
-		if (curPiece != null)
-			mEnemyList.Add(curPiece);
 	}
 }

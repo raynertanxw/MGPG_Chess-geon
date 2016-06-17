@@ -5,6 +5,16 @@ using System;
 using DaburuTools;
 using DaburuTools.Action;
 
+public enum EnemyUnit
+{
+	BlackPawn,	BlackRook,	BlackBishop,	BlackKnight,	BlackKing,
+	StonePawn,	StoneRook,	StoneBishop,	StoneKnight,	StoneKing,
+	SlimePawn,	SlimeRook,	SlimeBishop,	SlimeKnight,	SlimeKing,
+	GlassPawn,	GlassRook,	GlassBishop,	GlassKnight,	GlassKing,
+	GoldPawn,	GoldRook,	GoldBishop,		GoldKnight,		GoldKing,
+	CursedPawn,	CursedRook,	CursedBishop,	CursedKnight,	CursedKing,
+	Count
+};
 public enum EnemyType { Black, Stone, Slime, Glass, Gold, Cursed };
 public enum EnemyTurnStatus { Unprocessed, Running, Waiting, Processed };
 
@@ -85,6 +95,115 @@ public class EnemyPiece : MonoBehaviour
 		if (curPiece == null)
 			Debug.LogWarning("EnemyPiece pool out of objects. Consider increasing pool size");
 		#endif
+
+		return curPiece;
+	}
+
+	public static EnemyPiece Spawn(int _posX, int _posY, EnemyUnit enemyType)
+	{
+		EnemyPiece curPiece = null;
+
+		switch (enemyType)
+		{
+		case EnemyUnit.BlackPawn:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Black);
+			break;
+		case EnemyUnit.BlackRook:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Rook, EnemyType.Black);
+			break;
+		case EnemyUnit.BlackBishop:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Bishop, EnemyType.Black);
+			break;
+		case EnemyUnit.BlackKnight:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Knight, EnemyType.Black);
+			break;
+		case EnemyUnit.BlackKing:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.King, EnemyType.Black);
+			break;
+
+		case EnemyUnit.StonePawn:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.Pawn, EnemyType.Stone);
+			break;
+		case EnemyUnit.StoneRook:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.Rook, EnemyType.Stone);
+			break;
+		case EnemyUnit.StoneBishop:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.Bishop, EnemyType.Stone);
+			break;
+		case EnemyUnit.StoneKnight:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.Knight, EnemyType.Stone);
+			break;
+		case EnemyUnit.StoneKing:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.King, EnemyType.Stone);
+			break;
+
+		case EnemyUnit.SlimePawn:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Slime);
+			break;
+		case EnemyUnit.SlimeRook:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Rook, EnemyType.Slime);
+			break;
+		case EnemyUnit.SlimeBishop:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Bishop, EnemyType.Slime);
+			break;
+		case EnemyUnit.SlimeKnight:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Knight, EnemyType.Slime);
+			break;
+		case EnemyUnit.SlimeKing:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.King, EnemyType.Slime);
+			break;
+
+		case EnemyUnit.GlassPawn:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Glass);
+			break;
+		case EnemyUnit.GlassRook:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Rook, EnemyType.Glass);
+			break;
+		case EnemyUnit.GlassBishop:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Bishop, EnemyType.Glass);
+			break;
+		case EnemyUnit.GlassKnight:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Knight, EnemyType.Glass);
+			break;
+		case EnemyUnit.GlassKing:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.King, EnemyType.Glass);
+			break;
+
+		case EnemyUnit.GoldPawn:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Gold);
+			break;
+		case EnemyUnit.GoldRook:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Rook, EnemyType.Gold);
+			break;
+		case EnemyUnit.GoldBishop:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Bishop, EnemyType.Gold);
+			break;
+		case EnemyUnit.GoldKnight:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Knight, EnemyType.Gold);
+			break;
+		case EnemyUnit.GoldKing:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.King, EnemyType.Gold);
+			break;
+
+		case EnemyUnit.CursedPawn:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 5, GridType.Pawn, EnemyType.Cursed);
+			break;
+		case EnemyUnit.CursedRook:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 5, GridType.Rook, EnemyType.Cursed);
+			break;
+		case EnemyUnit.CursedBishop:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 5, GridType.Bishop, EnemyType.Cursed);
+			break;
+		case EnemyUnit.CursedKnight:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 5, GridType.Knight, EnemyType.Cursed);
+			break;
+		case EnemyUnit.CursedKing:
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 5, GridType.King, EnemyType.Cursed);
+			break;
+		default:
+			Debug.LogError("No enemyType handling found");
+			break;
+		}
 
 		return curPiece;
 	}
