@@ -74,6 +74,12 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				Debug.Log("Running MoveCard");
+
+				if (ControlAreaButtons.CardIsBeingDragged)
+				{
+					return BTStatus.Running;
+				}
+
 				return BTStatus.Success;
 			}
 		);
