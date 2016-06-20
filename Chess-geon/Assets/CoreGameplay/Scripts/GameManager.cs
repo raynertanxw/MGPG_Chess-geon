@@ -87,6 +87,12 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				Debug.Log("Running ExecuteCard");
+
+				if (CardAreaButtons.PanelOpened)
+				{
+					return BTStatus.Running;
+				}
+
 				return BTStatus.Success;
 			}
 		);

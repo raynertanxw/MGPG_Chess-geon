@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum GridType { Pawn, Rook, Bishop, Knight, King }
+public enum GridType { Pawn, Rook, Bishop, Knight, King, Count }
 
 public class GridManager
 {
