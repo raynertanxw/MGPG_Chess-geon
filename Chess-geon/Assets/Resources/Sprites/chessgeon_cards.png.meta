@@ -1,0 +1,377 @@
+fileFormatVersion: 2
+guid: 61d80e275c25f4d48b90821ce2907bc1
+timeCreated: 1466421679
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Card_Movement_Pawn
+    21300002: Card_Movement_Rook
+    21300004: Card_Movement_Bishop
+    21300006: Card_Movement_Knight
+    21300008: Card_Movement_King
+    21300010: Card_Repeat_Bronze
+    21300012: Card_MovementJoker_Bronze
+    21300014: Card_BreakWall_Bronze
+    21300016: Card_DrawCard_Bronze
+    21300018: Card_TempShield_Bronze
+    21300020: Card_Repeat_Silver
+    21300022: Card_MovementJoker_Silver
+    21300024: Card_BreakWall_Silver
+    21300026: Card_DrawCard_Silver
+    21300028: Card_TempShield_Silver
+    21300030: Card_Repeat_Gold
+    21300032: Card_MovementJoker_Gold
+    21300034: Card_BreakWall_Gold
+    21300036: Card_DrawCard_Gold
+    21300038: Card_TempShield_Gold
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -5
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Card_Movement_Pawn
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1698
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_Movement_Rook
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 1698
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_Movement_Bishop
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1698
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_Movement_Knight
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 1698
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_Movement_King
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1698
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_Repeat_Bronze
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1348
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_MovementJoker_Bronze
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 1348
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_BreakWall_Bronze
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1348
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_DrawCard_Bronze
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 1348
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_TempShield_Bronze
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1348
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_Repeat_Silver
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 998
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_MovementJoker_Silver
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 998
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_BreakWall_Silver
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 998
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_DrawCard_Silver
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 998
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_TempShield_Silver
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 998
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_Repeat_Gold
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 648
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_MovementJoker_Gold
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 648
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_BreakWall_Gold
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 648
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_DrawCard_Gold
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 648
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    - name: Card_TempShield_Gold
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 648
+        width: 250
+        height: 350
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -125, y: 175}
+        - {x: -125, y: -175}
+        - {x: 125, y: -175}
+        - {x: 125, y: 175}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
