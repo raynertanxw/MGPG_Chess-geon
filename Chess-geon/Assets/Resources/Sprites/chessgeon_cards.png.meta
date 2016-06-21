@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 61d80e275c25f4d48b90821ce2907bc1
-timeCreated: 1466421679
+guid: 330547efc124c444195430b931c00ce6
+timeCreated: 1466482948
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,17 +11,17 @@ TextureImporter:
     21300008: Card_Movement_King
     21300010: Card_Repeat_Bronze
     21300012: Card_MovementJoker_Bronze
-    21300014: Card_BreakWall_Bronze
+    21300014: Card_Smash_Bronze
     21300016: Card_DrawCard_Bronze
     21300018: Card_TempShield_Bronze
     21300020: Card_Repeat_Silver
     21300022: Card_MovementJoker_Silver
-    21300024: Card_BreakWall_Silver
+    21300024: Card_Smash_Silver
     21300026: Card_DrawCard_Silver
     21300028: Card_TempShield_Silver
     21300030: Card_Repeat_Gold
     21300032: Card_MovementJoker_Gold
-    21300034: Card_BreakWall_Gold
+    21300034: Card_Smash_Gold
     21300036: Card_DrawCard_Gold
     21300038: Card_TempShield_Gold
   serializedVersion: 2
@@ -175,7 +175,7 @@ TextureImporter:
         - {x: -125, y: -175}
         - {x: 125, y: -175}
         - {x: 125, y: 175}
-    - name: Card_BreakWall_Bronze
+    - name: Card_Smash_Bronze
       rect:
         serializedVersion: 2
         x: 500
@@ -250,7 +250,7 @@ TextureImporter:
         - {x: -125, y: -175}
         - {x: 125, y: -175}
         - {x: 125, y: 175}
-    - name: Card_BreakWall_Silver
+    - name: Card_Smash_Silver
       rect:
         serializedVersion: 2
         x: 500
@@ -325,7 +325,7 @@ TextureImporter:
         - {x: -125, y: -175}
         - {x: 125, y: -175}
         - {x: 125, y: 175}
-    - name: Card_BreakWall_Gold
+    - name: Card_Smash_Gold
       rect:
         serializedVersion: 2
         x: 500

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 
-public enum CardType { Movement, Repeat, MovementJoker, BreakWall, DrawCard, TempShield, NumTypes, None }
+public enum CardType { Movement, Repeat, MovementJoker, Smash, DrawCard, TempShield, NumTypes, None }
 public enum CardTier { Bronze, Silver, Gold, None }
 
 public class Card : MonoBehaviour
