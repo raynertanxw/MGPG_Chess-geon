@@ -25,8 +25,18 @@ public class Card : MonoBehaviour
 	private bool mbNeedUpdateSprite;
 	private Image mImage;
 
+	private CardStrategy[] CardAlgorithms;
+
 	void Awake()
 	{
+		CardAlgorithms = new CardStrategy[(int)CardType.NumTypes];
+		CardAlgorithms[(int)CardType.Movement] = new MovementCardStrategy();
+		CardAlgorithms[(int)CardType.Repeat] = new RepeatCardStrategy();
+		CardAlgorithms[(int)CardType.MovementJoker] = new MovementJokerCardStrategy();
+		CardAlgorithms[(int)CardType.Smash] = new SmashCardStrategy();
+		CardAlgorithms[(int)CardType.DrawCard] = new DrawCardCardStrategy();
+		CardAlgorithms[(int)CardType.TempShield] = new TempShieldCardStrategy();
+
 		mImage = gameObject.GetComponent<Image>();
 
 		if (cardSprites == null)
@@ -59,6 +69,7 @@ public class Card : MonoBehaviour
 	public void Execute()
 	{
 		// TODO: Implementation of what the card does.
+		CardAlgorithms[(int)mCardType].ExecuteCard(mCardTier, mCardMovementType);
 		CardAreaButtons.SetCardPanelVisible(mCardType, true);
 		ChangeCard();	// TEMP ONLY
 		Debug.Log("Executed Card");

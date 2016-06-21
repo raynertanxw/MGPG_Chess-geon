@@ -27,7 +27,7 @@ public class DungeonManager : MonoBehaviour
 	public float BlockSize { get { return blockSize; } }
 	private float halfBlockSize;
 	public GameObject dungeonBlockPrefab;
-	public Sprite blackTileSprite, whiteTileSprite, wallTileSprite;
+	public Sprite blackTileSprite, whiteTileSprite, wallTileSprite, selectableSprite;
 
 	[Header("Gameplay Options")]
 	public float patternsBias = 10.0f;
@@ -331,6 +331,17 @@ public class DungeonManager : MonoBehaviour
 			return false;
 
 		if (dungeonBlockGrid[_posX, _posY].State == BlockState.Empty)
+			return true;
+		else
+			return false;
+	}
+
+	public bool IsEnemyPos(int _posX, int _posY)
+	{
+		if (IsValidCell(_posX, _posY) == false)
+			return false;
+
+		if (dungeonBlockGrid[_posX, _posY].State == BlockState.EnemyPiece)
 			return true;
 		else
 			return false;

@@ -10,7 +10,9 @@ public class CardAreaButtons : MonoBehaviour
 	private static bool mbPanelOpened;
 	public static bool PanelOpened { get { return mbPanelOpened; } }
 	private CanvasGroup[] mPanelCGs;
-	private Image mBlockingPanel ;
+	private Image mBlockingPanel;
+
+	private MovementPanelControls mMovementPanelCtrls;
 
 	private void Awake()
 	{
@@ -42,6 +44,8 @@ public class CardAreaButtons : MonoBehaviour
 		for (int i = 0; i < (int)CardType.NumTypes; i++)
 			mPanelCGs[i] = transform.FindChild(((CardType)i).ToString() + "Panel").GetComponent<CanvasGroup>();
 
+		mMovementPanelCtrls = mPanelCGs[(int)CardType.Movement].gameObject.GetComponent<MovementPanelControls>();
+			
 		mbPanelOpened = false;
 		HideAllCardPanels();
 	}
@@ -55,6 +59,13 @@ public class CardAreaButtons : MonoBehaviour
 
 	public static void SetCardPanelVisible(CardType _type, bool _visible)
 	{
+		switch(_type)
+		{
+		case CardType.Movement:
+			Instance.mMovementPanelCtrls.UpdatePanel();
+			break;
+		}
+
 		if (_visible)
 		{
 			Instance.mPanelCGs[(int)_type].alpha = 1.0f;

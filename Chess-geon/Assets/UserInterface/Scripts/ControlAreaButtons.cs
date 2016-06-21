@@ -63,18 +63,18 @@ public class ControlAreaButtons : MonoBehaviour
 
 		mbCardIsBeingDragged = false;
 
+		// Card is used.
 		if (pointerData.position.y > mfBoardMinY)
 		{
-			Debug.Log("Card is used");
 			mCurCard.transform.position = mCurCard.OriginPos;
 			mCurCard.transform.SetSiblingIndex(mCurCard.OriginSiblingIndex);
 			mCurCard.Execute();
 
 			mCurCard = null;
 		}
+		// Card is returned unused.
 		else
 		{
-			Debug.Log("Card is returned");
 			MoveToAction moveBack = new MoveToAction(mCurCard.transform, Graph.InverseExponential, mCurCard.OriginPos, 0.3f);
 			moveBack.OnActionFinish += () => {
 				mCurCard.transform.SetSiblingIndex(mCurCard.OriginSiblingIndex);

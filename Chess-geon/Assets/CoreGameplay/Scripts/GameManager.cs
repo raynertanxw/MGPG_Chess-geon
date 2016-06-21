@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
 				{
 					return BTStatus.Running;
 				}
+				// Check player turn status.
 
 				return BTStatus.Success;
 			}
