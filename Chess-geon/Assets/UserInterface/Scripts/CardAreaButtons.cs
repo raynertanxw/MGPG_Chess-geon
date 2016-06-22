@@ -53,11 +53,9 @@ public class CardAreaButtons : MonoBehaviour
 	public void DoneButton()
 	{
 		HideAllCardPanels();
-
-		Debug.Log("Done");
 	}
 
-	public static void SetCardPanelVisible(CardType _type, bool _visible)
+	public static void SetCardPanelVisibility(CardType _type, bool _visible)
 	{
 		if (_visible)
 		{
@@ -86,6 +84,6 @@ public class CardAreaButtons : MonoBehaviour
 	public static void HideAllCardPanels()
 	{
 		for (int i = 0; i < (int)CardType.NumTypes; i++)
-			SetCardPanelVisible((CardType)i, false);
+			SetCardPanelVisibility((CardType)i, false);
 	}
 }

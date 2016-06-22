@@ -70,9 +70,8 @@ public class Card : MonoBehaviour
 	{
 		// TODO: Implementation of what the card does.
 		CardAlgorithms[(int)mCardType].ExecuteCard(mCardTier, mCardMovementType);
-		CardAreaButtons.SetCardPanelVisible(mCardType, true);
+		CardAreaButtons.SetCardPanelVisibility(mCardType, true);
 		ChangeCard();	// TEMP ONLY
-		Debug.Log("Executed Card");
 	}
 
 	public void ChangeCard()

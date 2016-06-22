@@ -227,8 +227,8 @@ public class EnemyPiece : MonoBehaviour
 	private bool mbIsAlive = false;
 	public bool IsAlive { get { return mbIsAlive; } }
 
-	private EnemyTurnStatus mbTurnStatus = EnemyTurnStatus.Unprocessed;
-	public EnemyTurnStatus TurnStatus { get { return mbTurnStatus; } }
+	private EnemyTurnStatus mTurnStatus = EnemyTurnStatus.Unprocessed;
+	public EnemyTurnStatus TurnStatus { get { return mTurnStatus; } }
 
 	private LinkedList<Node> mPath;
 
@@ -282,13 +282,13 @@ public class EnemyPiece : MonoBehaviour
 		MovePosition(targetNode.PosX, targetNode.PosY);
 		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.InverseExponential,
 			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 0.5f);
-		moveToPos.OnActionFinish = () => { mbTurnStatus = EnemyTurnStatus.Processed; };
+		moveToPos.OnActionFinish = () => { mTurnStatus = EnemyTurnStatus.Processed; };
 		ActionHandler.RunAction(moveToPos);
 	}
 
 	private void ExecuteAttack()
 	{
-		mbTurnStatus = EnemyTurnStatus.Running;
+		mTurnStatus = EnemyTurnStatus.Running;
 
 		Node targetNode = mPath.First.Next.Value;
 		// Do not move the enemy in the grid for attack.
@@ -307,33 +307,33 @@ public class EnemyPiece : MonoBehaviour
 		ActionParallel returnParallel = new ActionParallel(moveBack, scaleDownReturn);
 		
 		ActionSequence sequence = new ActionSequence(scaleUp, hitParallel, returnDelay, returnParallel);
-		sequence.OnActionFinish = () => { mbTurnStatus = EnemyTurnStatus.Processed; };
+		sequence.OnActionFinish = () => { mTurnStatus = EnemyTurnStatus.Processed; };
 		ActionHandler.RunAction(sequence);
 	}
 	
 	public void ExecuteTurn()
 	{
-		if (mbTurnStatus == EnemyTurnStatus.Waiting)
+		if (mTurnStatus == EnemyTurnStatus.Waiting)
 		{
 			ExecuteAttack();
 			return;
 		}
 
-		mbTurnStatus = EnemyTurnStatus.Running;
+		mTurnStatus = EnemyTurnStatus.Running;
 
 		GeneratePath();
 		
 		if (mPath == null)
 		{
 			Debug.LogWarning("Path returned Null");
-			mbTurnStatus = EnemyTurnStatus.Processed;
+			mTurnStatus = EnemyTurnStatus.Processed;
 			return;
 		}
 
 		Node targetNode = mPath.First.Next.Value;
 		if (DungeonManager.Instance.IsPlayerPos(targetNode.PosX, targetNode.PosY))
 		{
-			mbTurnStatus = EnemyTurnStatus.Waiting;
+			mTurnStatus = EnemyTurnStatus.Waiting;
 		}
 		else
 		{
@@ -343,6 +343,6 @@ public class EnemyPiece : MonoBehaviour
 
 	public void ResetTurnStatus()
 	{
-		mbTurnStatus = EnemyTurnStatus.Unprocessed;
+		mTurnStatus = EnemyTurnStatus.Unprocessed;
 	}
 }

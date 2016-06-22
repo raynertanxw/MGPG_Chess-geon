@@ -32,15 +32,13 @@ public class MovementPanelControls : MonoBehaviour
 	// Checking should be done in UpdatePanel.
 	public void TilePressed(int _tileID)
 	{
-		Debug.Log(_tileID);
-
 		// Get PlayerPiece to execute move.
 		int targetPosX = GameManager.Instance.Player.PosX + (_tileID % 5) - 2;
 		int targetPosY = GameManager.Instance.Player.PosY + (_tileID / 5) - 2;
 		GameManager.Instance.Player.ExecuteTurn(targetPosX, targetPosY);
 
 		// Dismiss panel.
-		CardAreaButtons.SetCardPanelVisible(CardType.Movement, false);
+		CardAreaButtons.SetCardPanelVisibility(CardType.Movement, false);
 	}
 
 	public void UpdatePanel()
