@@ -84,8 +84,6 @@ public class BoardScroller : MonoBehaviour
 
 	public Vector3 ConstrainVectorToCameraBounds(Vector3 _vec3)
 	{
-		_vec3.y -= mfCenterYOffset;
-
 		_vec3.x = Mathf.Clamp(_vec3.x, mvec2MinPos.x, mvec2MaxPos.x);
 		_vec3.y = Mathf.Clamp(_vec3.y, mvec2MinPos.y, mvec2MaxPos.y);
 		_vec3.z = camTransform.position.z;
@@ -95,6 +93,7 @@ public class BoardScroller : MonoBehaviour
 
 	public void FocusCameraToPos(Vector3 _focalPos, float _focusDuration, Graph _focusGraph)
 	{
+		_focalPos.y -= mfCenterYOffset;
 		_focalPos = ConstrainVectorToCameraBounds(_focalPos);
 		MoveToAction focusToPos = new MoveToAction(camTransform, _focusGraph, _focalPos, _focusDuration);
 		ActionHandler.RunAction(focusToPos);
