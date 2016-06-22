@@ -1,9 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using DaburuTools.Action;
+using DaburuTools;
 
 public class BoardScroller : MonoBehaviour
 {
+	private static BoardScroller sInstance = null;
+	public static BoardScroller Instance { get { return sInstance; } }
+
+	private void OnDestroy()
+	{
+		if (this == sInstance)
+			sInstance = null;
+	}
+
 	private float mfScrollSensitivity;
 	// The following three floats are in pixels.
 	private float mfDesignWidth = 1080.0f;
@@ -12,11 +23,28 @@ public class BoardScroller : MonoBehaviour
 	private Vector2 mvec2MinPos, mvec2MaxPos;
 	Transform camTransform;
 
+	// For offseting the "center" point when focusing camera.
+	private float mfCenterYOffset;
+
 	// The following values are for MiniMap calculations.
 	private float Xscaler;
 	private float Yscaler;
 
 	void Awake()
+	{
+		if (sInstance == null)
+		{
+			sInstance = this;
+			Setup();
+		}
+		else if (sInstance != this)
+		{
+			Destroy(this.gameObject);
+			return;
+		}
+	}
+
+	private void Setup()
 	{
 		camTransform = Camera.main.transform;
 
@@ -38,6 +66,10 @@ public class BoardScroller : MonoBehaviour
 		Xscaler *= ratioAdjuster;
 
 		Yscaler = 1.0f / mfDesignHeight * 100.0f;
+
+		float trueCenter = mfDesignHeight / 2.0f;
+		float boardCenter = mfDesignHeight - (mfDesignWidth / 2.0f);
+		mfCenterYOffset = (boardCenter - trueCenter) / 100.0f;
 	}
 
 	void Start()
@@ -47,11 +79,25 @@ public class BoardScroller : MonoBehaviour
 
 	private void ConstrainCamera()
 	{
-		Vector3 camPos = camTransform.position;
-		camPos.x = Mathf.Clamp(camPos.x, mvec2MinPos.x, mvec2MaxPos.x);
-		camPos.y = Mathf.Clamp(camPos.y, mvec2MinPos.y, mvec2MaxPos.y);
+		camTransform.position = ConstrainVectorToCameraBounds(camTransform.position);
+	}
 
-		camTransform.position = camPos;
+	public Vector3 ConstrainVectorToCameraBounds(Vector3 _vec3)
+	{
+		_vec3.y -= mfCenterYOffset;
+
+		_vec3.x = Mathf.Clamp(_vec3.x, mvec2MinPos.x, mvec2MaxPos.x);
+		_vec3.y = Mathf.Clamp(_vec3.y, mvec2MinPos.y, mvec2MaxPos.y);
+		_vec3.z = camTransform.position.z;
+
+		return _vec3;
+	}
+
+	public void FocusCameraToPos(Vector3 _focalPos, float _focusDuration, Graph _focusGraph)
+	{
+		_focalPos = ConstrainVectorToCameraBounds(_focalPos);
+		MoveToAction focusToPos = new MoveToAction(camTransform, _focusGraph, _focalPos, _focusDuration);
+		ActionHandler.RunAction(focusToPos);
 	}
 
 	public void OnDrag(BaseEventData _eventData)

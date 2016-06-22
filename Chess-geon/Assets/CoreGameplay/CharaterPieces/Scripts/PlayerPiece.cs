@@ -9,6 +9,7 @@ public class PlayerPiece : MonoBehaviour
 {
 	public SpriteRenderer mSpriteRen;
 	public Sprite[] PlayerSprites;
+	private int mnDefaultSpriteOrderInLayer;
 
 	private GridType mMovementType = GridType.Pawn;
 	public GridType MovementType { get { return mMovementType; } }
@@ -30,6 +31,7 @@ public class PlayerPiece : MonoBehaviour
 
 		mSpriteRen = GetComponent<SpriteRenderer>();
 		mSpriteRen.sprite = PlayerSprites[0];
+		mnDefaultSpriteOrderInLayer = mSpriteRen.sortingOrder;
 
 		transform.localScale *= DungeonManager.Instance.ScaleMultiplier;
 	}
@@ -55,11 +57,17 @@ public class PlayerPiece : MonoBehaviour
 	public void ExecuteTurn(int _newX, int _newY)
 	{
 		mTurnStatus = PlayerTurnStatus.Running;
+		mSpriteRen.sortingOrder = 1000;
 
 		if (DungeonManager.Instance.IsEnemyPos(_newX, _newY))
 			ExecuteAttack(_newX, _newY);
 		else
 			ExecuteMove(_newX, _newY);
+		
+		BoardScroller.Instance.FocusCameraToPos(
+			DungeonManager.Instance.GridPosToWorldPos(PosX, PosY),
+			0.2f,
+			Graph.InverseExponential);
 	}
 
 	private void ExecuteMove(int _newX, int _newY)
@@ -67,7 +75,7 @@ public class PlayerPiece : MonoBehaviour
 		SetPosition(_newX, _newY);
 		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.InverseExponential,
 			DungeonManager.Instance.GridPosToWorldPos(_newX, _newY), 0.5f);
-		moveToPos.OnActionFinish = () => { mTurnStatus = PlayerTurnStatus.Waiting; };
+		moveToPos.OnActionFinish = () => { mTurnStatus = PlayerTurnStatus.Waiting; mSpriteRen.sortingOrder = mnDefaultSpriteOrderInLayer; };
 		ActionHandler.RunAction(moveToPos);
 	}
 
@@ -89,7 +97,7 @@ public class PlayerPiece : MonoBehaviour
 		ActionParallel returnParallel = new ActionParallel(moveBack, scaleDownReturn);
 
 		ActionSequence sequence = new ActionSequence(scaleUp, hitParallel, returnDelay, returnParallel);
-		sequence.OnActionFinish = () => { mTurnStatus = PlayerTurnStatus.Waiting; };
+		sequence.OnActionFinish = () => { mTurnStatus = PlayerTurnStatus.Waiting; mSpriteRen.sortingOrder = mnDefaultSpriteOrderInLayer; };
 		ActionHandler.RunAction(sequence);
 	}
 
