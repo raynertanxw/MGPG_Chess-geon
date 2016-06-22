@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 	public PlayerPiece Player { get { return mPlayerPiece; } }
 	private bool mPlayerToEndPhase;
 
+	private ControlAreaButtons mCtrlArea;
+
 	private void Awake()
 	{
 		if (sInstance == null)
@@ -47,6 +49,8 @@ public class GameManager : MonoBehaviour
 		mEnemyList = new List<EnemyPiece>();
 		mPlayerToEndPhase = false;
 		InitializeBehaviourTree();
+
+		mCtrlArea = GameObject.Find("ControlAreaCanvas").GetComponent<ControlAreaButtons>();
 
 		GenerateNPlaceEnemies();
 		PlacePlayer();
@@ -90,14 +94,17 @@ public class GameManager : MonoBehaviour
 
 				if (CardAreaButtons.PanelOpened)
 				{
+					mCtrlArea.SetControlBlockerEnabled(true);
 					return BTStatus.Running;
 				}
 				// Check player turn status.
 				if (Player.TurnStatus == PlayerTurnStatus.Running)
 				{
+					mCtrlArea.SetControlBlockerEnabled(true);
 					return BTStatus.Running;
 				}
 
+				mCtrlArea.SetControlBlockerEnabled(false);
 				return BTStatus.Success;
 			}
 		);
