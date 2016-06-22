@@ -239,11 +239,11 @@ public class EnemyPiece : MonoBehaviour
 	public EnemyType UnitType { get { return mUnitType; } }
 	public void SetUnitType(EnemyType _unitType) { mUnitType = _unitType; }
 
-	protected int mnPosX, mnPosY;
+	private int mnPosX, mnPosY;
 	public int PosX { get { return mnPosX; } }
 	public int PosY { get { return mnPosY; } }
 
-	protected int mnHealth = -1;
+	private int mnHealth = -1;
 	public int Health { get { return mnHealth; } }
 
 	private void MovePosition(int _newX, int _newY)

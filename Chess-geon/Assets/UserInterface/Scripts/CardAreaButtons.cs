@@ -59,15 +59,15 @@ public class CardAreaButtons : MonoBehaviour
 
 	public static void SetCardPanelVisible(CardType _type, bool _visible)
 	{
-		switch(_type)
-		{
-		case CardType.Movement:
-			Instance.mMovementPanelCtrls.UpdatePanel();
-			break;
-		}
-
 		if (_visible)
 		{
+			switch(_type)
+			{
+			case CardType.Movement:
+				Instance.mMovementPanelCtrls.UpdatePanel();
+				break;
+			}
+
 			Instance.mPanelCGs[(int)_type].alpha = 1.0f;
 			Instance.mPanelCGs[(int)_type].interactable = true;
 			Instance.mPanelCGs[(int)_type].blocksRaycasts = true;

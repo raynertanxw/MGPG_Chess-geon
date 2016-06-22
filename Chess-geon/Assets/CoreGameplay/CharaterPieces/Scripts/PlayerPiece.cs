@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DaburuTools.Action;
+using DaburuTools;
+
+public enum PlayerTurnStatus { Running, Waiting };
 
 public class PlayerPiece : MonoBehaviour
 {
@@ -10,27 +14,83 @@ public class PlayerPiece : MonoBehaviour
 	public GridType MovementType { get { return mMovementType; } }
 	public void SetMovementType(GridType _movementType) { mMovementType = _movementType; }
 
-	protected int mnPosX, mnPosY;
+	private int mnPosX, mnPosY;
 	public int PosX { get { return mnPosX; } }
 	public int PosY { get { return mnPosY; } }
 
-	protected int mnHealth = -1;
+	private int mnHealth = -1;
 	public int Health { get { return mnHealth; } }
 
-	private void Awake()
+	private PlayerTurnStatus mTurnStatus;
+	public PlayerTurnStatus TurnStatus { get { return mTurnStatus; } }
+
+	void Awake()
 	{
+		mTurnStatus = PlayerTurnStatus.Waiting;
+
 		mSpriteRen = GetComponent<SpriteRenderer>();
 		mSpriteRen.sprite = PlayerSprites[0];
 
 		transform.localScale *= DungeonManager.Instance.ScaleMultiplier;
 	}
 
-	public void SetPosition(int _newX, int _newY)
+	public void Initialise(int _startX, int _startY)
 	{
-		// TODO: Checking???
+		SetPosition(_startX, _startY);
+	}
+
+	private void SetPosition(int _newX, int _newY)
+	{
+		// Checking.
+		if (DungeonManager.Instance.IsCellEmpty(_newX, _newY) == false)
+		{
+			Debug.LogWarning("Enemy is attempting move to NON-empty cell");
+			return;
+		}
 
 		mnPosX = _newX;
 		mnPosY = _newY;
+	}
+
+	public void ExecuteTurn(int _newX, int _newY)
+	{
+		mTurnStatus = PlayerTurnStatus.Running;
+
+		if (DungeonManager.Instance.IsEnemyPos(_newX, _newY))
+			ExecuteAttack(_newX, _newY);
+		else
+			ExecuteMove(_newX, _newY);
+	}
+
+	private void ExecuteMove(int _newX, int _newY)
+	{
+		SetPosition(_newX, _newY);
+		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.InverseExponential,
+			DungeonManager.Instance.GridPosToWorldPos(_newX, _newY), 0.5f);
+		moveToPos.OnActionFinish = () => { mTurnStatus = PlayerTurnStatus.Waiting; };
+		ActionHandler.RunAction(moveToPos);
+	}
+
+	private void ExecuteAttack(int _targetX, int _targetY)
+	{
+		// Do not move the player logical position values for attack.
+		ScaleToAction scaleUp = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.75f, 0.5f);
+
+		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.Dipper,
+			DungeonManager.Instance.GridPosToWorldPos(_targetX, _targetY), 0.25f);
+		ScaleToAction scaleDownHit = new ScaleToAction(this.transform, Graph.Dipper, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.1f, 0.25f);
+		ActionParallel hitParallel = new ActionParallel(moveToPos, scaleDownHit);
+
+		DelayAction returnDelay = new DelayAction(0.1f);
+
+		MoveToAction moveBack = new MoveToAction(this.transform, Graph.SmoothStep,
+			DungeonManager.Instance.GridPosToWorldPos(PosX, PosY), 0.5f);
+		ScaleToAction scaleDownReturn = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier, 0.5f);
+		ActionParallel returnParallel = new ActionParallel(moveBack, scaleDownReturn);
+
+		ActionSequence sequence = new ActionSequence(scaleUp, hitParallel, returnDelay, returnParallel);
+		sequence.OnActionFinish = () => { mTurnStatus = PlayerTurnStatus.Waiting; };
+		ActionHandler.RunAction(sequence);
 	}
 
 	public void TakeDamage(int _damage)

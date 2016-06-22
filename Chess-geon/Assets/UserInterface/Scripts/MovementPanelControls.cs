@@ -33,6 +33,14 @@ public class MovementPanelControls : MonoBehaviour
 	public void TilePressed(int _tileID)
 	{
 		Debug.Log(_tileID);
+
+		// Get PlayerPiece to execute move.
+		int targetPosX = GameManager.Instance.Player.PosX + (_tileID % 5) - 2;
+		int targetPosY = GameManager.Instance.Player.PosY + (_tileID / 5) - 2;
+		GameManager.Instance.Player.ExecuteTurn(targetPosX, targetPosY);
+
+		// Dismiss panel.
+		CardAreaButtons.SetCardPanelVisible(CardType.Movement, false);
 	}
 
 	public void UpdatePanel()
@@ -159,7 +167,7 @@ public class MovementPanelControls : MonoBehaviour
 				Node curNode = curLinkedNode.Value;
 				// Check if it's empty cell.
 				// Otherwise if it's enemy, still movable tile.
-				if (DungeonManager.Instance.IsValidCell(curNode.PosX, curNode.PosY) ||
+				if (DungeonManager.Instance.IsCellEmpty(curNode.PosX, curNode.PosY) ||
 					DungeonManager.Instance.IsEnemyPos(curNode.PosX, curNode.PosY))
 				{
 					int tileID = (curNode.PosY - PlayerPosY + 2) * 5 + (curNode.PosX - PlayerPosX + 2);

@@ -93,6 +93,10 @@ public class GameManager : MonoBehaviour
 					return BTStatus.Running;
 				}
 				// Check player turn status.
+				if (Player.TurnStatus == PlayerTurnStatus.Running)
+				{
+					return BTStatus.Running;
+				}
 
 				return BTStatus.Success;
 			}
@@ -271,6 +275,6 @@ public class GameManager : MonoBehaviour
 			PlayerPrefab,
 			DungeonManager.Instance.GridPosToWorldPos(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY),
 			Quaternion.identity)).GetComponent<PlayerPiece>();
-		mPlayerPiece.SetPosition(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY);
+		mPlayerPiece.Initialise(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY);
 	}
 }
