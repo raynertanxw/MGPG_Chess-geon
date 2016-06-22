@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using DaburuTools.Action;
 using DaburuTools;
 
 public class ControlAreaButtons : MonoBehaviour
 {
-	private Image mControlBlocker;
+	private GameObject mControlBlocker;
 
 	private static bool mbCardIsBeingDragged;
 	public static bool CardIsBeingDragged { get { return mbCardIsBeingDragged; } }
@@ -17,7 +16,7 @@ public class ControlAreaButtons : MonoBehaviour
 
 	private void Awake()
 	{
-		mControlBlocker = transform.FindChild("ControlBlocker").GetComponent<Image>();
+		mControlBlocker = transform.FindChild("ControlBlocker").gameObject;
 		SetControlBlockerEnabled(false);
 
 		mbCardIsBeingDragged = false;
@@ -33,7 +32,7 @@ public class ControlAreaButtons : MonoBehaviour
 
 	public void SetControlBlockerEnabled(bool _enabled)
 	{
-		mControlBlocker.enabled = _enabled;
+		mControlBlocker.SetActive(_enabled);
 	}
 
 	#region EventTrigger Functions
