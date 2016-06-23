@@ -284,6 +284,11 @@ public class EnemyPiece : MonoBehaviour
 			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 0.5f);
 		moveToPos.OnActionFinish = () => { mTurnStatus = EnemyTurnStatus.Processed; };
 		ActionHandler.RunAction(moveToPos);
+
+		BoardScroller.Instance.FocusCameraToPos(
+			DungeonManager.Instance.GridPosToWorldPos(PosX, PosY),
+			0.2f,
+			Graph.InverseExponential);
 	}
 
 	private void ExecuteAttack()

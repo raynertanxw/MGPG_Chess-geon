@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DaburuTools;
 
 public enum GamePhase { PlayerPhase, EnemyPhase };
 
@@ -154,6 +155,10 @@ public class GameManager : MonoBehaviour
 					if (EPcurEnemyIndex >= mEnemyList.Count)	// If went through the whole thing once already.
 					{
 						EPcurEnemyIndex = 0;
+						BoardScroller.Instance.FocusCameraToPos(
+							DungeonManager.Instance.GridPosToWorldPos(GameManager.Instance.Player.PosX, GameManager.Instance.Player.PosY),
+							0.2f,
+							Graph.InverseExponential);
 						return BTStatus.Success;
 					}
 					break;
