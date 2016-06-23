@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
 
 	public GameObject PlayerPrefab;
 
-	private BehaviourTree mBehaviourTree;
+	private BehaviourTree mPlayerPhaseBehaviourTree;
+	private BehaviourTree mEnemyPhaseBehaviourTree;
 	private GamePhase mPhase;
 	public GamePhase Phase { get { return mPhase; } }
 	public List<EnemyPiece> mEnemyList;
@@ -48,7 +49,8 @@ public class GameManager : MonoBehaviour
 		// Variable setups
 		mEnemyList = new List<EnemyPiece>();
 		mPlayerToEndPhase = false;
-		InitializeBehaviourTree();
+		InitializePlayerPhaseBehaviourTree();
+		InitializeEnemyPhaseBehaviourTree();
 
 		mCtrlArea = GameObject.Find("ControlAreaCanvas").GetComponent<ControlAreaButtons>();
 
@@ -60,7 +62,7 @@ public class GameManager : MonoBehaviour
 		mPhase = GamePhase.PlayerPhase;
 	}
 
-	private void InitializeBehaviourTree()
+	private void InitializePlayerPhaseBehaviourTree()
 	{
 		BTAction BTAct_CheckEndTurn = new BTAction(
 			() =>
@@ -110,7 +112,92 @@ public class GameManager : MonoBehaviour
 		);
 		BTSequence BT_Root = new BTSequence(BTAct_CheckEndTurn, BTAct_MoveCard, BTAct_ExecuteCard);
 
-		mBehaviourTree = new BehaviourTree(BT_Root);
+		mPlayerPhaseBehaviourTree = new BehaviourTree(BT_Root);
+	}
+
+	// Vairables only for EnemyPhase. Prefixed with EP.
+	private int EPcurEnemyIndex = 0;
+	private void InitializeEnemyPhaseBehaviourTree()
+	{
+		// Returns fail when there are enemies. Success if no enemies found.
+		BTAction BTAct_NoEnemyCheck = new BTAction(
+			() =>
+			{
+				// If there are not even one enemy. Nothing to do here.
+				if (mEnemyList.Count < 1)
+				{
+					EndEnemyPhase();
+					return BTStatus.Success;
+				}
+
+				return BTStatus.Failure;
+			}
+		);
+
+		BTAction BTAct_MoveEnemyPieces = new BTAction(
+			() =>
+			{
+				EnemyPiece curEnemy = null;
+
+				if (EPcurEnemyIndex < mEnemyList.Count)
+					curEnemy = mEnemyList[EPcurEnemyIndex];
+
+				switch (curEnemy.TurnStatus)
+				{
+				case EnemyTurnStatus.Unprocessed:
+					curEnemy.ExecuteTurn();
+					break;
+				case EnemyTurnStatus.Running:
+					return BTStatus.Running;	// Do nothing, just let it run.
+				default:	// Both processed and waiting, move on to the next EnemyPiece.
+					EPcurEnemyIndex++;
+					if (EPcurEnemyIndex >= mEnemyList.Count)	// If went through the whole thing once already.
+					{
+						EPcurEnemyIndex = 0;
+						return BTStatus.Success;
+					}
+					break;
+				}
+
+				return BTStatus.Running;
+			}
+		);
+		BTAction BTAct_AttackPlayer = new BTAction(
+			() =>
+			{
+				EnemyPiece curEnemy = null;
+
+				if (EPcurEnemyIndex < mEnemyList.Count)
+					curEnemy = mEnemyList[EPcurEnemyIndex];
+
+				switch (curEnemy.TurnStatus)
+				{
+				case EnemyTurnStatus.Waiting:
+					curEnemy.ExecuteTurn();
+					break;
+				case EnemyTurnStatus.Running:
+					return BTStatus.Running;	// Do nothing, just let it run.
+				default:	// Move on to the next one. Only search for those that are Waiting status.
+					EPcurEnemyIndex++;
+					if (EPcurEnemyIndex >= mEnemyList.Count)	// If went finish second pass.
+					{
+						EndEnemyPhase();
+						return BTStatus.Success;
+					}
+					break;
+				}
+
+				return BTStatus.Running;
+			}
+		);
+		// BT_Sequence only runs when there are enemy pieces.
+		// Refer to BT_Root below.
+		BTSequence BT_Sequence = new BTSequence(BTAct_MoveEnemyPieces, BTAct_AttackPlayer);
+		// Root is Selector that checks for enemies.
+		// If no enemies, immediately stops (BTAct_NoEnemyCheck returns success).
+		BTSelector BT_Root = new BTSelector(BTAct_NoEnemyCheck, BT_Sequence);
+
+		mEnemyPhaseBehaviourTree = new BehaviourTree(BT_Root);
 	}
 	
 	private void Update()
@@ -144,7 +231,7 @@ public class GameManager : MonoBehaviour
 //		{
 //			SwitchPhase(GamePhase.EnemyPhase);
 //		}
-		mBehaviourTree.Tick();
+		mPlayerPhaseBehaviourTree.Tick();
 	}
 
 	public void EndPlayerPhase()
@@ -167,68 +254,14 @@ public class GameManager : MonoBehaviour
 		
 	}
 
-	// Vairables only for EnemyPhase. Prefixed with EP.
-	private int EPcurEnemyIndex = 0;
-	private EnemyTurnStatus EPprocessingMode = EnemyTurnStatus.Unprocessed;
 	private void ExeucteEnemyPhase()
 	{
-		// If there are not even one enemy. Nothing to do here.
-		if (mEnemyList.Count < 1)
-		{
-			EndEnemyPhase();
-			return;
-		}
-
-		EnemyPiece curEnemy = null;
-
-		if (EPcurEnemyIndex < mEnemyList.Count)
-			curEnemy = mEnemyList[EPcurEnemyIndex];
-
-		if (EPprocessingMode == EnemyTurnStatus.Unprocessed)
-		{
-			switch (curEnemy.TurnStatus)
-			{
-			case EnemyTurnStatus.Unprocessed:
-				curEnemy.ExecuteTurn();
-				break;
-			case EnemyTurnStatus.Running:
-				return;	// Do nothing, just let it run.
-			default:	// Both processed and waiting, move on to the next EnemyPiece.
-				EPcurEnemyIndex++;
-				if (EPcurEnemyIndex >= mEnemyList.Count)	// If went through the whole thing once already.
-				{
-					EPcurEnemyIndex = 0;
-					EPprocessingMode = EnemyTurnStatus.Waiting;
-				}
-				break;
-			}
-		}
-		else if (EPprocessingMode == EnemyTurnStatus.Waiting)
-		{
-			switch (curEnemy.TurnStatus)
-			{
-			case EnemyTurnStatus.Waiting:
-				curEnemy.ExecuteTurn();
-				break;
-			case EnemyTurnStatus.Running:
-				return;	// Do nothing, just let it run.
-			default:	// Move on to the next one. Only search for those that are Waiting status.
-				EPcurEnemyIndex++;
-				if (EPcurEnemyIndex >= mEnemyList.Count)	// If went finish second pass.
-					EndEnemyPhase();
-				break;
-			}
-		}
-		else
-		{
-			Debug.LogError("Invalid EPprocessingMode");
-		}
+		mEnemyPhaseBehaviourTree.Tick();
 	}
 
 	private void EndEnemyPhase()
 	{
 		EPcurEnemyIndex = 0;
-		EPprocessingMode = EnemyTurnStatus.Unprocessed;
 		for (int i = 0; i < mEnemyList.Count; i++)
 		{
 			mEnemyList[i].ResetTurnStatus();
