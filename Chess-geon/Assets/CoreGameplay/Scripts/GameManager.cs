@@ -224,11 +224,12 @@ public class GameManager : MonoBehaviour
 	{
 		// Reset variable to make sure player can end phase again.
 		mPlayerToEndPhase = false;
+		mCtrlArea.SetControlBlockerEnabled(false);
 	}
 
 	private void ExitPlayerPhase()
 	{
-		
+		mCtrlArea.SetControlBlockerEnabled(true);
 	}
 
 	private void ExecutePlayerPhase()
