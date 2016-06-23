@@ -72,9 +72,9 @@ public class MovementPanelControls : MonoBehaviour
 				{
 					// Check and display the enemy piece
 					mTilePieceImages[i].enabled = true;
-					for (int i_enemy = 0; i_enemy < GameManager.Instance.mEnemyList.Count; i_enemy++)
+					for (int i_enemy = 0; i_enemy < GameManager.Instance.EnemyList.Count; i_enemy++)
 					{
-						EnemyPiece curEnemyPiece = GameManager.Instance.mEnemyList[i_enemy];
+						EnemyPiece curEnemyPiece = GameManager.Instance.EnemyList[i_enemy];
 						if (curEnemyPiece.PosX != x)
 							continue;
 						if (curEnemyPiece.PosY != y)
@@ -109,9 +109,9 @@ public class MovementPanelControls : MonoBehaviour
 
 				// Check and display the enemy piece
 				mTilePieceImages[i].enabled = true;
-				for (int i_enemy = 0; i_enemy < GameManager.Instance.mEnemyList.Count; i_enemy++)
+				for (int i_enemy = 0; i_enemy < GameManager.Instance.EnemyList.Count; i_enemy++)
 				{
-					EnemyPiece curEnemyPiece = GameManager.Instance.mEnemyList[i_enemy];
+					EnemyPiece curEnemyPiece = GameManager.Instance.EnemyList[i_enemy];
 					if (curEnemyPiece.PosX != x)
 						continue;
 					if (curEnemyPiece.PosY != y)

@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour
 	private BehaviourTree mEnemyPhaseBehaviourTree;
 	private GamePhase mPhase;
 	public GamePhase Phase { get { return mPhase; } }
-	public List<EnemyPiece> mEnemyList;
+	private List<EnemyPiece> mEnemyList;
+	public List<EnemyPiece> EnemyList { get { return mEnemyList; } }
 	private PlayerPiece mPlayerPiece;
 	public PlayerPiece Player { get { return mPlayerPiece; } }
 	private bool mPlayerToEndPhase;
@@ -125,7 +126,7 @@ public class GameManager : MonoBehaviour
 			() =>
 			{
 				// If there are not even one enemy. Nothing to do here.
-				if (mEnemyList.Count < 1)
+				if (EnemyList.Count < 1)
 				{
 					EndEnemyPhase();
 					return BTStatus.Success;
@@ -140,8 +141,8 @@ public class GameManager : MonoBehaviour
 			{
 				EnemyPiece curEnemy = null;
 
-				if (EPcurEnemyIndex < mEnemyList.Count)
-					curEnemy = mEnemyList[EPcurEnemyIndex];
+				if (EPcurEnemyIndex < EnemyList.Count)
+					curEnemy = EnemyList[EPcurEnemyIndex];
 
 				switch (curEnemy.TurnStatus)
 				{
@@ -152,7 +153,7 @@ public class GameManager : MonoBehaviour
 					return BTStatus.Running;	// Do nothing, just let it run.
 				default:	// Both processed and waiting, move on to the next EnemyPiece.
 					EPcurEnemyIndex++;
-					if (EPcurEnemyIndex >= mEnemyList.Count)	// If went through the whole thing once already.
+					if (EPcurEnemyIndex >= EnemyList.Count)	// If went through the whole thing once already.
 					{
 						EPcurEnemyIndex = 0;
 						BoardScroller.Instance.FocusCameraToPos(
@@ -172,8 +173,8 @@ public class GameManager : MonoBehaviour
 			{
 				EnemyPiece curEnemy = null;
 
-				if (EPcurEnemyIndex < mEnemyList.Count)
-					curEnemy = mEnemyList[EPcurEnemyIndex];
+				if (EPcurEnemyIndex < EnemyList.Count)
+					curEnemy = EnemyList[EPcurEnemyIndex];
 
 				switch (curEnemy.TurnStatus)
 				{
@@ -184,7 +185,7 @@ public class GameManager : MonoBehaviour
 					return BTStatus.Running;	// Do nothing, just let it run.
 				default:	// Move on to the next one. Only search for those that are Waiting status.
 					EPcurEnemyIndex++;
-					if (EPcurEnemyIndex >= mEnemyList.Count)	// If went finish second pass.
+					if (EPcurEnemyIndex >= EnemyList.Count)	// If went finish second pass.
 					{
 						EndEnemyPhase();
 						return BTStatus.Success;
@@ -267,9 +268,9 @@ public class GameManager : MonoBehaviour
 	private void EndEnemyPhase()
 	{
 		EPcurEnemyIndex = 0;
-		for (int i = 0; i < mEnemyList.Count; i++)
+		for (int i = 0; i < EnemyList.Count; i++)
 		{
-			mEnemyList[i].ResetTurnStatus();
+			EnemyList[i].ResetTurnStatus();
 		}
 		SwitchPhase(GamePhase.PlayerPhase);
 	}
@@ -306,7 +307,7 @@ public class GameManager : MonoBehaviour
 
 			if (DungeonManager.Instance.IsCellEmpty(posX, posY))
 			{
-				mEnemyList.Add(EnemyPiece.Spawn(posX, posY, EnemyUnit.BlackKing));
+				EnemyList.Add(EnemyPiece.Spawn(posX, posY, EnemyUnit.BlackKing));
 				numEnemiesSpawned++;
 			}
 		}
