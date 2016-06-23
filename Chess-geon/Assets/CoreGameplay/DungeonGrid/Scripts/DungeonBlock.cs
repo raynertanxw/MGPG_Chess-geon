@@ -2,7 +2,7 @@
 using System.Collections;
 
 public enum BlockState { Empty, Obstacle, EnemyPiece, DungeonExit };	// Only Empty is traversable.
-public enum TerrainType { Tile, Wall, Stairs, Spawn };
+public enum TerrainType { Tile, Wall, Stairs, Shop };
 
 public class DungeonBlock
 {
@@ -31,7 +31,7 @@ public class DungeonBlock
 		case TerrainType.Stairs:
 			mState = BlockState.DungeonExit;
 			break;
-		case TerrainType.Spawn:
+		case TerrainType.Shop:
 			mState = BlockState.Empty;
 			break;
 		}

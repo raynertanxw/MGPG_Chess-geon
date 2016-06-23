@@ -27,7 +27,8 @@ public class DungeonManager : MonoBehaviour
 	public float BlockSize { get { return blockSize; } }
 	private float halfBlockSize;
 	public GameObject dungeonBlockPrefab;
-	public Sprite blackTileSprite, whiteTileSprite, wallTileSprite, selectableSprite;
+	public Sprite blackTileSprite, whiteTileSprite, wallTileSprite, selectableSprite,
+		exitSprite, exitSelectableSprite, shopSprite, shopSelectableSprite;
 
 	[Header("Gameplay Options")]
 	public float patternsBias = 10.0f;
@@ -177,7 +178,7 @@ public class DungeonManager : MonoBehaviour
 		// Set the PlayerSpawnPosition
 		mnSpawnPosX = divXSize / 2 + 1;
 		mnSpawnPosY = divYSize / 2 + 1;
-		dungeonBlockGrid[SpawnPosX, SpawnPosY] = new DungeonBlock(TerrainType.Spawn, SpawnPosX, SpawnPosY);
+		dungeonBlockGrid[SpawnPosX, SpawnPosY] = new DungeonBlock(TerrainType.Tile, SpawnPosX, SpawnPosY);
 		SetSurroundingTilesToEmpty(SpawnPosX, SpawnPosY);
 	}
 
@@ -259,12 +260,10 @@ public class DungeonManager : MonoBehaviour
 						dungeonBlockSpriteRens[x, y].sprite = blackTileSprite;
 					break;
 				case TerrainType.Stairs:
-					dungeonBlockSpriteRens[x, y].sprite = whiteTileSprite;
-					dungeonBlockSpriteRens[x, y].color = Color.green;
+					dungeonBlockSpriteRens[x, y].sprite = exitSprite;
 					break;
-				case TerrainType.Spawn:
-					dungeonBlockSpriteRens[x, y].sprite = whiteTileSprite;
-					dungeonBlockSpriteRens[x, y].color = Color.yellow;
+				case TerrainType.Shop:
+					dungeonBlockSpriteRens[x, y].sprite = shopSprite;
 					break;
 				}
 			}
@@ -334,6 +333,19 @@ public class DungeonManager : MonoBehaviour
 			return true;
 		else
 			return false;
+	}
+
+	public bool IsExitCell(int _posX, int _posY)
+	{
+		if (IsValidCell(_posX, _posY) == false)
+			return false;
+
+		if (_posX != ExitPosX)
+			return false;
+		if (_posY != ExitPosY)
+			return false;
+
+		return true;
 	}
 
 	public bool IsEnemyPos(int _posX, int _posY)

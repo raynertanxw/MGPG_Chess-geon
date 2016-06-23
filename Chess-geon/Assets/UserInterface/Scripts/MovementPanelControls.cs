@@ -61,6 +61,33 @@ public class MovementPanelControls : MonoBehaviour
 			int x = PlayerPosX + ((i % 5) - 2);
 			int y = PlayerPosY + ((i / 5) - 2);
 
+			// Check for special tiles (Shop & Exit)
+			// TODO: Check shop tile.
+			// Check if Spawn Tile.
+			if (x == DungeonManager.Instance.ExitPosX && y == DungeonManager.Instance.ExitPosY)
+			{
+				mTileButtonImages[i].sprite = DungeonManager.Instance.exitSprite;
+
+				if (DungeonManager.Instance.IsEnemyPos(x, y))
+				{
+					// Check and display the enemy piece
+					mTilePieceImages[i].enabled = true;
+					for (int i_enemy = 0; i_enemy < GameManager.Instance.mEnemyList.Count; i_enemy++)
+					{
+						EnemyPiece curEnemyPiece = GameManager.Instance.mEnemyList[i_enemy];
+						if (curEnemyPiece.PosX != x)
+							continue;
+						if (curEnemyPiece.PosY != y)
+							continue;
+
+						mTilePieceImages[i].sprite = curEnemyPiece.mSpriteRen.sprite;
+					}
+				}
+
+				continue;
+			}
+
+
 			// If it's empty, check if white or black tile.
 			if (DungeonManager.Instance.IsCellEmpty(x, y))
 			{
@@ -116,6 +143,12 @@ public class MovementPanelControls : MonoBehaviour
 				mTileButtons[tileID].interactable = true;
 				mTileButtonImages[tileID].sprite = DungeonManager.Instance.selectableSprite;
 			}
+			else if (DungeonManager.Instance.IsExitCell(PlayerPosX, PlayerPosY + 1))
+			{
+				int tileID = (PlayerPosY + 1 - PlayerPosY + 2) * 5 + (PlayerPosX - PlayerPosX + 2);
+				mTileButtons[tileID].interactable = true;
+				mTileButtonImages[tileID].sprite = DungeonManager.Instance.exitSelectableSprite;
+			}
 
 			// Check bottom
 			if (DungeonManager.Instance.IsCellEmpty(PlayerPosX, PlayerPosY - 1))
@@ -123,6 +156,12 @@ public class MovementPanelControls : MonoBehaviour
 				int tileID = (PlayerPosY - 1 - PlayerPosY + 2) * 5 + (PlayerPosX - PlayerPosX + 2);
 				mTileButtons[tileID].interactable = true;
 				mTileButtonImages[tileID].sprite = DungeonManager.Instance.selectableSprite;
+			}
+			else if (DungeonManager.Instance.IsExitCell(PlayerPosX, PlayerPosY + 1))
+			{
+				int tileID = (PlayerPosY - 1 - PlayerPosY + 2) * 5 + (PlayerPosX - PlayerPosX + 2);
+				mTileButtons[tileID].interactable = true;
+				mTileButtonImages[tileID].sprite = DungeonManager.Instance.exitSelectableSprite;
 			}
 
 			// Check corner for enemies. (Pawn only can attack if there's an enemy.
@@ -165,12 +204,19 @@ public class MovementPanelControls : MonoBehaviour
 				Node curNode = curLinkedNode.Value;
 				// Check if it's empty cell.
 				// Otherwise if it's enemy, still movable tile.
+				// If still not, then could be exit tile.
 				if (DungeonManager.Instance.IsCellEmpty(curNode.PosX, curNode.PosY) ||
 					DungeonManager.Instance.IsEnemyPos(curNode.PosX, curNode.PosY))
 				{
 					int tileID = (curNode.PosY - PlayerPosY + 2) * 5 + (curNode.PosX - PlayerPosX + 2);
 					mTileButtons[tileID].interactable = true;
 					mTileButtonImages[tileID].sprite = DungeonManager.Instance.selectableSprite;
+				}
+				else if (DungeonManager.Instance.IsExitCell(curNode.PosX, curNode.PosY))
+				{
+					int tileID = (curNode.PosY - PlayerPosY + 2) * 5 + (curNode.PosX - PlayerPosX + 2);
+					mTileButtons[tileID].interactable = true;
+					mTileButtonImages[tileID].sprite = DungeonManager.Instance.exitSelectableSprite;
 				}
 			}
 			break;

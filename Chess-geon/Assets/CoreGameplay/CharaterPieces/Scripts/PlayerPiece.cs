@@ -44,9 +44,13 @@ public class PlayerPiece : MonoBehaviour
 	private void SetPosition(int _newX, int _newY)
 	{
 		// Checking.
-		if (DungeonManager.Instance.IsCellEmpty(_newX, _newY) == false)
+		if (DungeonManager.Instance.IsExitCell(_newX, _newY))
 		{
-			Debug.LogWarning("Enemy is attempting move to NON-empty cell");
+			Debug.Log("Reached EXIT TILE!!!");
+		}
+		else if (DungeonManager.Instance.IsCellEmpty(_newX, _newY) == false)
+		{
+			Debug.LogWarning("Player is attempting move to NON-empty cell");
 			return;
 		}
 
