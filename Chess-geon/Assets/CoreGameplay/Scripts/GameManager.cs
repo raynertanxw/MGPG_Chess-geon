@@ -119,6 +119,7 @@ public class GameManager : MonoBehaviour
 
 	// Vairables only for EnemyPhase. Prefixed with EP.
 	private int EPcurEnemyIndex = 0;
+	private bool EPdoneStartAnimation = false;
 	private void InitializeEnemyPhaseBehaviourTree()
 	{
 		// Returns fail when there are enemies. Success if no enemies found.
@@ -133,6 +134,25 @@ public class GameManager : MonoBehaviour
 				}
 
 				return BTStatus.Failure;
+			}
+		);
+
+		BTAction BTAct_EnemyPhaseStartAnimations = new BTAction(
+			() =>
+			{
+				if (EPdoneStartAnimation == false)
+				{
+					EventAnimationController.Instance.ExecutePhaseAnimation(GamePhase.EnemyPhase);
+					EPdoneStartAnimation = true;
+					return BTStatus.Running;
+				}
+				else if (EventAnimationController.Instance.IsAnimating == false)
+				{
+					EPdoneStartAnimation = false;
+					return BTStatus.Success;
+				}
+
+				return BTStatus.Running;
 			}
 		);
 
@@ -198,7 +218,7 @@ public class GameManager : MonoBehaviour
 		);
 		// BT_Sequence only runs when there are enemy pieces.
 		// Refer to BT_Root below.
-		BTSequence BT_Sequence = new BTSequence(BTAct_MoveEnemyPieces, BTAct_AttackPlayer);
+		BTSequence BT_Sequence = new BTSequence(BTAct_EnemyPhaseStartAnimations, BTAct_MoveEnemyPieces, BTAct_AttackPlayer);
 		// Root is Selector that checks for enemies.
 		// If no enemies, immediately stops (BTAct_NoEnemyCheck returns success).
 		BTSelector BT_Root = new BTSelector(BTAct_NoEnemyCheck, BT_Sequence);
@@ -224,7 +244,8 @@ public class GameManager : MonoBehaviour
 	{
 		// Reset variable to make sure player can end phase again.
 		mPlayerToEndPhase = false;
-		mCtrlArea.SetControlBlockerEnabled(false);
+		// mCtrlArea.SetControlBlockerEnabled(false) is now done by the phase animation below.
+		EventAnimationController.Instance.ExecutePhaseAnimation(GamePhase.PlayerPhase);
 	}
 
 	private void ExitPlayerPhase()
