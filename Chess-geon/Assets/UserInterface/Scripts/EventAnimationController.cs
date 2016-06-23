@@ -66,7 +66,10 @@ public class EventAnimationController : MonoBehaviour
 	{
 		mbIsAnimating = true;
 		mCtrlArea.SetControlBlockerEnabled(true);
-		
+
+		Color overlayCol = mBGOverlayImage.color;
+		overlayCol.a = 0.0f;
+		mBGOverlayImage.color = overlayCol;
 		mBGOverlayImage.enabled = true;
 		switch (_phase)
 		{
@@ -100,6 +103,8 @@ public class EventAnimationController : MonoBehaviour
 			mbIsAnimating = false;
 		};
 
+
+
 		DelayAction stallFrontDelay = new DelayAction(0.5f);
 		DelayAction stallEndDelay = new DelayAction(0.5f);
 
@@ -109,6 +114,12 @@ public class EventAnimationController : MonoBehaviour
 
 		ActionSequence rotStallSeq = new ActionSequence(stallFrontDelay, rotateStall, stallEndDelay);
 
-		ActionHandler.RunAction(rotInOutSeq, rotStallSeq);
+
+		DelayAction alphaDelay = new DelayAction(0.8f);
+		ImageAlphaFadeToAction alphaIn = new ImageAlphaFadeToAction(mBGOverlayImage, Graph.Linear, 0.5f, 0.5f);
+		ImageAlphaFadeToAction alphaOut = new ImageAlphaFadeToAction(mBGOverlayImage, Graph.Linear, 0.0f, 0.5f);
+		ActionSequence alphaFadeSeq = new ActionSequence(alphaIn, alphaDelay, alphaOut);
+
+		ActionHandler.RunAction(rotInOutSeq, rotStallSeq, alphaFadeSeq);
 	}
 }
