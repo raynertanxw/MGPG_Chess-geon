@@ -13,7 +13,6 @@ public class PlayerPiece : MonoBehaviour
 
 	private GridType mMovementType = GridType.Pawn;
 	public GridType MovementType { get { return mMovementType; } }
-	public void SetMovementType(GridType _movementType) { mMovementType = _movementType; }
 
 	private int mnPosX, mnPosY;
 	public int PosX { get { return mnPosX; } }
@@ -56,6 +55,12 @@ public class PlayerPiece : MonoBehaviour
 
 		mnPosX = _newX;
 		mnPosY = _newY;
+	}
+
+	public void SetMovementType(GridType _movementType)
+	{
+		mMovementType = _movementType;
+		mSpriteRen.sprite = PlayerSprites[(int)_movementType];
 	}
 
 	public void ExecuteTurn(int _newX, int _newY)
