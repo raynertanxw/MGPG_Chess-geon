@@ -13,6 +13,8 @@ public class DungeonBlock
     private int mnPosX, mnPosY;
     public int PosX { get { return mnPosX; } }
     public int PosY { get { return mnPosY; } }
+	private EnemyPiece mEnemy;
+	public EnemyPiece Enemy { get { return mEnemy; } }
 
 	public DungeonBlock(TerrainType _type, int _x, int _y)
 	{
@@ -35,6 +37,18 @@ public class DungeonBlock
 			mState = BlockState.Empty;
 			break;
 		}
+
+		mEnemy = null;
+	}
+
+	public void PlaceEnemy(EnemyPiece _enemy)
+	{
+		mEnemy = _enemy;
+	}
+
+	public void RemoveEnemy()
+	{
+		mEnemy = null;
 	}
 
 	public void SetBlockState(BlockState _newBlockState)

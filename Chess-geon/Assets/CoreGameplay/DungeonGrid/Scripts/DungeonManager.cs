@@ -286,7 +286,7 @@ public class DungeonManager : MonoBehaviour
 			return false;
 	}
 
-	public void PlaceEnemy(int _posX, int _posY)
+	public void PlaceEnemy(EnemyPiece _enemy, int _posX, int _posY)
 	{
 		if (dungeonBlockGrid[_posX, _posY].State != BlockState.Empty)
 		{
@@ -295,6 +295,7 @@ public class DungeonManager : MonoBehaviour
 		}
 
 		dungeonBlockGrid[_posX, _posY].SetBlockState(BlockState.EnemyPiece);
+		dungeonBlockGrid[_posX, _posY].PlaceEnemy(_enemy);
 	}
 
 	public void RemoveEnemy(int _posX, int _posY)
@@ -306,11 +307,12 @@ public class DungeonManager : MonoBehaviour
 		}
 
 		dungeonBlockGrid[_posX, _posY].SetBlockState(BlockState.Empty);
+		dungeonBlockGrid[_posX, _posY].RemoveEnemy();
 	}
 
 	public void MoveEnemy(int _fromX, int _fromY, int _toX, int _toY)
 	{
-		PlaceEnemy(_toX, _toY);
+		PlaceEnemy(dungeonBlockGrid[_fromX, _fromY].Enemy, _toX, _toY);
 		RemoveEnemy(_fromX, _fromY);
 	}
 

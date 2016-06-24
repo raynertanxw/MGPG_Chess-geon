@@ -84,7 +84,7 @@ public class EnemyPiece : MonoBehaviour
 				int spriteIndex = Array.IndexOf(enemySpriteNames, _unitType.ToString() + "_" + _movementType.ToString());
 				curPiece.mSpriteRen.sprite = enemySprites[spriteIndex];
 
-				DungeonManager.Instance.PlaceEnemy(_posX, _posY);
+				DungeonManager.Instance.PlaceEnemy(curPiece, _posX, _posY);
 				curPiece.transform.position = DungeonManager.Instance.GridPosToWorldPos(_posX, _posY);
 
 				break;
@@ -267,8 +267,23 @@ public class EnemyPiece : MonoBehaviour
 		// TODO: Check if piece died. Handling for dying.
 		if (mnHealth <= 0)
 		{
-			ReturnToPool();
+			Die();
 		}
+	}
+
+	private void Die()
+	{
+		// TODO: Diff animations by diff enemy type?
+		ScaleToAction scaleDown = new ScaleToAction(transform, Vector3.zero, 2.0f);
+		scaleDown.OnActionFinish += () => {
+			ReturnToPool();
+			transform.localScale = Vector3.one;
+			transform.localScale *= DungeonManager.Instance.ScaleMultiplier;
+		};
+		ActionHandler.RunAction(scaleDown);
+
+		DungeonManager.Instance.RemoveEnemy(PosX, PosY);
+		GameManager.Instance.EnemyList.Remove(this);
 	}
 
 	private void GeneratePath()
