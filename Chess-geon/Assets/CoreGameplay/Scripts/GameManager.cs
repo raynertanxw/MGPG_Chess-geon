@@ -218,11 +218,12 @@ public class GameManager : MonoBehaviour
 			}
 		);
 		// BT_Sequence only runs when there are enemy pieces.
-		// Refer to BT_Root below.
-		BTSequence BT_Sequence = new BTSequence(BTAct_EnemyPhaseStartAnimations, BTAct_MoveEnemyPieces, BTAct_AttackPlayer);
+		// Refer to BT_NullCheckSelector below.
+		BTSequence BT_EnemyMovementSequence = new BTSequence(BTAct_MoveEnemyPieces, BTAct_AttackPlayer);
 		// Root is Selector that checks for enemies.
 		// If no enemies, immediately stops (BTAct_NoEnemyCheck returns success).
-		BTSelector BT_Root = new BTSelector(BTAct_NoEnemyCheck, BT_Sequence);
+		BTSelector BT_NullCheckSelector = new BTSelector(BTAct_NoEnemyCheck, BT_EnemyMovementSequence);
+		BTSequence BT_Root = new BTSequence(BTAct_EnemyPhaseStartAnimations, BT_NullCheckSelector);
 
 		mEnemyPhaseBehaviourTree = new BehaviourTree(BT_Root);
 	}
@@ -323,7 +324,7 @@ public class GameManager : MonoBehaviour
 		// TODO: TEMP IMPLEMENTATION.
 
 		int numEnemiesSpawned = 0;
-		while (numEnemiesSpawned < 8)
+		while (numEnemiesSpawned < 2)
 		{
 			int posX = Random.Range(1, DungeonManager.Instance.SizeX - 2);
 			int posY = Random.Range(1, DungeonManager.Instance.SizeY - 2);
