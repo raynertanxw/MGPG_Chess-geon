@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 			{
 				Debug.Log("Running ExecuteCard");
 
-				if (ControlAreaManager.PanelOpened)
+				if (ControlAreaManager.IsPanelOpen)
 				{
 					mCtrlArea.SetControlBlockerEnabled(true);
 					return BTStatus.Running;
@@ -149,6 +149,7 @@ public class GameManager : MonoBehaviour
 				else if (EventAnimationController.Instance.IsAnimating == false)
 				{
 					EPdoneStartAnimation = false;
+					ControlAreaManager.Instance.SetControlBlockerEnabled(true);
 					return BTStatus.Success;
 				}
 

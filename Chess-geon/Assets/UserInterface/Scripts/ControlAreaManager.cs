@@ -10,23 +10,17 @@ public class ControlAreaManager : MonoBehaviour
 	private static ControlAreaManager sInstance = null;
 	public static ControlAreaManager Instance { get { return sInstance; } }
 
-	private static bool mbPanelOpened;
-	public static bool PanelOpened { get { return mbPanelOpened; } }
-	private Transform mCardAreaCanvas;
-	private CanvasGroup[] mPanelCGs;
-	private Image mBlockingPanel;
-	private MovementPanelControls mMovementPanelCtrls;
-
-
-
-
-	private GameObject mControlBlocker;
-
 	private static bool mbCardIsBeingDragged;
 	public static bool CardIsBeingDragged { get { return mbCardIsBeingDragged; } }
 	private static Card mCurCard;
-
+	private GameObject mControlBlocker;
 	private float mfBoardMinY;
+
+	private static bool mbIsPanelOpen;
+	public static bool IsPanelOpen { get { return mbIsPanelOpen; } }
+	private Transform mCardAreaCanvas;
+	private CanvasGroup[] mPanelCGs;
+	private MovementPanelControls mMovementPanelCtrls;
 
 	private void Awake()
 	{
@@ -54,17 +48,12 @@ public class ControlAreaManager : MonoBehaviour
 
 
 		mCardAreaCanvas = GameObject.Find("CardAreaCanvas").transform;
-		mBlockingPanel = mCardAreaCanvas.FindChild("BlockingPanel").GetComponent<Image>();
-		mBlockingPanel.enabled = false;
 
 		mPanelCGs = new CanvasGroup[(int)CardType.NumTypes];
-
 		for (int i = 0; i < (int)CardType.NumTypes; i++)
 			mPanelCGs[i] = mCardAreaCanvas.FindChild(((CardType)i).ToString() + "Panel").GetComponent<CanvasGroup>();
-
 		mMovementPanelCtrls = mPanelCGs[(int)CardType.Movement].gameObject.GetComponent<MovementPanelControls>();
-
-		mbPanelOpened = false;
+		mbIsPanelOpen = false;
 		HideAllCardPanels();
 	}
 
@@ -168,8 +157,7 @@ public class ControlAreaManager : MonoBehaviour
 			Instance.mPanelCGs[(int)_type].blocksRaycasts = false;
 		}
 
-		Instance.mBlockingPanel.enabled = _visible;
-		mbPanelOpened = _visible;
+		mbIsPanelOpen = _visible;
 	}
 
 	public static void HideAllCardPanels()
