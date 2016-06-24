@@ -38,6 +38,7 @@ public class PlayerPiece : MonoBehaviour
 	public void Initialise(int _startX, int _startY)
 	{
 		SetPosition(_startX, _startY);
+		mnHealth = 3;
 	}
 
 	private void SetPosition(int _newX, int _newY)
@@ -113,7 +114,19 @@ public class PlayerPiece : MonoBehaviour
 	public void TakeDamage(int _damage)
 	{
 		mnHealth -= _damage;
+		PlayerInfoManager.Instance.UpdateHealth(mnHealth);
 
-		// TODO: Check if piece died. Handling for dying.
+		// TODO: Check if player died. Handling for dying.
+		if (mnHealth > 0)
+		{
+			// Player hasn't died.
+			ShakeAction2D camShake = new ShakeAction2D(Camera.main.transform, 10, 1.25f, Graph.InverseLinear);
+			camShake.SetShakeByDuration(0.2f, 15);
+			ActionHandler.RunAction(camShake);
+		}
+		else
+		{
+			// End the game here.
+		}
 	}
 }

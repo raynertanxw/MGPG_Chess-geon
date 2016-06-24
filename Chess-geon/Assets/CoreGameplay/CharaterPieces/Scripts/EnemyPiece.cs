@@ -303,6 +303,9 @@ public class EnemyPiece : MonoBehaviour
 			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 0.25f);
 		ScaleToAction scaleDownHit = new ScaleToAction(this.transform, Graph.Dipper, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.1f, 0.25f);
 		ActionParallel hitParallel = new ActionParallel(moveToPos, scaleDownHit);
+		hitParallel.OnActionFinish += () => {
+			GameManager.Instance.Player.TakeDamage(1);
+		};
 
 		DelayAction returnDelay = new DelayAction(0.1f);
 
