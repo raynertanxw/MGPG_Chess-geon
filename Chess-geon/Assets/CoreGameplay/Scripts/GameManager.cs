@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 	public PlayerPiece Player { get { return mPlayerPiece; } }
 	private bool mPlayerToEndPhase;
 
-	private ControlAreaButtons mCtrlArea;
+	private ControlAreaManager mCtrlArea;
 
 	private void Awake()
 	{
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
 		InitializePlayerPhaseBehaviourTree();
 		InitializeEnemyPhaseBehaviourTree();
 
-		mCtrlArea = GameObject.Find("ControlAreaCanvas").GetComponent<ControlAreaButtons>();
+		mCtrlArea = GameObject.Find("ControlAreaCanvas").GetComponent<ControlAreaManager>();
 
 		GenerateNPlaceEnemies();
 		PlacePlayer();
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
 			{
 				Debug.Log("Running MoveCard");
 
-				if (ControlAreaButtons.CardIsBeingDragged)
+				if (ControlAreaManager.CardIsBeingDragged)
 				{
 					return BTStatus.Running;
 				}
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 			{
 				Debug.Log("Running ExecuteCard");
 
-				if (CardAreaButtons.PanelOpened)
+				if (ControlAreaManager.PanelOpened)
 				{
 					mCtrlArea.SetControlBlockerEnabled(true);
 					return BTStatus.Running;

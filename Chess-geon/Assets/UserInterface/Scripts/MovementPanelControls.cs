@@ -38,7 +38,7 @@ public class MovementPanelControls : MonoBehaviour
 		GameManager.Instance.Player.ExecuteTurn(targetPosX, targetPosY);
 
 		// Dismiss panel.
-		CardAreaButtons.SetCardPanelVisibility(CardType.Movement, false);
+		ControlAreaManager.SetCardPanelVisibility(CardType.Movement, false);
 	}
 
 	public void UpdatePanel()

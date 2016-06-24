@@ -34,7 +34,7 @@ public class EventAnimationController : MonoBehaviour
 		ExecutePhaseAnimation(GamePhase.PlayerPhase);
 	}
 
-	private ControlAreaButtons mCtrlArea;
+	private ControlAreaManager mCtrlArea;
 
 	private Image mPhaseTop, mPhaseBottom;
 	private Image mBGOverlayImage;
@@ -46,7 +46,7 @@ public class EventAnimationController : MonoBehaviour
 
 	private void Setup()
 	{
-		mCtrlArea = GameObject.Find("ControlAreaCanvas").GetComponent<ControlAreaButtons>();
+		mCtrlArea = GameObject.Find("ControlAreaCanvas").GetComponent<ControlAreaManager>();
 
 		mPhaseTop = transform.FindChild("Phase_Top").GetComponent<Image>();
 		mPhaseBottom = transform.FindChild("Phase_Bottom").GetComponent<Image>();

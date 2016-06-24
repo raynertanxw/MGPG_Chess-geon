@@ -3,9 +3,23 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using DaburuTools.Action;
 using DaburuTools;
+using UnityEngine.UI;
 
-public class ControlAreaButtons : MonoBehaviour
+public class ControlAreaManager : MonoBehaviour
 {
+	private static ControlAreaManager sInstance = null;
+	public static ControlAreaManager Instance { get { return sInstance; } }
+
+	private static bool mbPanelOpened;
+	public static bool PanelOpened { get { return mbPanelOpened; } }
+	private Transform mCardAreaCanvas;
+	private CanvasGroup[] mPanelCGs;
+	private Image mBlockingPanel;
+	private MovementPanelControls mMovementPanelCtrls;
+
+
+
+
 	private GameObject mControlBlocker;
 
 	private static bool mbCardIsBeingDragged;
@@ -16,6 +30,20 @@ public class ControlAreaButtons : MonoBehaviour
 
 	private void Awake()
 	{
+		if (sInstance == null)
+		{
+			sInstance = this;
+			Setup();
+		}
+		else if (sInstance != this)
+		{
+			Destroy(this.gameObject);
+			return;
+		}
+	}
+
+	private void Setup()
+	{
 		mControlBlocker = transform.FindChild("ControlBlocker").gameObject;
 		SetControlBlockerEnabled(false);
 
@@ -23,8 +51,24 @@ public class ControlAreaButtons : MonoBehaviour
 		mCurCard = null;
 
 		mfBoardMinY = Screen.height - Screen.width;
+
+
+		mCardAreaCanvas = GameObject.Find("CardAreaCanvas").transform;
+		mBlockingPanel = mCardAreaCanvas.FindChild("BlockingPanel").GetComponent<Image>();
+		mBlockingPanel.enabled = false;
+
+		mPanelCGs = new CanvasGroup[(int)CardType.NumTypes];
+
+		for (int i = 0; i < (int)CardType.NumTypes; i++)
+			mPanelCGs[i] = mCardAreaCanvas.FindChild(((CardType)i).ToString() + "Panel").GetComponent<CanvasGroup>();
+
+		mMovementPanelCtrls = mPanelCGs[(int)CardType.Movement].gameObject.GetComponent<MovementPanelControls>();
+
+		mbPanelOpened = false;
+		HideAllCardPanels();
 	}
 
+	#region Main controls
 	public void EndTurnButton()
 	{
 		GameManager.Instance.EndPlayerPhase();
@@ -34,6 +78,7 @@ public class ControlAreaButtons : MonoBehaviour
 	{
 		mControlBlocker.SetActive(_enabled);
 	}
+	#endregion
 
 	#region EventTrigger Functions
 	public void CardBeginDrag(BaseEventData _data)
@@ -92,6 +137,45 @@ public class ControlAreaButtons : MonoBehaviour
 			};
 			ActionHandler.RunAction(moveBack);
 		}
+	}
+	#endregion
+
+	#region Card Panel Funcitons
+	public void DoneButton()
+	{
+		HideAllCardPanels();
+	}
+
+	public static void SetCardPanelVisibility(CardType _type, bool _visible)
+	{
+		if (_visible)
+		{
+			switch(_type)
+			{
+			case CardType.Movement:
+				Instance.mMovementPanelCtrls.UpdatePanel();
+				break;
+			}
+
+			Instance.mPanelCGs[(int)_type].alpha = 1.0f;
+			Instance.mPanelCGs[(int)_type].interactable = true;
+			Instance.mPanelCGs[(int)_type].blocksRaycasts = true;
+		}
+		else
+		{
+			Instance.mPanelCGs[(int)_type].alpha = 0.0f;
+			Instance.mPanelCGs[(int)_type].interactable = false;
+			Instance.mPanelCGs[(int)_type].blocksRaycasts = false;
+		}
+
+		Instance.mBlockingPanel.enabled = _visible;
+		mbPanelOpened = _visible;
+	}
+
+	public static void HideAllCardPanels()
+	{
+		for (int i = 0; i < (int)CardType.NumTypes; i++)
+			SetCardPanelVisibility((CardType)i, false);
 	}
 	#endregion
 }

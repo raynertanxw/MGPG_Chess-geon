@@ -70,7 +70,7 @@ public class Card : MonoBehaviour
 	{
 		// Execute the card & set the respective panel to visible.
 		CardAlgorithms[(int)mCardType].ExecuteCard(mCardTier, mCardMovementType);
-		CardAreaButtons.SetCardPanelVisibility(mCardType, true);
+		ControlAreaManager.SetCardPanelVisibility(mCardType, true);
 		ChangeCard();	// TEMP ONLY
 	}
 
