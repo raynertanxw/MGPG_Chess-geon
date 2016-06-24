@@ -92,8 +92,8 @@ public class EventAnimationController : MonoBehaviour
 
 		DelayAction rotInOutDelay = new DelayAction(0.6f);
 
-		RotateByAction2D topRotOut = new RotateByAction2D(mPhaseTop.transform, Graph.InverseExponential, -86.0f, 0.6f);
-		RotateByAction2D bottomRotOut = new RotateByAction2D(mPhaseBottom.transform, Graph.InverseExponential, -86.0f, 0.6f);
+		RotateByAction2D topRotOut = new RotateByAction2D(mPhaseTop.transform, Graph.Exponential, -86.0f, 0.6f);
+		RotateByAction2D bottomRotOut = new RotateByAction2D(mPhaseBottom.transform, Graph.Exponential, -86.0f, 0.6f);
 		ActionParallel rotateOut = new ActionParallel(topRotOut, bottomRotOut);
 		
 		ActionSequence rotInOutSeq = new ActionSequence(rotateIn, rotInOutDelay, rotateOut);
