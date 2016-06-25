@@ -36,10 +36,14 @@ public class EventAnimationController : MonoBehaviour
 
 	private ControlAreaManager mCtrlArea;
 
+	// Phase Variables.
 	private Image mPhaseTop, mPhaseBottom;
 	private Image mBGOverlayImage;
 	public Sprite PlayerPhaseTopSprite, PlayerPhaseBottomSprite, EnemyPhaseTopSprite, EnemyPhaseBottomSprite;
 	private Graph InverseSmoothStep;
+
+	// GameOver Variables
+	private CanvasGroup GameOverCG, GameOverOptionsCG;
 
 	private bool mbIsAnimating = false;
 	public bool IsAnimating { get { return mbIsAnimating; } }
@@ -60,6 +64,17 @@ public class EventAnimationController : MonoBehaviour
 				_x * _x,
 				_x);
 		});
+
+
+
+		GameOverCG = transform.FindChild("FinishFloor").FindChild("PlayerDied").GetComponent<CanvasGroup>();
+		GameOverOptionsCG = GameOverCG.transform.FindChild("GameOverOptions").GetComponent<CanvasGroup>();
+		GameOverCG.alpha = 0.0f;
+		GameOverCG.blocksRaycasts = false;
+		GameOverCG.interactable = false;
+		GameOverOptionsCG.alpha = 0.0f;
+		GameOverOptionsCG.blocksRaycasts = false;
+		GameOverOptionsCG.interactable = false;
 	}
 
 	public void ExecutePhaseAnimation(GamePhase _phase)
@@ -121,5 +136,31 @@ public class EventAnimationController : MonoBehaviour
 		ActionSequence alphaFadeSeq = new ActionSequence(alphaIn, alphaDelay, alphaOut);
 
 		ActionHandler.RunAction(rotInOutSeq, rotStallSeq, alphaFadeSeq);
+	}
+
+	public void ShowGameOver()
+	{
+		GameOverCG.blocksRaycasts = true;
+		GameOverCG.interactable = true;
+		GameOverOptionsCG.interactable = true;
+		CanvasGroupAlphaFadeToAction fadeInYouDied = new CanvasGroupAlphaFadeToAction(
+			GameOverCG,
+			1.0f,
+			1.5f);
+		DelayAction fadeDelay = new DelayAction(0.2f);
+		CanvasGroupAlphaFadeToAction fadeInGameOverOptions = new CanvasGroupAlphaFadeToAction(
+			GameOverOptionsCG,
+			1.0f,
+			0.8f);
+		fadeInGameOverOptions.OnActionFinish += () => {
+			GameOverOptionsCG.blocksRaycasts = true;
+		};
+		ActionSequence gameOverSeq = new ActionSequence(fadeInYouDied, fadeDelay, fadeInGameOverOptions);
+		ActionHandler.RunAction(gameOverSeq);
+	}
+
+	private void ShowClearFloor()
+	{
+
 	}
 }

@@ -375,6 +375,7 @@ public class GameManager : MonoBehaviour
 	public void PlayerDied()
 	{
 		mbIsGameOver = true;
+		EventAnimationController.Instance.ShowGameOver();
 	}
 
 	public void ReachedFloorExit()
