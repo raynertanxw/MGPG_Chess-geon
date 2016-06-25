@@ -75,7 +75,7 @@ public class Card : MonoBehaviour
 
 	public void NewCard()
 	{
-		if (UnityEngine.Random.value > 0.5f)
+		if (UnityEngine.Random.value > 0.0f)
 		{
 			mCardType = CardType.Movement;
 			mCardMovementType = (GridType)UnityEngine.Random.Range(0, (int)GridType.Count);
