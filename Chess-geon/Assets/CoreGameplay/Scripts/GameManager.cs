@@ -257,10 +257,8 @@ public class GameManager : MonoBehaviour
 
 	private void ExecutePlayerPhase()
 	{
-//		if (mPlayerToEndPhase)
-//		{
-//			SwitchPhase(GamePhase.EnemyPhase);
-//		}
+		// TODO: Draw card
+
 		mPlayerPhaseBehaviourTree.Tick();
 	}
 

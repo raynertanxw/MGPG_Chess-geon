@@ -264,7 +264,7 @@ public class EnemyPiece : MonoBehaviour
 	{
 		mnHealth -= _damage;
 
-		// TODO: Check if piece died. Handling for dying.
+		// Check if piece died. Handling for dying.
 		if (mnHealth <= 0)
 		{
 			Die();
