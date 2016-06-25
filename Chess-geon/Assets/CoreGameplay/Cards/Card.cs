@@ -16,14 +16,19 @@ public class Card : MonoBehaviour
 	private int mnOriginSiblingIndex;
 	public int OriginSiblingIndex { get { return mnOriginSiblingIndex; } }
 
-	[SerializeField]
-	private CardType mCardType = CardType.Movement;
-	[SerializeField]
+	private CardType mCardType = CardType.None;
+	public CardType Type { get { return mCardType; } }
 	private GridType mCardMovementType = GridType.Rook;
-	[SerializeField]
+	public GridType MoveType { get { return mCardMovementType; } }
 	private CardTier mCardTier = CardTier.None;
-	private bool mbNeedUpdateSprite;
+	public CardTier Tier { get { return mCardTier; } }
 	private Image mImage;
+	public Image CardImage { get { return mImage; } }
+	private bool mbEnabled;
+	public bool Enabled { get { return mbEnabled; } }
+	private bool mbDraggable;
+	public bool Draggable { get { return mbDraggable; } }
+	public void SetCardDraggable(bool _draggable) { mbDraggable = _draggable; }
 
 	private CardStrategy[] CardAlgorithms;
 
@@ -49,7 +54,7 @@ public class Card : MonoBehaviour
 			cardSpriteNames[i] = cardSprites[i].name;
 		}
 
-		mbNeedUpdateSprite = true;
+		ToggleCard(false);
 	}
 
 	void Start()
@@ -60,21 +65,16 @@ public class Card : MonoBehaviour
 		mnOriginSiblingIndex = transform.GetSiblingIndex();
 	}
 
-	void Update()
-	{
-		if (mbNeedUpdateSprite)
-			UpdateSprite();
-	}
-
 	public void Execute()
 	{
 		// Execute the card & set the respective panel to visible.
 		CardAlgorithms[(int)mCardType].ExecuteCard(mCardTier, mCardMovementType);
 		ControlAreaManager.SetCardPanelVisibility(mCardType, true);
-		ChangeCard();	// TEMP ONLY
+		ToggleCard(false);
+		DeckManager.Instance.ReorganiseCards();
 	}
 
-	public void ChangeCard()
+	public void NewCard()
 	{
 		if (UnityEngine.Random.value > 0.5f)
 		{
@@ -88,7 +88,7 @@ public class Card : MonoBehaviour
 			mCardTier = (CardTier)UnityEngine.Random.Range(0, 3);	// TEMP
 		}
 
-		mbNeedUpdateSprite = true;
+		UpdateSprite();
 	}
 
 	private void UpdateSprite()
@@ -105,7 +105,20 @@ public class Card : MonoBehaviour
 			mImage.sprite = cardSprites[Array.IndexOf(cardSpriteNames, "Card_" + mCardType.ToString() + "_" + mCardTier.ToString())];
 			break;
 		}
+	}
 
-		mbNeedUpdateSprite = false;
+	public void ToggleCard(bool _enabled)
+	{
+		mImage.enabled = _enabled;
+		mbEnabled = _enabled;
+	}
+
+	public void CopyCardData(Card _sourceCard)
+	{
+		mCardType = _sourceCard.Type;
+		mCardMovementType = _sourceCard.MoveType;
+		mCardTier = _sourceCard.Tier;
+
+		mImage.sprite = _sourceCard.CardImage.sprite;
 	}
 }

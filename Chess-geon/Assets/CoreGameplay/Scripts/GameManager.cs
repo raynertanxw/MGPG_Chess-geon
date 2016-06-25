@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DaburuTools.Action;
 using DaburuTools;
 
 public enum GamePhase { PlayerPhase, EnemyPhase };
@@ -59,9 +60,19 @@ public class GameManager : MonoBehaviour
 		GenerateNPlaceEnemies();
 		PlacePlayer();
 
-		// TODO: Draw One More Card.
-
 		mPhase = GamePhase.PlayerPhase;
+	}
+
+	void Start()
+	{
+		// Draw 3 cards.
+		DelayAction firstDraw = new DelayAction(1.8f);
+		firstDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
+		DelayAction secondDraw = new DelayAction(1.8f + 0.3f);
+		secondDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
+		DelayAction thirdDraw = new DelayAction(1.8f + 0.3f + 0.3f);
+		secondDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
+		ActionHandler.RunAction(firstDraw, secondDraw, thirdDraw);
 	}
 
 	private void InitializePlayerPhaseBehaviourTree()
@@ -248,8 +259,14 @@ public class GameManager : MonoBehaviour
 		mPlayerToEndPhase = false;
 		// mCtrlArea.SetControlBlockerEnabled(false) is now done by the phase animation below.
 		EventAnimationController.Instance.ExecutePhaseAnimation(GamePhase.PlayerPhase);
-	}
 
+		DelayAction firstDraw = new DelayAction(1.8f);
+		firstDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
+		DelayAction secondDraw = new DelayAction(1.8f + 0.5f);
+		secondDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
+		ActionHandler.RunAction(firstDraw, secondDraw);
+	}
+	
 	private void ExitPlayerPhase()
 	{
 		mCtrlArea.SetControlBlockerEnabled(true);

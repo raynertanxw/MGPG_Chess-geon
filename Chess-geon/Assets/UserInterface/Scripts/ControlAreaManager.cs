@@ -79,8 +79,13 @@ public class ControlAreaManager : MonoBehaviour
 		if (mCurCard != null)
 			return;
 		
-		mbCardIsBeingDragged = true;
 		mCurCard = pointerData.pointerPressRaycast.gameObject.GetComponent<Card>();
+		if (mCurCard.Draggable == false)
+		{
+			mCurCard = null;
+			return;
+		}
+		mbCardIsBeingDragged = true;
 		mCurCard.transform.SetAsLastSibling();
 	}
 
