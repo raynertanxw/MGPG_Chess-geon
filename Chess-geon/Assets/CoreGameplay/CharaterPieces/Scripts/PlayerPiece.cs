@@ -91,6 +91,8 @@ public class PlayerPiece : MonoBehaviour
 
 	private void ExecuteAttack(int _targetX, int _targetY)
 	{
+		ActionSequence sequence = new ActionSequence();
+
 		// Do not move the player logical position values for attack.
 		ScaleToAction scaleUp = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.75f, 0.5f);
 
@@ -99,17 +101,31 @@ public class PlayerPiece : MonoBehaviour
 		ScaleToAction scaleDownHit = new ScaleToAction(this.transform, Graph.Dipper, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.1f, 0.25f);
 		ActionParallel hitParallel = new ActionParallel(moveToPos, scaleDownHit);
 		hitParallel.OnActionFinish += () => {
-			DungeonManager.Instance.DungeonBlocks[_targetX, _targetY].Enemy.TakeDamage(1);
+			EnemyPiece target = DungeonManager.Instance.DungeonBlocks[_targetX, _targetY].Enemy;
+			target.TakeDamage(1);
+			if (target.Health <= 0)
+			{
+				ScaleToAction scaleDown = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier, 0.5f);
+				scaleDown.OnActionStart += () => {
+					BoardScroller.Instance.FocusCameraToPos(this.transform.position, 0.5f, Graph.InverseExponential);
+				};
+				sequence.Add(scaleDown);
+
+				SetPosition(_targetX, _targetY);
+			}
+			else
+			{
+				MoveToAction moveBack = new MoveToAction(this.transform, Graph.SmoothStep,
+					DungeonManager.Instance.GridPosToWorldPos(PosX, PosY), 0.5f);
+				ScaleToAction scaleDownReturn = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier, 0.5f);
+				ActionParallel returnParallel = new ActionParallel(moveBack, scaleDownReturn);
+				sequence.Add(returnParallel);
+			}
 		};
 
 		DelayAction returnDelay = new DelayAction(0.1f);
 
-		MoveToAction moveBack = new MoveToAction(this.transform, Graph.SmoothStep,
-			DungeonManager.Instance.GridPosToWorldPos(PosX, PosY), 0.5f);
-		ScaleToAction scaleDownReturn = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier, 0.5f);
-		ActionParallel returnParallel = new ActionParallel(moveBack, scaleDownReturn);
-
-		ActionSequence sequence = new ActionSequence(scaleUp, hitParallel, returnDelay, returnParallel);
+		sequence.Add(scaleUp, hitParallel, returnDelay);
 		sequence.OnActionFinish = () => { mTurnStatus = PlayerTurnStatus.Waiting; mSpriteRen.sortingOrder = mnDefaultSpriteOrderInLayer; };
 		ActionHandler.RunAction(sequence);
 	}
