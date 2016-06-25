@@ -36,6 +36,8 @@ public class EventAnimationController : MonoBehaviour
 
 	private ControlAreaManager mCtrlArea;
 
+	private ParticleSystem damageParticles;
+
 	// Phase Variables.
 	private Image mPhaseTop, mPhaseBottom;
 	private Image mBGOverlayImage;
@@ -51,6 +53,9 @@ public class EventAnimationController : MonoBehaviour
 	private void Setup()
 	{
 		mCtrlArea = GameObject.Find("ControlAreaCanvas").GetComponent<ControlAreaManager>();
+
+		damageParticles = GameObject.Find("DamageParticles").GetComponent<ParticleSystem>();
+		damageParticles.transform.localScale *= DungeonManager.Instance.ScaleMultiplier;
 
 		mPhaseTop = transform.FindChild("Phase_Top").GetComponent<Image>();
 		mPhaseBottom = transform.FindChild("Phase_Bottom").GetComponent<Image>();
@@ -162,5 +167,11 @@ public class EventAnimationController : MonoBehaviour
 	private void ShowClearFloor()
 	{
 
+	}
+
+	public void DamageParticles(Vector3 _pos)
+	{
+		damageParticles.transform.position = _pos;
+		damageParticles.Play();
 	}
 }

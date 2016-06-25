@@ -262,6 +262,11 @@ public class EnemyPiece : MonoBehaviour
 
 	public void TakeDamage(int _damage)
 	{
+		EventAnimationController.Instance.DamageParticles(transform.position);
+		ShakeAction2D camShake = new ShakeAction2D(Camera.main.transform, 5, 0.5f, Graph.InverseLinear);
+		camShake.SetShakeByDuration(0.2f, 15);
+		ActionHandler.RunAction(camShake);
+
 		mnHealth -= _damage;
 
 		// Check if piece died. Handling for dying.
@@ -274,7 +279,7 @@ public class EnemyPiece : MonoBehaviour
 	private void Die()
 	{
 		// TODO: Diff animations by diff enemy type?
-		ScaleToAction scaleDown = new ScaleToAction(transform, Vector3.zero, 2.0f);
+		ScaleToAction scaleDown = new ScaleToAction(transform, Vector3.zero, 0.4f);
 		scaleDown.OnActionFinish += () => {
 			ReturnToPool();
 			transform.localScale = Vector3.one;
