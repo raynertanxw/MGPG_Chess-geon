@@ -60,8 +60,8 @@ public class GameManager : MonoBehaviour
 
 		mCtrlArea = GameObject.Find("ControlAreaCanvas").GetComponent<ControlAreaManager>();
 
-		GenerateNPlaceEnemies();
 		PlacePlayer();
+		GenerateNPlaceEnemies();
 
 		mPhase = GamePhase.PlayerPhase;
 		mbIsGameOver = false;
@@ -350,7 +350,8 @@ public class GameManager : MonoBehaviour
 			int posX = Random.Range(1, DungeonManager.Instance.SizeX - 2);
 			int posY = Random.Range(1, DungeonManager.Instance.SizeY - 2);
 
-			if (DungeonManager.Instance.IsCellEmpty(posX, posY))
+			if (DungeonManager.Instance.IsCellEmpty(posX, posY) &&
+				DungeonManager.Instance.IsPlayerPos(posX, posY) == false)
 			{
 				EnemyList.Add(EnemyPiece.Spawn(posX, posY, EnemyUnit.BlackKing));
 				numEnemiesSpawned++;
