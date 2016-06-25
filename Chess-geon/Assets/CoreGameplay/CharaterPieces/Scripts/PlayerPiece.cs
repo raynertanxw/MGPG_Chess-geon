@@ -130,6 +130,12 @@ public class PlayerPiece : MonoBehaviour
 		else
 		{
 			// End the game here.
+			GameManager.Instance.PlayerDied();
+
+			// More dramatic shake.
+			ShakeAction2D camShake = new ShakeAction2D(Camera.main.transform, 10, 1.75f, Graph.InverseLinear);
+			camShake.SetShakeByDuration(0.4f, 25);
+			ActionHandler.RunAction(camShake);
 		}
 	}
 }

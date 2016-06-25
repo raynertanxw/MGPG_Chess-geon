@@ -25,11 +25,14 @@ public class GameManager : MonoBehaviour
 	private BehaviourTree mEnemyPhaseBehaviourTree;
 	private GamePhase mPhase;
 	public GamePhase Phase { get { return mPhase; } }
+	private bool mPlayerToEndPhase;
+	private bool mbIsGameOver;
+	public bool IsGameOver { get { return mbIsGameOver; } }
+
 	private List<EnemyPiece> mEnemyList;
 	public List<EnemyPiece> EnemyList { get { return mEnemyList; } }
 	private PlayerPiece mPlayerPiece;
 	public PlayerPiece Player { get { return mPlayerPiece; } }
-	private bool mPlayerToEndPhase;
 
 	private ControlAreaManager mCtrlArea;
 
@@ -61,6 +64,7 @@ public class GameManager : MonoBehaviour
 		PlacePlayer();
 
 		mPhase = GamePhase.PlayerPhase;
+		mbIsGameOver = false;
 	}
 
 	void Start()
@@ -241,6 +245,11 @@ public class GameManager : MonoBehaviour
 	
 	private void Update()
 	{
+		if (IsGameOver)
+		{
+			return;
+		}
+
 		switch (mPhase)
 		{
 		case GamePhase.PlayerPhase:
@@ -339,7 +348,7 @@ public class GameManager : MonoBehaviour
 		// TODO: TEMP IMPLEMENTATION.
 
 		int numEnemiesSpawned = 0;
-		while (numEnemiesSpawned < 2)
+		while (numEnemiesSpawned < 8)
 		{
 			int posX = Random.Range(1, DungeonManager.Instance.SizeX - 2);
 			int posY = Random.Range(1, DungeonManager.Instance.SizeY - 2);
@@ -361,5 +370,15 @@ public class GameManager : MonoBehaviour
 			DungeonManager.Instance.GridPosToWorldPos(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY),
 			Quaternion.identity)).GetComponent<PlayerPiece>();
 		mPlayerPiece.Initialise(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY);
+	}
+
+	public void PlayerDied()
+	{
+		mbIsGameOver = true;
+	}
+
+	public void ReachedFloorExit()
+	{
+		// TODO: Implement next level.
 	}
 }
