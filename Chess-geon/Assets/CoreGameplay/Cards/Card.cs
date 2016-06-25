@@ -86,11 +86,9 @@ public class Card : MonoBehaviour
 			mCardType = (CardType)UnityEngine.Random.Range(0, (int)CardType.NumTypes);
 			mCardTier = (CardTier)UnityEngine.Random.Range(0, 3);	// TEMP
 		}
-
-		UpdateSprite();
 	}
 
-	private void UpdateSprite()
+	public void UpdateSprite()
 	{
 		switch (mCardType)
 		{

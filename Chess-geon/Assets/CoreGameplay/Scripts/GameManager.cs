@@ -123,6 +123,9 @@ public class GameManager : MonoBehaviour
 					return BTStatus.Running;
 				}
 
+				if (EventAnimationController.Instance.IsAnimating == false)
+					ControlAreaManager.Instance.SetControlBlockerEnabled(false);
+
 				return BTStatus.Success;
 			}
 		);

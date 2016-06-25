@@ -75,6 +75,7 @@ public class DeckManager : MonoBehaviour
 		mCards[_cardSlotID].ToggleCard(true);
 		mCards[_cardSlotID].SetCardDraggable(false);
 		mCards[_cardSlotID].CardImage.sprite = CardBackSprite;
+		mCards[_cardSlotID].NewCard();
 
 		// Move the card to slot
 		mCardTransforms[_cardSlotID].position = svec3DrawPos;
@@ -90,7 +91,7 @@ public class DeckManager : MonoBehaviour
 		RotateToAction rotHide = new RotateToAction(mCardTransforms[_cardSlotID], Graph.Linear, Vector3.up * 90.0f, 0.5f);
 		rotHide.OnActionFinish += () => {
 			mCardTransforms[_cardSlotID].localEulerAngles = Vector3.up * 270.0f;
-			mCards[_cardSlotID].NewCard();
+			mCards[_cardSlotID].UpdateSprite();
 		};
 		RotateToAction rotReveal = new RotateToAction(mCardTransforms[_cardSlotID], Graph.Linear, Vector3.up * 360.0f, 0.5f);
 		ActionSequence cardFlipSeq = new ActionSequence(rotHide, rotReveal);
