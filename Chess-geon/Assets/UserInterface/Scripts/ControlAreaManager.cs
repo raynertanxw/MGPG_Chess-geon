@@ -41,7 +41,6 @@ public class ControlAreaManager : MonoBehaviour
 	private void Setup()
 	{
 		mControlBlocker = transform.FindChild("ControlBlocker").gameObject;
-		SetControlBlockerEnabled(false);
 
 		mbCardIsBeingDragged = false;
 		mCurCard = null;

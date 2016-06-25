@@ -123,7 +123,6 @@ public class GameManager : MonoBehaviour
 					return BTStatus.Running;
 				}
 
-				mCtrlArea.SetControlBlockerEnabled(false);
 				return BTStatus.Success;
 			}
 		);
