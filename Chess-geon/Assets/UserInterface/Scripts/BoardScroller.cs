@@ -96,7 +96,8 @@ public class BoardScroller : MonoBehaviour
 		_focalPos.y -= mfCenterYOffset;
 		_focalPos = ConstrainVectorToCameraBounds(_focalPos);
 		MoveToAction focusToPos = new MoveToAction(camTransform, _focusGraph, _focalPos, _focusDuration);
-		ActionHandler.RunAction(focusToPos);
+		TickAction updateMiniMap = new TickAction(_focusDuration, UpdateMiniMap);
+		ActionHandler.RunAction(focusToPos, updateMiniMap);
 	}
 
 	public void OnDrag(BaseEventData _eventData)
