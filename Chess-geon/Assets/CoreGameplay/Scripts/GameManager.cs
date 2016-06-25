@@ -84,7 +84,6 @@ public class GameManager : MonoBehaviour
 		BTAction BTAct_CheckEndTurn = new BTAction(
 			() =>
 			{
-				Debug.Log("Running CheckEndTurn");
 				if (mPlayerToEndPhase)
 				{
 					SwitchPhase(GamePhase.EnemyPhase);
@@ -96,8 +95,6 @@ public class GameManager : MonoBehaviour
 		BTAction BTAct_MoveCard = new BTAction(
 			() =>
 			{
-				Debug.Log("Running MoveCard");
-
 				if (ControlAreaManager.CardIsBeingDragged)
 				{
 					return BTStatus.Running;
@@ -109,8 +106,6 @@ public class GameManager : MonoBehaviour
 		BTAction BTAct_ExecuteCard = new BTAction(
 			() =>
 			{
-				Debug.Log("Running ExecuteCard");
-
 				if (ControlAreaManager.IsPanelOpen)
 				{
 					mCtrlArea.SetControlBlockerEnabled(true);
