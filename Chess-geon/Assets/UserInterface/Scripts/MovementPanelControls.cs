@@ -39,6 +39,9 @@ public class MovementPanelControls : MonoBehaviour
 
 		// Dismiss panel.
 		ControlAreaManager.SetCardPanelVisibility(CardType.Movement, false);
+
+		// Organise the cards.
+		DeckManager.Instance.ReorganiseCards();
 	}
 
 	public void UpdatePanel()

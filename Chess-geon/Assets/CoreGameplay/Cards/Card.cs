@@ -71,7 +71,6 @@ public class Card : MonoBehaviour
 		CardAlgorithms[(int)mCardType].ExecuteCard(mCardTier, mCardMovementType);
 		ControlAreaManager.SetCardPanelVisibility(mCardType, true);
 		ToggleCard(false);
-		DeckManager.Instance.ReorganiseCards();
 	}
 
 	public void NewCard()

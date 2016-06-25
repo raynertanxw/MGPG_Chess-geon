@@ -30,6 +30,7 @@ public class DeckManager : MonoBehaviour
 	}
 
 	private static Vector3 svec3DrawPos;
+	private static Vector3 svec3UseCardPos;
 
 	public Sprite CardBackSprite;
 	private const int knMaxCardsInHand = 5;
@@ -50,6 +51,7 @@ public class DeckManager : MonoBehaviour
 	void Start()
 	{
 		svec3DrawPos = transform.FindChild("CardDrawPos").position;
+		svec3UseCardPos = transform.FindChild("UseCardPos").position;
 	}
 
 	public void DrawCard()
@@ -104,7 +106,7 @@ public class DeckManager : MonoBehaviour
 
 	public void ReorganiseCards()
 	{
-		// TODO: Shifting cards around animation.
+		// Shifting cards around animation.
 		for (int iEmpty = 0; iEmpty < knMaxCardsInHand - 1; iEmpty++)
 		{
 			// If there is an empty slot.
@@ -126,9 +128,24 @@ public class DeckManager : MonoBehaviour
 		}
 	}
 
-	public void ReturnCardTo(Card _returnedCard, int _cardSlot)
+	public void ReturnExecutedCard()
 	{
-		// TODO: returning a card.
+		ControlAreaManager.ExecutedCard.ToggleCard(true);
+		ControlAreaManager.ExecutedCard.SetCardDraggable(false);
+		ControlAreaManager.ExecutedCard.transform.SetAsLastSibling();
+
+		// Animate toCard move from fromCard to toCard.
+		ControlAreaManager.ExecutedCard.transform.position = svec3UseCardPos;
+		MoveToAction moveCard = new MoveToAction(
+			ControlAreaManager.ExecutedCard.transform,
+			Graph.InverseExponential,
+			ControlAreaManager.ExecutedCard.OriginPos,
+			0.4f);
+		moveCard.OnActionFinish += () => {
+			ControlAreaManager.ExecutedCard.SetCardDraggable(true);
+			ControlAreaManager.ExecutedCard.transform.SetSiblingIndex(ControlAreaManager.ExecutedCard.OriginSiblingIndex);
+		};
+		ActionHandler.RunAction(moveCard);
 	}
 
 	private void ShiftCard(int _fromSlotID, int _toSlotID)
@@ -136,10 +153,14 @@ public class DeckManager : MonoBehaviour
 		mCards[_toSlotID].CopyCardData(mCards[_fromSlotID]);
 		mCards[_fromSlotID].ToggleCard(false);
 		mCards[_toSlotID].ToggleCard(true);
+		mCards[_toSlotID].SetCardDraggable(false);
 
 		// Animate toCard move from fromCard to toCard.
 		mCardTransforms[_toSlotID].position = mCards[_fromSlotID].OriginPos;
 		MoveToAction moveCard = new MoveToAction(mCardTransforms[_toSlotID], Graph.InverseExponential, mCards[_toSlotID].OriginPos, 0.6f);
+		moveCard.OnActionFinish += () => {
+			mCards[_toSlotID].SetCardDraggable(true);
+		};
 		ActionHandler.RunAction(moveCard);
 	}
 }

@@ -13,6 +13,8 @@ public class ControlAreaManager : MonoBehaviour
 	private static bool mbCardIsBeingDragged;
 	public static bool CardIsBeingDragged { get { return mbCardIsBeingDragged; } }
 	private static Card mCurCard;
+	private static Card mExecutedCard;
+	public static Card ExecutedCard { get { return mExecutedCard; } }
 	private GameObject mControlBlocker;
 	private float mfBoardMinY;
 
@@ -119,6 +121,7 @@ public class ControlAreaManager : MonoBehaviour
 			mCurCard.transform.SetSiblingIndex(mCurCard.OriginSiblingIndex);
 			mCurCard.Execute();
 
+			mExecutedCard = mCurCard;
 			mCurCard = null;
 		}
 		// Card is returned unused.
@@ -137,6 +140,12 @@ public class ControlAreaManager : MonoBehaviour
 	#region Card Panel Funcitons
 	public void DoneButton()
 	{
+		HideAllCardPanels();
+	}
+
+	public void CancelButton()
+	{
+		DeckManager.Instance.ReturnExecutedCard();
 		HideAllCardPanels();
 	}
 
