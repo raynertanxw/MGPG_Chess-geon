@@ -105,7 +105,13 @@ public class ShopManager : MonoBehaviour
 	#region Funcitons for Buttons
 	public void BuyCard(int _cardID)
 	{
-		
+		// TODO: Check if enough coins.
+
+		// TODO: Deduct coins.
+
+		CardTier tier = (CardTier) (_cardID/3);
+		DeckManager.Instance.DrawSpecificCard(cardTypes[_cardID], tier);
+		CloseShop();
 	}
 
 	public void CloseShop()
@@ -120,7 +126,9 @@ public class ShopManager : MonoBehaviour
 
 	public void Shuffle()
 	{
+		// TODO: Check if got >= 25 coins.
 
+		GenerateNewCardsForSale();
 	}
 	#endregion
 }
