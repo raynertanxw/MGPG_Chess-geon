@@ -141,7 +141,6 @@ public class GameManager : MonoBehaviour
 				// If there are not even one enemy. Nothing to do here.
 				if (EnemyList.Count < 1)
 				{
-					EndEnemyPhase();
 					return BTStatus.Success;
 				}
 
@@ -220,7 +219,6 @@ public class GameManager : MonoBehaviour
 					EPcurEnemyIndex++;
 					if (EPcurEnemyIndex >= EnemyList.Count)	// If went finish second pass.
 					{
-						EndEnemyPhase();
 						return BTStatus.Success;
 					}
 					break;
@@ -229,13 +227,29 @@ public class GameManager : MonoBehaviour
 				return BTStatus.Running;
 			}
 		);
+
+		// Reduce the player's shield by 1 point after end of every enemy turn.
+		BTAction BTAct_ReducePlayersShield = new BTAction(
+			() =>
+			{
+				Player.DeductShieldPoints(1);
+				if (Player.TurnStatus == PlayerTurnStatus.Running)
+					return BTStatus.Running;
+				else
+				{
+					EndEnemyPhase();
+					return BTStatus.Success;
+				}
+			}
+		);
+
 		// BT_Sequence only runs when there are enemy pieces.
 		// Refer to BT_NullCheckSelector below.
 		BTSequence BT_EnemyMovementSequence = new BTSequence(BTAct_MoveEnemyPieces, BTAct_AttackPlayer);
 		// Root is Selector that checks for enemies.
 		// If no enemies, immediately stops (BTAct_NoEnemyCheck returns success).
 		BTSelector BT_NullCheckSelector = new BTSelector(BTAct_NoEnemyCheck, BT_EnemyMovementSequence);
-		BTSequence BT_Root = new BTSequence(BTAct_EnemyPhaseStartAnimations, BT_NullCheckSelector);
+		BTSequence BT_Root = new BTSequence(BTAct_EnemyPhaseStartAnimations, BT_NullCheckSelector, BTAct_ReducePlayersShield);
 
 		mEnemyPhaseBehaviourTree = new BehaviourTree(BT_Root);
 	}

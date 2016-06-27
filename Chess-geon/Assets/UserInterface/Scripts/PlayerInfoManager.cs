@@ -31,6 +31,10 @@ public class PlayerInfoManager : MonoBehaviour
 	public Sprite FullHeart, EmptyHeart;
 	private Image[] HealthHearts;
 
+	public Sprite FullShield, EmptyShield;
+	private Image ShieldImage, ShieldTextBG;
+	private Text ShieldText;
+
 	private void Setup()
 	{
 		Transform playerHealth = transform.FindChild("Player Health");
@@ -40,6 +44,17 @@ public class PlayerInfoManager : MonoBehaviour
 			HealthHearts[i] = playerHealth.GetChild(i).GetComponent<Image>();
 			HealthHearts[i].sprite = FullHeart;
 		}
+
+		Transform playerShield = transform.FindChild("Player Shield");
+		ShieldImage = playerShield.FindChild("Shield Image").GetComponent<Image>();
+		ShieldTextBG = playerShield.FindChild("text BG mask").GetChild(0).GetComponent<Image>();
+		ShieldText = playerShield.FindChild("Shield Text").GetComponent<Text>();
+	}
+
+	void Start()
+	{
+		UpdateHealth(GameManager.Instance.Player.Health);
+		UpdateShield(GameManager.Instance.Player.Shield);
 	}
 
 	public void UpdateHealth(int _health)
@@ -50,6 +65,25 @@ public class PlayerInfoManager : MonoBehaviour
 				HealthHearts[i].sprite = FullHeart;
 			else
 				HealthHearts[i].sprite = EmptyHeart;
+		}
+	}
+
+	public void UpdateShield(int _shield)
+	{
+		if (_shield <= 0)
+		{
+			ShieldTextBG.enabled = false;
+			ShieldText.enabled = false;
+
+			ShieldImage.sprite = EmptyShield;
+		}
+		else
+		{
+			ShieldTextBG.enabled = true;
+			ShieldText.enabled = true;
+
+			ShieldImage.sprite = FullShield;
+			ShieldText.text = _shield.ToString();
 		}
 	}
 }

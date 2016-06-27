@@ -46,14 +46,13 @@ public class BTSelector : IBTNode
 		{
 			mTree.SetCurNode(node);
 		}
-		// If the node succeded, the node would have set this sequence to curNode in BehaviourTree.
-		// When it comes around,
+		// If the node succeded, the node would have set this selector to curNode in BehaviourTree.
 		else if (node.Status == BTStatus.Success)
 		{
 			mStatus = BTStatus.Success;
 			mTree.SetCurNode(mParent);
 		}
-		// If the node has failed, exit sequence.
+		// If the node has failed, move to next node.
 		else if (node.Status == BTStatus.Failure)
 		{
 			curIndex++;

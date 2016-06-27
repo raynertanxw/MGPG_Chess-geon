@@ -8,7 +8,10 @@ public enum PlayerTurnStatus { Running, Waiting };
 public class PlayerPiece : MonoBehaviour
 {
 	public SpriteRenderer mSpriteRen;
+	private SpriteRenderer mShieldBubbleSpriteRen;
+	private Transform mShieldBubbleTransform;
 	public Sprite[] PlayerSprites;
+	public Sprite ShieldBubble;
 	private int mnDefaultSpriteOrderInLayer;
 
 	private GridType mMovementType = GridType.Pawn;
@@ -20,6 +23,8 @@ public class PlayerPiece : MonoBehaviour
 
 	private int mnHealth = -1;
 	public int Health { get { return mnHealth; } }
+	private int mnShield = -1;
+	public int Shield { get { return mnShield; } }
 
 	private PlayerTurnStatus mTurnStatus;
 	public PlayerTurnStatus TurnStatus { get { return mTurnStatus; } }
@@ -32,6 +37,11 @@ public class PlayerPiece : MonoBehaviour
 		mSpriteRen.sprite = PlayerSprites[0];
 		mnDefaultSpriteOrderInLayer = mSpriteRen.sortingOrder;
 
+		mShieldBubbleTransform = transform.GetChild(0);
+		mShieldBubbleSpriteRen = mShieldBubbleTransform.GetComponent<SpriteRenderer>();
+		mShieldBubbleSpriteRen.sprite = ShieldBubble;
+		mShieldBubbleSpriteRen.enabled = false;
+
 		transform.localScale *= DungeonManager.Instance.ScaleMultiplier;
 	}
 
@@ -39,6 +49,7 @@ public class PlayerPiece : MonoBehaviour
 	{
 		SetPosition(_startX, _startY);
 		mnHealth = 3;
+		mnShield = 0;
 	}
 
 	private void SetPosition(int _newX, int _newY)
@@ -160,6 +171,51 @@ public class PlayerPiece : MonoBehaviour
 			ShakeAction2D camShake = new ShakeAction2D(Camera.main.transform, 10, 1.75f, Graph.InverseLinear);
 			camShake.SetShakeByDuration(0.4f, 25);
 			ActionHandler.RunAction(camShake);
+		}
+	}
+
+	public void AddShieldPoints(int _shieldPoints)
+	{
+		// If re-adding the shield.
+		if (Shield <= 0)
+		{
+			mnShield = 0;
+			mnShield += _shieldPoints;
+			PlayerInfoManager.Instance.UpdateShield(mnShield);
+
+			// Show shield bubble and start the animation.
+			mShieldBubbleTransform.localScale = Vector3.zero;
+			mShieldBubbleSpriteRen.enabled = true;
+			ScaleToAction shieldScaleUp = new ScaleToAction(mShieldBubbleTransform, Graph.InverseExponential, Vector3.one, 1.0f);
+			ActionHandler.RunAction(shieldScaleUp);
+		}
+		// Else just adding on top of the shield.
+		else
+		{
+			mnShield += _shieldPoints;
+			PlayerInfoManager.Instance.UpdateShield(mnShield);
+		}
+	}
+
+	public void DeductShieldPoints(int _shieldPoints)
+	{
+		mnShield -= _shieldPoints;
+		PlayerInfoManager.Instance.UpdateShield(mnShield);
+
+		// Check if shield got broken.
+		if (mnShield <= 0)
+		{
+			mTurnStatus = PlayerTurnStatus.Running;
+
+			// Broken sheild animation.
+			ShakeAction2D shieldFailureShake = new ShakeAction2D(mShieldBubbleTransform, 100, 0.05f, Graph.InverseLinear);
+			shieldFailureShake.SetShakeByDuration(0.8f, 100);
+			ScaleToAction shieldScaleDown = new ScaleToAction(mShieldBubbleTransform, Graph.Exponential, Vector3.zero, 1.0f);
+			shieldScaleDown.OnActionFinish += () => {
+				mShieldBubbleSpriteRen.enabled = false;
+				mTurnStatus = PlayerTurnStatus.Waiting;
+			};
+			ActionHandler.RunAction(shieldFailureShake, shieldScaleDown);
 		}
 	}
 }
