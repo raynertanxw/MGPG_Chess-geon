@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: cb1056707753245908417744dc21d171
-timeCreated: 1466748093
+guid: 05ca9b9d06e394efcb13faa9f723bd86
+timeCreated: 1467003674
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,8 @@ TextureImporter:
     21300002: EmptyHeart
     21300004: Coin
     21300006: Gem
+    21300008: EmptyShield
+    21300010: FullShield
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -31,7 +33,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
-  maxTextureSize: 32
+  maxTextureSize: 64
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -58,7 +60,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 16
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -68,8 +70,8 @@ TextureImporter:
     - name: EmptyHeart
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
+        x: 18
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -79,8 +81,8 @@ TextureImporter:
     - name: Coin
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 36
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -90,10 +92,32 @@ TextureImporter:
     - name: Gem
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
+        x: 48
+        y: 35
         width: 16
-        height: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: EmptyShield
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 28
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: FullShield
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 0
+        width: 28
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
