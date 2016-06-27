@@ -199,6 +199,13 @@ public class PlayerPiece : MonoBehaviour
 
 	public void DeductShieldPoints(int _shieldPoints)
 	{
+		// If shield is already broken or not active, just ignore.
+		if (Shield <= 0)
+		{
+			mTurnStatus = PlayerTurnStatus.Waiting;
+			return;
+		}
+
 		mnShield -= _shieldPoints;
 		PlayerInfoManager.Instance.UpdateShield(mnShield);
 
@@ -216,6 +223,10 @@ public class PlayerPiece : MonoBehaviour
 				mTurnStatus = PlayerTurnStatus.Waiting;
 			};
 			ActionHandler.RunAction(shieldFailureShake, shieldScaleDown);
+		}
+		else
+		{
+			mTurnStatus = PlayerTurnStatus.Waiting;
 		}
 	}
 }
