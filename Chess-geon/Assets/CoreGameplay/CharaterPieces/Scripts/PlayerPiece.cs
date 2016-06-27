@@ -46,7 +46,7 @@ public class PlayerPiece : MonoBehaviour
 		// Checking.
 		if (DungeonManager.Instance.IsExitCell(_newX, _newY))
 		{
-			Debug.Log("Reached EXIT TILE!!!");
+//			Debug.Log("Reached EXIT TILE!!!");
 		}
 		else if (DungeonManager.Instance.IsCellEmpty(_newX, _newY) == false)
 		{
@@ -85,7 +85,15 @@ public class PlayerPiece : MonoBehaviour
 		SetPosition(_newX, _newY);
 		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.InverseExponential,
 			DungeonManager.Instance.GridPosToWorldPos(_newX, _newY), 0.5f);
-		moveToPos.OnActionFinish = () => { mTurnStatus = PlayerTurnStatus.Waiting; mSpriteRen.sortingOrder = mnDefaultSpriteOrderInLayer; };
+		moveToPos.OnActionFinish = () => {
+			mTurnStatus = PlayerTurnStatus.Waiting; mSpriteRen.sortingOrder = mnDefaultSpriteOrderInLayer;
+
+			// Check if reached the dungeonExit.
+			if (DungeonManager.Instance.IsExitCell(PosX, PosY))
+			{
+				GameManager.Instance.ReachedFloorExit();
+			}
+		};
 		ActionHandler.RunAction(moveToPos);
 	}
 

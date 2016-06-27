@@ -47,6 +47,9 @@ public class EventAnimationController : MonoBehaviour
 	// GameOver Variables
 	private CanvasGroup GameOverCG, GameOverOptionsCG;
 
+	// FinishFloor Variables
+	private CanvasGroup FloorClearedCG;
+
 	private bool mbIsAnimating = false;
 	public bool IsAnimating { get { return mbIsAnimating; } }
 
@@ -80,6 +83,11 @@ public class EventAnimationController : MonoBehaviour
 		GameOverOptionsCG.alpha = 0.0f;
 		GameOverOptionsCG.blocksRaycasts = false;
 		GameOverOptionsCG.interactable = false;
+
+		FloorClearedCG = transform.FindChild("FinishFloor").FindChild("FloorCleared").GetComponent<CanvasGroup>();
+		FloorClearedCG.alpha = 0.0f;
+		FloorClearedCG.blocksRaycasts = false;
+		FloorClearedCG.interactable = false;
 	}
 
 	public void ExecutePhaseAnimation(GamePhase _phase)
@@ -145,18 +153,14 @@ public class EventAnimationController : MonoBehaviour
 
 	public void ShowGameOver()
 	{
+		ControlAreaManager.Instance.SetControlBlockerEnabled(true);
+
 		GameOverCG.blocksRaycasts = true;
 		GameOverCG.interactable = true;
 		GameOverOptionsCG.interactable = true;
-		CanvasGroupAlphaFadeToAction fadeInYouDied = new CanvasGroupAlphaFadeToAction(
-			GameOverCG,
-			1.0f,
-			1.5f);
+		CanvasGroupAlphaFadeToAction fadeInYouDied = new CanvasGroupAlphaFadeToAction(GameOverCG, 1.0f, 1.5f);
 		DelayAction fadeDelay = new DelayAction(0.2f);
-		CanvasGroupAlphaFadeToAction fadeInGameOverOptions = new CanvasGroupAlphaFadeToAction(
-			GameOverOptionsCG,
-			1.0f,
-			0.8f);
+		CanvasGroupAlphaFadeToAction fadeInGameOverOptions = new CanvasGroupAlphaFadeToAction(GameOverOptionsCG, 1.0f, 0.8f);
 		fadeInGameOverOptions.OnActionFinish += () => {
 			GameOverOptionsCG.blocksRaycasts = true;
 		};
@@ -164,9 +168,15 @@ public class EventAnimationController : MonoBehaviour
 		ActionHandler.RunAction(gameOverSeq);
 	}
 
-	private void ShowClearFloor()
+	public void ShowFloorCleared()
 	{
+		ControlAreaManager.Instance.SetControlBlockerEnabled(true);
 
+		FloorClearedCG.blocksRaycasts = true;
+		FloorClearedCG.interactable = true;
+		FloorClearedCG.alpha = 1.0f;
+
+		// TODO: Set the tip.
 	}
 
 	public void DamageParticles(Vector3 _pos)

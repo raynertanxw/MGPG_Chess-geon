@@ -378,6 +378,7 @@ public class GameManager : MonoBehaviour
 
 	public void ReachedFloorExit()
 	{
-		// TODO: Implement next level.
+		mbIsGameOver = true;
+		EventAnimationController.Instance.ShowFloorCleared();
 	}
 }
