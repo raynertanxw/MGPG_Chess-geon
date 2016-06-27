@@ -34,8 +34,6 @@ public class GameManager : MonoBehaviour
 	private PlayerPiece mPlayerPiece;
 	public PlayerPiece Player { get { return mPlayerPiece; } }
 
-	private ControlAreaManager mCtrlArea;
-
 	private void Awake()
 	{
 		if (sInstance == null)
@@ -57,8 +55,6 @@ public class GameManager : MonoBehaviour
 		mPlayerToEndPhase = false;
 		InitializePlayerPhaseBehaviourTree();
 		InitializeEnemyPhaseBehaviourTree();
-
-		mCtrlArea = GameObject.Find("ControlAreaCanvas").GetComponent<ControlAreaManager>();
 
 		PlacePlayer();
 		GenerateNPlaceEnemies();
@@ -108,13 +104,13 @@ public class GameManager : MonoBehaviour
 			{
 				if (ControlAreaManager.IsPanelOpen)
 				{
-					mCtrlArea.SetControlBlockerEnabled(true);
+					ControlAreaManager.Instance.SetControlBlockerEnabled(true);
 					return BTStatus.Running;
 				}
 				// Check player turn status.
 				if (Player.TurnStatus == PlayerTurnStatus.Running)
 				{
-					mCtrlArea.SetControlBlockerEnabled(true);
+					ControlAreaManager.Instance.SetControlBlockerEnabled(true);
 					return BTStatus.Running;
 				}
 
@@ -277,7 +273,7 @@ public class GameManager : MonoBehaviour
 	{
 		// Reset variable to make sure player can end phase again.
 		mPlayerToEndPhase = false;
-		// mCtrlArea.SetControlBlockerEnabled(false) is now done by the phase animation below.
+		// ControlAreaManager.Instance.SetControlBlockerEnabled(false) is now done by the phase animation below.
 		EventAnimationController.Instance.ExecutePhaseAnimation(GamePhase.PlayerPhase);
 
 		DelayAction firstDraw = new DelayAction(1.8f);
@@ -289,7 +285,7 @@ public class GameManager : MonoBehaviour
 	
 	private void ExitPlayerPhase()
 	{
-		mCtrlArea.SetControlBlockerEnabled(true);
+		ControlAreaManager.Instance.SetControlBlockerEnabled(true);
 	}
 
 	private void ExecutePlayerPhase()

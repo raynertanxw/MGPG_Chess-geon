@@ -35,6 +35,8 @@ public class PlayerInfoManager : MonoBehaviour
 	private Image ShieldImage, ShieldTextBG;
 	private Text ShieldText;
 
+	private Text CoinText;
+
 	private void Setup()
 	{
 		Transform playerHealth = transform.FindChild("Player Health");
@@ -49,6 +51,9 @@ public class PlayerInfoManager : MonoBehaviour
 		ShieldImage = playerShield.FindChild("Shield Image").GetComponent<Image>();
 		ShieldTextBG = playerShield.FindChild("text BG mask").GetChild(0).GetComponent<Image>();
 		ShieldText = playerShield.FindChild("Shield Text").GetComponent<Text>();
+
+		Transform playerCoins = transform.FindChild("Player Coins");
+		CoinText = playerCoins.FindChild("Coin Text").GetComponent<Text>();
 	}
 
 	void Start()
@@ -85,5 +90,10 @@ public class PlayerInfoManager : MonoBehaviour
 			ShieldImage.sprite = FullShield;
 			ShieldText.text = _shield.ToString();
 		}
+	}
+
+	public void UpdateCoins(int _coins)
+	{
+		CoinText.text = "x" + _coins.ToString("000");
 	}
 }
