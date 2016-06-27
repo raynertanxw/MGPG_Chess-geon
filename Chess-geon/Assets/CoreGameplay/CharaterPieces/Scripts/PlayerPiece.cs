@@ -151,6 +151,17 @@ public class PlayerPiece : MonoBehaviour
 
 	public void TakeDamage(int _damage)
 	{
+		// Let Shield Take Damage.
+		if (Shield > 0)
+		{
+			DeductShieldPoints(_damage);
+
+			ShakeAction2D camShake = new ShakeAction2D(Camera.main.transform, 10, 1.25f, Graph.InverseLinear);
+			camShake.SetShakeByDuration(0.2f, 15);
+			ActionHandler.RunAction(camShake);
+			return;
+		}
+
 		mnHealth -= _damage;
 		PlayerInfoManager.Instance.UpdateHealth(mnHealth);
 
