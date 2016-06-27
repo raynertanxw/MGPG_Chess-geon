@@ -68,6 +68,20 @@ public class DeckManager : MonoBehaviour
 		Debug.LogWarning("UNABLED TO DRAW CARD: No empty slots.");
 	}
 
+	public void DrawSpecificCard(CardType _type, CardTier _tier)
+	{
+		for (int i = 0; i < knMaxCardsInHand; i++)
+		{
+			if (mCards[i].Enabled == false)
+			{
+				DrawCardTo(i, _type, _tier);
+				return;
+			}
+		}
+
+		Debug.LogWarning("UNABLED TO DRAW CARD: No empty slots.");
+	}
+
 	// Card pos should be 0 - 4
 	private void DrawCardTo(int _cardSlotID)
 	{
@@ -75,7 +89,44 @@ public class DeckManager : MonoBehaviour
 		mCards[_cardSlotID].ToggleCard(true);
 		mCards[_cardSlotID].SetCardDraggable(false);
 		mCards[_cardSlotID].CardImage.sprite = CardBackSprite;
-		mCards[_cardSlotID].NewCard();
+		mCards[_cardSlotID].NewMovementCard();
+
+		// Move the card to slot
+		mCardTransforms[_cardSlotID].position = svec3DrawPos;
+		mCardTransforms[_cardSlotID].SetAsLastSibling();
+		MoveToAction moveToSlot = new MoveToAction(mCardTransforms[_cardSlotID], Graph.InverseExponential,  mCards[_cardSlotID].OriginPos, 0.6f);
+		moveToSlot.OnActionFinish += () => {
+			mCardTransforms[_cardSlotID].SetSiblingIndex(mCards[_cardSlotID].OriginSiblingIndex);
+		};
+
+		// Flip the Card
+		// 0 to 90, snap -90, -90 to 0
+		mCardTransforms[_cardSlotID].localEulerAngles = Vector3.zero;
+		RotateToAction rotHide = new RotateToAction(mCardTransforms[_cardSlotID], Graph.Linear, Vector3.up * 90.0f, 0.5f);
+		rotHide.OnActionFinish += () => {
+			mCardTransforms[_cardSlotID].localEulerAngles = Vector3.up * 270.0f;
+			mCards[_cardSlotID].UpdateSprite();
+		};
+		RotateToAction rotReveal = new RotateToAction(mCardTransforms[_cardSlotID], Graph.Linear, Vector3.up * 360.0f, 0.5f);
+		ActionSequence cardFlipSeq = new ActionSequence(rotHide, rotReveal);
+
+		// Combine all actions here.
+		ActionSequence drawCardSeq = new ActionSequence(moveToSlot, cardFlipSeq);
+		drawCardSeq.OnActionFinish += () => {
+			mCards[_cardSlotID].SetCardDraggable(true);
+		};
+
+		ActionHandler.RunAction(drawCardSeq);
+	}
+
+	// Card pos should be 0 - 4
+	private void DrawCardTo(int _cardSlotID, CardType _type, CardTier _tier)
+	{
+		// Replace card sprite with card back.
+		mCards[_cardSlotID].ToggleCard(true);
+		mCards[_cardSlotID].SetCardDraggable(false);
+		mCards[_cardSlotID].CardImage.sprite = CardBackSprite;
+		mCards[_cardSlotID].SetCard(_type, _tier);
 
 		// Move the card to slot
 		mCardTransforms[_cardSlotID].position = svec3DrawPos;

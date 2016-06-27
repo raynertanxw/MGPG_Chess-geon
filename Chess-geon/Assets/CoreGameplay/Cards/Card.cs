@@ -73,19 +73,17 @@ public class Card : MonoBehaviour
 		ToggleCard(false);
 	}
 
-	public void NewCard()
+	public void NewMovementCard()
 	{
-		if (UnityEngine.Random.value > 0.0f)
-		{
-			mCardType = CardType.Movement;
-			mCardMovementType = (GridType)UnityEngine.Random.Range(0, (int)GridType.Count);
-			mCardTier = CardTier.None;
-		}
-		else
-		{
-			mCardType = (CardType)UnityEngine.Random.Range(0, (int)CardType.NumTypes);
-			mCardTier = (CardTier)UnityEngine.Random.Range(0, 3);	// TEMP
-		}
+		mCardType = CardType.Movement;
+		mCardMovementType = (GridType)UnityEngine.Random.Range(0, (int)GridType.Count);
+		mCardTier = CardTier.None;
+	}
+
+	public void SetCard(CardType _type, CardTier _tier)
+	{
+		mCardType = _type;
+		mCardTier = _tier;
 	}
 
 	public void UpdateSprite()
