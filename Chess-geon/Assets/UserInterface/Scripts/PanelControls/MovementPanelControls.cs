@@ -51,6 +51,7 @@ public class MovementPanelControls : MonoBehaviour
 		for (int i = 0; i < mTileButtons.Length; i++)
 		{
 			mTileButtons[i].interactable = false;
+			mTileButtonImages[i].color = Color.white;
 			mTilePieceImages[i].enabled = false;
 		}
 
@@ -66,7 +67,7 @@ public class MovementPanelControls : MonoBehaviour
 
 			// Check for special tiles (Shop & Exit)
 			// TODO: Check shop tile.
-			// Check if Spawn Tile.
+			// Check if Exit Tile.
 			if (x == DungeonManager.Instance.ExitPosX && y == DungeonManager.Instance.ExitPosY)
 			{
 				mTileButtonImages[i].sprite = DungeonManager.Instance.exitSprite;
@@ -105,9 +106,12 @@ public class MovementPanelControls : MonoBehaviour
 				mTilePieceImages[i].enabled = true;
 				mTilePieceImages[i].sprite = DungeonManager.Instance.DungeonBlocks[x, y].Enemy.mSpriteRen.sprite;
 			}
+			// Else check if it is out of bounds.
 			else
 			{
 				mTileButtonImages[i].sprite = DungeonManager.Instance.wallTileSprite;
+				if (DungeonManager.Instance.IsValidCell(x, y) == false)
+					mTileButtonImages[i].color = Color.gray;
 			}
 		}
 		// Player sprite.

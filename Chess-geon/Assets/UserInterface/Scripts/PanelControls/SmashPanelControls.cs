@@ -92,7 +92,7 @@ public class SmashPanelControls : MonoBehaviour
 			int x = PlayerPosX + ((i % 5) - 2);
 			int y = PlayerPosY + ((i / 5) - 2);
 			
-			// TODO: Check if Spawn Tile.
+			// TODO: Check if Exit Tile.
 			if (x == DungeonManager.Instance.ExitPosX && y == DungeonManager.Instance.ExitPosY)
 			{
 				mTileImages[i].sprite = DungeonManager.Instance.exitSprite;
@@ -131,9 +131,12 @@ public class SmashPanelControls : MonoBehaviour
 				mTilePieceImages[i].enabled = true;
 				mTilePieceImages[i].sprite = DungeonManager.Instance.DungeonBlocks[x, y].Enemy.mSpriteRen.sprite;
 			}
+			// Else check if it is out of bounds.
 			else
 			{
 				mTileImages[i].sprite = DungeonManager.Instance.wallTileSprite;
+				if (DungeonManager.Instance.IsValidCell(x, y) == false)
+					mTileImages[i].color = Color.gray;
 			}
 		}
 		// Player sprite.
