@@ -25,6 +25,8 @@ public class PlayerPiece : MonoBehaviour
 	public int Health { get { return mnHealth; } }
 	private int mnShield = -1;
 	public int Shield { get { return mnShield; } }
+	private int mnCoin = -1;
+	public int Coins { get { return mnCoin; } }
 
 	private PlayerTurnStatus mTurnStatus;
 	public PlayerTurnStatus TurnStatus { get { return mTurnStatus; } }
@@ -50,6 +52,7 @@ public class PlayerPiece : MonoBehaviour
 		SetPosition(_startX, _startY);
 		mnHealth = 3;
 		mnShield = 0;
+		mnCoin = 0;
 	}
 
 	private void SetPosition(int _newX, int _newY)
@@ -239,5 +242,26 @@ public class PlayerPiece : MonoBehaviour
 		{
 			mTurnStatus = PlayerTurnStatus.Waiting;
 		}
+	}
+
+	public void AddCoins(int _numCoins)
+	{
+
+		for (int i = 0; i < _numCoins; i++)
+		{
+			// TODO: Play coin get animation?
+
+			mnCoin++;
+			PlayerInfoManager.Instance.UpdateCoins(mnCoin);
+		}
+	}
+
+	// CHECkING FOR ENOUGH COINS should be done first.
+	public void SpendCoins(int _numCoins)
+	{
+		// TODO: Coin spending sound?
+
+		mnCoin -= _numCoins;
+		PlayerInfoManager.Instance.UpdateCoins(mnCoin);
 	}
 }

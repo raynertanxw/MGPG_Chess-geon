@@ -105,11 +105,33 @@ public class ShopManager : MonoBehaviour
 	#region Funcitons for Buttons
 	public void BuyCard(int _cardID)
 	{
-		// TODO: Check if enough coins.
-
-		// TODO: Deduct coins.
-
+		// Check the tier of the card being purchased and calculate the price.
 		CardTier tier = (CardTier) (_cardID/3);
+		int cost = -1;
+		switch (tier)
+		{
+		case CardTier.Bronze:
+			cost = 1;
+			break;
+		case CardTier.Silver:
+			cost = 2;
+			break;
+		case CardTier.Gold:
+			cost = 5;
+			break;
+		}
+
+		// Check if enough coins.
+		if (GameManager.Instance.Player.Coins < cost)
+		{
+			// Display not enough coins message.
+			InfoPanelManager.Instance.DisplayInfoPanel("You do not have enough coins!");
+
+			return;
+		}
+
+		// Spend the coins and draw the purchased card.
+		GameManager.Instance.Player.SpendCoins(cost);
 		DeckManager.Instance.DrawSpecificCard(cardTypes[_cardID], tier);
 		CloseShop();
 	}
@@ -126,7 +148,13 @@ public class ShopManager : MonoBehaviour
 
 	public void Shuffle()
 	{
-		// TODO: Check if got >= 25 coins.
+		if (GameManager.Instance.Player.Coins < 25)
+		{
+			// Display not enough coins message.
+			InfoPanelManager.Instance.DisplayInfoPanel("You do not have enough coins!");
+
+			return;
+		}
 
 		GenerateNewCardsForSale();
 	}
