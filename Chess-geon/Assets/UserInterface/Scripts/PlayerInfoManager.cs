@@ -60,6 +60,7 @@ public class PlayerInfoManager : MonoBehaviour
 	{
 		UpdateHealth(GameManager.Instance.Player.Health);
 		UpdateShield(GameManager.Instance.Player.Shield);
+		UpdateCoins(GameManager.Instance.Player.Coins);
 	}
 
 	public void UpdateHealth(int _health)
