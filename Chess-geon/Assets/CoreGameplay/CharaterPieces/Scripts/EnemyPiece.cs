@@ -262,7 +262,7 @@ public class EnemyPiece : MonoBehaviour
 
 	public void TakeDamage(int _damage)
 	{
-		EventAnimationController.Instance.DamageParticles(transform.position);
+		EventAnimationController.Instance.SpawnDamageParticles(transform.position);
 		ShakeAction2D camShake = new ShakeAction2D(Camera.main.transform, 5, 0.5f, Graph.InverseLinear);
 		camShake.SetShakeByDuration(0.2f, 15);
 		ActionHandler.RunAction(camShake);
