@@ -80,6 +80,13 @@ public class Card : MonoBehaviour
 		mCardTier = CardTier.None;
 	}
 
+	public void SpecificMovementCard(GridType _moveType)
+	{
+		mCardType = CardType.Movement;
+		mCardMovementType = _moveType;
+		mCardTier = CardTier.None;
+	}
+
 	public void SetCard(CardType _type, CardTier _tier)
 	{
 		mCardType = _type;
