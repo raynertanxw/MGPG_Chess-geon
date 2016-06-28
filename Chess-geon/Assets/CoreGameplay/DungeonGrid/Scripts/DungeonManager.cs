@@ -316,6 +316,21 @@ public class DungeonManager : MonoBehaviour
 		RemoveEnemy(_fromX, _fromY);
 	}
 
+	public void DestroyBlock(int _posX, int _posY)
+	{
+		// Logic changes.
+		dungeonBlockGrid[_posX, _posY].SetBlockState(BlockState.Empty);
+
+		// Aesthetic changes.
+		if (IsWhiteTile(_posX, _posY))	// White Tile
+			dungeonBlockSpriteRens[_posX, _posY].sprite = whiteTileSprite;
+		else	// Black Tile
+			dungeonBlockSpriteRens[_posX, _posY].sprite = blackTileSprite;
+
+		// Spawn DamageParticles.
+		EventAnimationController.Instance.SpawnDamageParticles(GridPosToWorldPos(_posX, _posY));
+	}
+
 	public bool IsValidCell(int _posX, int _posY)
 	{
 		if (_posX < 0 || _posY < 0 || _posX >= SizeX || _posY >= SizeY)

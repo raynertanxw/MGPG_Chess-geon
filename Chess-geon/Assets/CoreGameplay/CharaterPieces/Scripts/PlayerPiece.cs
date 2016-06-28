@@ -123,7 +123,7 @@ public class PlayerPiece : MonoBehaviour
 	{
 		ActionSequence sequence = new ActionSequence();
 
-		// Do not move the player logical position values for attack.
+		// Player's logical position values set below, after attack.
 		ScaleToAction scaleUp = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.75f, 0.5f);
 
 		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.Dipper,

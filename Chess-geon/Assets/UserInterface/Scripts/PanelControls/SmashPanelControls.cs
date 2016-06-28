@@ -32,9 +32,38 @@ public class SmashPanelControls : MonoBehaviour
 
 	public void Use()
 	{
-		// TODO: Focus onto player and animate player.
+		PlayerPiece player = GameManager.Instance.Player;
 
-		// TODO: INDUCE SMASH!!!
+		// Focus onto player and animate player.
+		BoardScroller.Instance.FocusCameraToPos(
+			DungeonManager.Instance.GridPosToWorldPos(player.PosX, player.PosY),
+			0.2f,
+			Graph.InverseExponential);
+		ScaleToAction scaleUp = new ScaleToAction(player.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.75f, 0.5f);
+		ScaleToAction scaleDownHit = new ScaleToAction(player.transform, Graph.Dipper, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.1f, 0.25f);
+		ActionSequence smashSeq = new ActionSequence(scaleUp, scaleDownHit);
+		smashSeq.OnActionFinish += () => {
+			// Dramatic shake.
+			ShakeAction2D camShake = new ShakeAction2D(Camera.main.transform, 10, 1.85f, Graph.InverseLinear);
+			camShake.SetShakeByDuration(0.6f, 35);
+			ActionHandler.RunAction(camShake);
+
+			// Make all things take damage.
+			for (int i = 0; i < mArrAffectedPositions.Length; i++)
+			{
+				DungeonBlock block = DungeonManager.Instance.DungeonBlocks[(int)mArrAffectedPositions[i].x, (int)mArrAffectedPositions[i].y];
+				switch (block.State)
+				{
+				case BlockState.EnemyPiece:
+					block.Enemy.TakeDamage(1);
+					break;
+				case BlockState.Obstacle:
+					DungeonManager.Instance.DestroyBlock(block.PosX, block.PosY);
+					break;
+				}
+			}
+		};
+		ActionHandler.RunAction(smashSeq);
 
 		// Dismiss panel.
 		ControlAreaManager.SetCardPanelVisibility(CardType.Smash, false);
