@@ -105,6 +105,14 @@ public class ShopManager : MonoBehaviour
 	#region Funcitons for Buttons
 	public void BuyCard(int _cardID)
 	{
+		// Check if there is even a slot for cards to be purchased.
+		if (DeckManager.Instance.GetNumCardsInHand() >= DeckManager.knMaxCardsInHand)
+		{
+			// No slots!
+			InfoPanelManager.Instance.DisplayInfoPanel("You do not have space for more cards!");
+			return;
+		}
+
 		// Check the tier of the card being purchased and calculate the price.
 		CardTier tier = (CardTier) (_cardID/3);
 		int cost = -1;
