@@ -33,7 +33,7 @@ public class DeckManager : MonoBehaviour
 	private static Vector3 svec3UseCardPos;
 
 	public Sprite CardBackSprite;
-	private const int knMaxCardsInHand = 5;
+	public const int knMaxCardsInHand = 5;
 	private Transform[] mCardTransforms;
 	private Card[] mCards;
 
@@ -52,6 +52,18 @@ public class DeckManager : MonoBehaviour
 	{
 		svec3DrawPos = transform.FindChild("CardDrawPos").position;
 		svec3UseCardPos = transform.FindChild("UseCardPos").position;
+	}
+
+	public int GetNumCardsInHand()
+	{
+		int numCards = 0;
+		for (int i = 0; i < knMaxCardsInHand; i++)
+		{
+			if (mCards[i].Enabled == true)
+				numCards++;
+		}
+
+		return numCards;
 	}
 
 	public void DrawCard()

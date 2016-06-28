@@ -24,6 +24,7 @@ public class ControlAreaManager : MonoBehaviour
 	private CanvasGroup[] mPanelCGs;
 	private MovementPanelControls mMovementPanelCtrls;
 
+	private DrawCardPanelControls mDrawCardPanelCtrls;
 	private TempShieldPanelControls mTempShieldPanelCtrls;
 
 	private void Awake()
@@ -57,6 +58,7 @@ public class ControlAreaManager : MonoBehaviour
 			mPanelCGs[i] = mCardAreaCanvas.FindChild(((CardType)i).ToString() + "Panel").GetComponent<CanvasGroup>();
 		mMovementPanelCtrls = mPanelCGs[(int)CardType.Movement].gameObject.GetComponent<MovementPanelControls>();
 
+		mDrawCardPanelCtrls = mPanelCGs[(int)CardType.DrawCard].gameObject.GetComponent<DrawCardPanelControls>();
 		mTempShieldPanelCtrls = mPanelCGs[(int)CardType.TempShield].gameObject.GetComponent<TempShieldPanelControls>();
 		mbIsPanelOpen = false;
 		HideAllCardPanels();
@@ -168,6 +170,7 @@ public class ControlAreaManager : MonoBehaviour
 			case CardType.Smash:
 				break;
 			case CardType.DrawCard:
+				Instance.mDrawCardPanelCtrls.UpdatePanel();
 				break;
 			case CardType.TempShield:
 				Instance.mTempShieldPanelCtrls.UpdatePanel();
