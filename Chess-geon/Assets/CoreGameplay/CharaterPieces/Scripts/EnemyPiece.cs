@@ -278,6 +278,23 @@ public class EnemyPiece : MonoBehaviour
 
 	private void Die()
 	{
+		// Coins for the player.
+		int coinsDropped = -1;
+		switch (mUnitType)
+		{
+		case EnemyType.Black:	coinsDropped = 1; break;
+		case EnemyType.Stone:	coinsDropped = 2; break;
+		case EnemyType.Slime:	coinsDropped = 1; break;
+		case EnemyType.Glass:	coinsDropped = 2; break;
+		case EnemyType.Gold:	coinsDropped = 15; break;
+		case EnemyType.Cursed:	coinsDropped = 5; break;
+		}
+		DelayAction delayForCoins = new DelayAction(0.5f);
+		delayForCoins.OnActionFinish += () => {
+			GameManager.Instance.Player.AddCoins(coinsDropped);
+		};
+		ActionHandler.RunAction(delayForCoins);
+
 		// TODO: Diff animations by diff enemy type?
 		ScaleToAction scaleDown = new ScaleToAction(transform, Vector3.zero, 0.4f);
 		scaleDown.OnActionFinish += () => {

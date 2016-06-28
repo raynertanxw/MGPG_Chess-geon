@@ -9,9 +9,12 @@ public class PlayerPiece : MonoBehaviour
 {
 	public SpriteRenderer mSpriteRen;
 	private SpriteRenderer mShieldBubbleSpriteRen;
+	private SpriteRenderer mCoinSpriteRen;
 	private Transform mShieldBubbleTransform;
+	private Transform mCoinTransform;
 	public Sprite[] PlayerSprites;
 	public Sprite ShieldBubble;
+	public Sprite Coin;
 	private int mnDefaultSpriteOrderInLayer;
 
 	private GridType mMovementType = GridType.Pawn;
@@ -43,6 +46,11 @@ public class PlayerPiece : MonoBehaviour
 		mShieldBubbleSpriteRen = mShieldBubbleTransform.GetComponent<SpriteRenderer>();
 		mShieldBubbleSpriteRen.sprite = ShieldBubble;
 		mShieldBubbleSpriteRen.enabled = false;
+
+		mCoinTransform = transform.GetChild(1);
+		mCoinSpriteRen = mCoinTransform.GetComponent<SpriteRenderer>();
+		mCoinSpriteRen.sprite = Coin;
+		mCoinSpriteRen.enabled = false;
 
 		transform.localScale *= DungeonManager.Instance.ScaleMultiplier;
 	}
@@ -244,16 +252,26 @@ public class PlayerPiece : MonoBehaviour
 		}
 	}
 
+	// Interval per coin get
+	private const float kfCoinAnimDuration = 0.2f;
 	public void AddCoins(int _numCoins)
 	{
+		// TODO: Coin sound.
 
-		for (int i = 0; i < _numCoins; i++)
-		{
-			// TODO: Play coin get animation?
-
+		// Play coin get animation.
+		MoveByAction moveUp = new MoveByAction(mCoinTransform, Graph.Linear, Vector3.up * 1.4f, kfCoinAnimDuration);
+		moveUp.OnActionStart += () => {
+			mCoinTransform.position = transform.position;
+			mCoinSpriteRen.enabled = true;
 			mnCoin++;
 			PlayerInfoManager.Instance.UpdateCoins(mnCoin);
-		}
+		};
+		ActionRepeat repeatedCoinGet = new ActionRepeat(moveUp, _numCoins);
+		DelayAction hideCoin = new DelayAction(kfCoinAnimDuration * _numCoins + 0.5f);
+		hideCoin.OnActionFinish += () => {
+			mCoinSpriteRen.enabled = false;
+		};
+		ActionHandler.RunAction(repeatedCoinGet, hideCoin);
 	}
 
 	// CHECkING FOR ENOUGH COINS should be done first.
