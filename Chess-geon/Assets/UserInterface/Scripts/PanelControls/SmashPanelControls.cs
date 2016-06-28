@@ -220,6 +220,15 @@ public class SmashPanelControls : MonoBehaviour
 			break;
 		}
 
+		for (int i = 0; i < affectedPos.Length; i++)
+		{
+			// If not a valid pos, default to player pos (which will have no effect when processed above).
+			if (DungeonManager.Instance.IsValidCell((int) affectedPos[i].x, (int) affectedPos[i].y) == false)
+			{
+				affectedPos[i] = playerPos;
+			}
+		}
+
 		return affectedPos;
 	}
 
