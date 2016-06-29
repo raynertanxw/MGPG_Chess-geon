@@ -50,6 +50,7 @@ public class EventAnimationController : MonoBehaviour
 
 	private bool mbIsAnimating = false;
 	public bool IsAnimating { get { return mbIsAnimating; } }
+	public void SetIsAnimating(bool _IsAnimating) { mbIsAnimating = _IsAnimating; }
 
 	private void Setup()
 	{

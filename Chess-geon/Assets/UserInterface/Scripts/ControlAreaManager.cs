@@ -147,11 +147,6 @@ public class ControlAreaManager : MonoBehaviour
 	#endregion
 
 	#region Card Panel Funcitons
-	public void DoneButton()
-	{
-		HideAllCardPanels();
-	}
-
 	public void CancelButton()
 	{
 		DeckManager.Instance.ReturnExecutedCard();
