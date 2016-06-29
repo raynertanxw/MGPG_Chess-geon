@@ -23,7 +23,7 @@ public class ControlAreaManager : MonoBehaviour
 	private Transform mCardAreaCanvas;
 	private CanvasGroup[] mPanelCGs;
 	private MovementPanelControls mMovementPanelCtrls;
-
+	private RepeatPanelControls mRepeatPanelCtrls;
 	private MovementJokerPanelControls mMovementJokerPanelCtrls;
 	private SmashPanelControls mSmashPanelCtrls;
 	private DrawCardPanelControls mDrawCardPanelCtrls;
@@ -59,7 +59,7 @@ public class ControlAreaManager : MonoBehaviour
 		for (int i = 0; i < (int)CardType.NumTypes; i++)
 			mPanelCGs[i] = mCardAreaCanvas.FindChild(((CardType)i).ToString() + "Panel").GetComponent<CanvasGroup>();
 		mMovementPanelCtrls = mPanelCGs[(int)CardType.Movement].gameObject.GetComponent<MovementPanelControls>();
-
+		mRepeatPanelCtrls = mPanelCGs[(int)CardType.Repeat].gameObject.GetComponent<RepeatPanelControls>();
 		mMovementJokerPanelCtrls = mPanelCGs[(int)CardType.MovementJoker].gameObject.GetComponent<MovementJokerPanelControls>();
 		mSmashPanelCtrls = mPanelCGs[(int)CardType.Smash].gameObject.GetComponent<SmashPanelControls>();
 		mDrawCardPanelCtrls = mPanelCGs[(int)CardType.DrawCard].gameObject.GetComponent<DrawCardPanelControls>();
@@ -168,6 +168,7 @@ public class ControlAreaManager : MonoBehaviour
 				Instance.mMovementPanelCtrls.UpdatePanel();
 				break;
 			case CardType.Repeat:
+				Instance.mRepeatPanelCtrls.UpdatePanel();
 				break;
 			case CardType.MovementJoker:
 				Instance.mMovementJokerPanelCtrls.UpdatePanel();

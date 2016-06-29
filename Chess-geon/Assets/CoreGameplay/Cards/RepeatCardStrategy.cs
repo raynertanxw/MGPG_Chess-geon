@@ -5,6 +5,6 @@ public class RepeatCardStrategy : CardStrategy
 {
 	public override void ExecuteCard(CardTier _tier, GridType _moveType)
 	{
-		
+		RepeatPanelControls.sRepeatTier = _tier;
 	}
 }

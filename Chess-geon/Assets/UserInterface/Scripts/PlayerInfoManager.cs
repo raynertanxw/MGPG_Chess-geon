@@ -37,6 +37,9 @@ public class PlayerInfoManager : MonoBehaviour
 
 	private Text CoinText;
 
+	private CanvasGroup mRepeatCG;
+	private Text mNumRepeats;
+
 	private void Setup()
 	{
 		Transform playerHealth = transform.FindChild("Player Health");
@@ -54,6 +57,11 @@ public class PlayerInfoManager : MonoBehaviour
 
 		Transform playerCoins = transform.FindChild("Player Coins");
 		CoinText = playerCoins.FindChild("Coin Text").GetComponent<Text>();
+
+		Transform repeatCount = transform.FindChild("Player Repeat");
+		mRepeatCG = repeatCount.GetComponent<CanvasGroup>();
+		mRepeatCG.alpha = 0.0f;
+		mNumRepeats = repeatCount.FindChild("NumRepeats Text").GetComponent<Text>();
 	}
 
 	void Start()
@@ -96,5 +104,20 @@ public class PlayerInfoManager : MonoBehaviour
 	public void UpdateCoins(int _coins)
 	{
 		CoinText.text = "x" + _coins.ToString("000");
+	}
+
+	public void UpdateRepeat(int _numRepeat)
+	{
+		// Show
+		if (_numRepeat > 0)
+		{
+			mNumRepeats.text = "x" + _numRepeat.ToString();
+			mRepeatCG.alpha = 1.0f;
+		}
+		// Hide
+		else
+		{
+			mRepeatCG.alpha = 0.0f;
+		}
 	}
 }
