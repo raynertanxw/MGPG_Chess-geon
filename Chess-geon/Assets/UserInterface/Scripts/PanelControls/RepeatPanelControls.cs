@@ -65,6 +65,12 @@ public class RepeatPanelControls : MonoBehaviour
 		snNumRepeatsLeft--;
 		PlayerInfoManager.Instance.UpdateRepeat(snNumRepeatsLeft);
 	}
+
+	public static void ClearRepeats()
+	{
+		snNumRepeatsLeft = 0;
+		PlayerInfoManager.Instance.UpdateRepeat(snNumRepeatsLeft);
+	}
 		
 	#region Button Functions
 	public void Use()

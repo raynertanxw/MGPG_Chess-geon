@@ -285,6 +285,7 @@ public class GameManager : MonoBehaviour
 	
 	private void ExitPlayerPhase()
 	{
+		RepeatPanelControls.ClearRepeats();
 		ControlAreaManager.Instance.SetControlBlockerEnabled(true);
 	}
 
