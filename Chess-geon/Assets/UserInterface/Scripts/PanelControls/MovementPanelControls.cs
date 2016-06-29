@@ -8,6 +8,7 @@ public class MovementPanelControls : MonoBehaviour
 	private Image[] mTileButtonImages;
 	private Image[] mTilePieceImages;
 	private Button[] mTileButtons;
+	private Button mCancelButton;
 
 	void Awake()
 	{
@@ -26,6 +27,8 @@ public class MovementPanelControls : MonoBehaviour
 			mTilePieceImages[i] = mTileButtonImages[i].transform.GetChild(0).GetComponent<Image>();
 			mTilePieceImages[i].enabled = false;
 		}
+
+		mCancelButton = transform.FindChild("Cancel Button").GetComponent<Button>();
 	}
 
 	// Assumes that only valid tiles can be pressed.
@@ -42,10 +45,17 @@ public class MovementPanelControls : MonoBehaviour
 
 		// Repeat if any.
 		RepeatPanelControls.UseRepeat();
-		if (RepeatPanelControls.NumRepeatsLeft <= 0)
+		if (RepeatPanelControls.NumRepeatsLeft > 0)
+		{
+			// Disable cancel button for future repeats.
+			// Players to continue using same repeated card until repeats end.
+			mCancelButton.interactable = false;
+		}
+		else
 		{
 			// Organise the cards.
 			DeckManager.Instance.ReorganiseCards();
+			mCancelButton.interactable = true;
 		}
 	}
 
