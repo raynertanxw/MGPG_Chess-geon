@@ -13,6 +13,7 @@ public class RepeatPanelControls : MonoBehaviour
 	void Awake()
 	{
 		mInfoText = transform.FindChild("Info Text").GetComponent<Text>();
+		snNumRepeatsLeft = 0;
 	}
 
 	public void UpdatePanel()
