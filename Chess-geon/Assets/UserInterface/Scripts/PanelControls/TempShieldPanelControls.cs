@@ -29,7 +29,14 @@ public class TempShieldPanelControls : MonoBehaviour
 			break;
 		}
 
-		mInfoText.text = "This Shield card gives " + shieldPoints.ToString() + " units of Shield.";
+		if (RepeatPanelControls.NumRepeatsLeft > 0)
+		{
+			mInfoText.text = "This Shield card gives " + (shieldPoints * RepeatPanelControls.NumRepeatsLeft).ToString() + " units of Shield.";
+		}
+		else
+		{
+			mInfoText.text = "This Shield card gives " + shieldPoints.ToString() + " units of Shield.";
+		}
 	}
 
 	// For the button to call.
@@ -48,7 +55,19 @@ public class TempShieldPanelControls : MonoBehaviour
 			shieldPoints = 5;
 			break;
 		}
-		GameManager.Instance.Player.AddShieldPoints(shieldPoints);
+
+		// Repeat if any.
+		if (RepeatPanelControls.NumRepeatsLeft > 0)
+		{
+			// Apply multiple times.
+			GameManager.Instance.Player.AddShieldPoints(shieldPoints * RepeatPanelControls.NumRepeatsLeft);
+
+			RepeatPanelControls.ClearRepeats();
+		}
+		else
+		{
+			GameManager.Instance.Player.AddShieldPoints(shieldPoints);
+		}
 
 		// Dismiss panel.
 		ControlAreaManager.SetCardPanelVisibility(CardType.TempShield, false);
