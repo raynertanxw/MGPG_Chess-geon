@@ -6,6 +6,7 @@ public class RepeatPanelControls : MonoBehaviour
 {
 	public static CardTier sRepeatTier = CardTier.Bronze;
 	private static int snNumRepeatsLeft = 0;
+	public static int NumRepeatsLeft { get { return snNumRepeatsLeft; } }
 
 	private Text mInfoText;
 
@@ -54,6 +55,15 @@ public class RepeatPanelControls : MonoBehaviour
 		}
 
 		mInfoText.text = "Use this to repeat next card " + newNumRepeats.ToString() + " times.";
+	}
+
+	public static void UseRepeat()
+	{
+		if (snNumRepeatsLeft <= 0)
+			return;
+
+		snNumRepeatsLeft--;
+		PlayerInfoManager.Instance.UpdateRepeat(snNumRepeatsLeft);
 	}
 		
 	#region Button Functions

@@ -115,6 +115,13 @@ public class PlayerPiece : MonoBehaviour
 			{
 				GameManager.Instance.ReachedFloorExit();
 			}
+
+			// Repeat if needed.
+			if (RepeatPanelControls.NumRepeatsLeft > 0)
+			{
+				if (RepeatPanelControls.NumRepeatsLeft > 0)
+					ControlAreaManager.ExecutedCard.Execute();
+			}
 		};
 		ActionHandler.RunAction(moveToPos);
 	}
@@ -139,6 +146,14 @@ public class PlayerPiece : MonoBehaviour
 				scaleDown.OnActionStart += () => {
 					BoardScroller.Instance.FocusCameraToPos(this.transform.position, 0.5f, Graph.InverseExponential);
 				};
+				scaleDown.OnActionFinish += () => {
+					// Repeat if needed.
+					if (RepeatPanelControls.NumRepeatsLeft > 0)
+					{
+						if (RepeatPanelControls.NumRepeatsLeft > 0)
+							ControlAreaManager.ExecutedCard.Execute();
+					}
+				};
 				sequence.Add(scaleDown);
 
 				SetPosition(_targetX, _targetY);
@@ -149,6 +164,14 @@ public class PlayerPiece : MonoBehaviour
 					DungeonManager.Instance.GridPosToWorldPos(PosX, PosY), 0.5f);
 				ScaleToAction scaleDownReturn = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier, 0.5f);
 				ActionParallel returnParallel = new ActionParallel(moveBack, scaleDownReturn);
+				returnParallel.OnActionFinish += () => {
+					// Repeat if needed.
+					if (RepeatPanelControls.NumRepeatsLeft > 0)
+					{
+						if (RepeatPanelControls.NumRepeatsLeft > 0)
+							ControlAreaManager.ExecutedCard.Execute();
+					}
+				};
 				sequence.Add(returnParallel);
 			}
 		};
