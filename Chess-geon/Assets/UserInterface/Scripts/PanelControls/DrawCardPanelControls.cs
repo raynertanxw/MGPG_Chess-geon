@@ -30,6 +30,11 @@ public class DrawCardPanelControls : MonoBehaviour
 			break;
 		}
 
+		if (RepeatPanelControls.NumRepeatsLeft > 0)
+		{
+			numCards *= RepeatPanelControls.NumRepeatsLeft;
+		}
+
 		// Calcualte number of cards wasted.
 		// Number of cards to be drawn - (number of empty slots after this card is used).
 		int numWasted = numCards - (DeckManager.knMaxCardsInHand - (DeckManager.Instance.GetNumCardsInHand() - 1));
@@ -54,6 +59,17 @@ public class DrawCardPanelControls : MonoBehaviour
 		case CardTier.Gold:
 			numCards = 5;
 			break;
+		}
+
+		if (RepeatPanelControls.NumRepeatsLeft > 0)
+		{
+			numCards *= RepeatPanelControls.NumRepeatsLeft;
+			// Cap at 5, no point going more than that, just wastes processing power.
+			if (numCards > 5)
+				numCards = 5;
+
+			// Clear the repeats.
+			RepeatPanelControls.ClearRepeats();
 		}
 
 		// Organise the cards.
