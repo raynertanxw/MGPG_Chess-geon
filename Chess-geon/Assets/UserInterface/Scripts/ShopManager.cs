@@ -36,6 +36,7 @@ public class ShopManager : MonoBehaviour
 	private CardType[] cardTypes;
 
 	private const int knNumCardsForSale = 9;
+	private const int knCostPerShuffle = 25;
 
 	private void Setup()
 	{
@@ -156,14 +157,16 @@ public class ShopManager : MonoBehaviour
 
 	public void Shuffle()
 	{
-		if (GameManager.Instance.Player.Coins < 25)
+		if (GameManager.Instance.Player.Coins < knCostPerShuffle)
 		{
 			// Display not enough coins message.
 			InfoPanelManager.Instance.DisplayInfoPanel("You do not have enough coins!");
 
 			return;
 		}
-
+			
+		// Spend the coins and re-shuffle cards for sale.
+		GameManager.Instance.Player.SpendCoins(knCostPerShuffle);
 		GenerateNewCardsForSale();
 	}
 	#endregion
