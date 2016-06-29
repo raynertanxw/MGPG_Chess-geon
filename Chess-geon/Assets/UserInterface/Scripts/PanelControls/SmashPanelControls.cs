@@ -12,6 +12,7 @@ public class SmashPanelControls : MonoBehaviour
 
 	private Image[] mTileImages;
 	private Image[] mTilePieceImages;
+	private Text mExplainationText;
 
 	void Awake()
 	{
@@ -28,6 +29,7 @@ public class SmashPanelControls : MonoBehaviour
 		}
 
 		mAffectedTintCol = new Color(1.0f, 0.5f, 0.5f);
+		mExplainationText = transform.FindChild("Explaination Text").GetComponent<Text>();
 	}
 
 	public void Use()
@@ -157,6 +159,13 @@ public class SmashPanelControls : MonoBehaviour
 			int tileID = PosToTileID((int)mArrAffectedPositions[i].x, (int)mArrAffectedPositions[i].y, GameManager.Instance.Player);
 			mTileImages[tileID].color = mAffectedTintCol;
 		}
+
+
+		// Update Text
+		if (RepeatPanelControls.NumRepeatsLeft > 0)
+			mExplainationText.text = "Deals x" + (1 * RepeatPanelControls.NumRepeatsLeft).ToString() + " Damage to the tiles tinted in red.";
+		else
+			mExplainationText.text = "Deals x1 Damage to the tiles tinted in red.";
 	}
 
 	#region Helper functions
