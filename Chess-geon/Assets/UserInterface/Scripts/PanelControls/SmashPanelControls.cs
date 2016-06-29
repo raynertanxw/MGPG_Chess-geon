@@ -55,13 +55,18 @@ public class SmashPanelControls : MonoBehaviour
 				switch (block.State)
 				{
 				case BlockState.EnemyPiece:
-					block.Enemy.TakeDamage(1);
+					if (RepeatPanelControls.NumRepeatsLeft > 0)
+						block.Enemy.TakeDamage(1 * RepeatPanelControls.NumRepeatsLeft);
+					else
+						block.Enemy.TakeDamage(1);
 					break;
 				case BlockState.Obstacle:
 					DungeonManager.Instance.DestroyBlock(block.PosX, block.PosY);
 					break;
 				}
 			}
+
+			RepeatPanelControls.ClearRepeats();
 		};
 		ActionHandler.RunAction(smashSeq);
 
