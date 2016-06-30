@@ -64,6 +64,8 @@ public class InfoPanelManager : MonoBehaviour
 	#region Button Functions
 	public void Dismiss()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		SetInfoPanelVisible(false);
 	}
 	#endregion

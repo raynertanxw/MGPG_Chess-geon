@@ -34,6 +34,8 @@ public class SmashPanelControls : MonoBehaviour
 
 	public void Use()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		PlayerPiece player = GameManager.Instance.Player;
 
 		// Focus onto player and animate player.

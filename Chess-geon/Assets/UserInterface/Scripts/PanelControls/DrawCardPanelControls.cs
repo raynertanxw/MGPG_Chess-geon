@@ -47,6 +47,8 @@ public class DrawCardPanelControls : MonoBehaviour
 	// For the button to call.
 	public void Use()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		int numCards = 0;
 		switch (sDrawTier)
 		{

@@ -147,11 +147,15 @@ public class ShopManager : MonoBehaviour
 
 	public void CloseShop()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		SetShopPanelVisible(false);
 	}
 
 	public void OpenShop()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		SetShopPanelVisible(true);
 	}
 

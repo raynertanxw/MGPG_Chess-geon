@@ -121,5 +121,7 @@ public class LandingSceneManager : MonoBehaviour
 			SceneManager.LoadScene("DungeonLevelScene");
 		};
 		ActionHandler.RunAction(fadeInNStart);
+
+		AudioManager.PlayButtonClickSound();
 	}
 }

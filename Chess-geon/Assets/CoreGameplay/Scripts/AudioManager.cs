@@ -22,10 +22,21 @@ public class AudioManager : MonoBehaviour
 
 
 
-
+	private AudioSource[] mSFX;
 
 	private void Setup()
 	{
 		DontDestroyOnLoad(this.gameObject);
+
+		mSFX = new AudioSource[transform.childCount];
+		for (int i = 0; i < mSFX.Length; i++)
+		{
+			mSFX[i] = transform.GetChild(i).GetComponent<AudioSource>();
+		}
+	}
+
+	public static void PlayButtonClickSound()
+	{
+		sInstance.mSFX[0].Play();
 	}
 }

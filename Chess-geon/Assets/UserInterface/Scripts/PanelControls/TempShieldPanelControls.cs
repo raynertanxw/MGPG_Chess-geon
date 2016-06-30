@@ -42,6 +42,8 @@ public class TempShieldPanelControls : MonoBehaviour
 	// For the button to call.
 	public void Use()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		int shieldPoints = 0;
 		switch (sShieldTier)
 		{

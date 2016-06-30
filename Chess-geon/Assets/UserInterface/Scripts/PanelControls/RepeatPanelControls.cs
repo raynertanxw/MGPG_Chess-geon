@@ -76,6 +76,8 @@ public class RepeatPanelControls : MonoBehaviour
 	#region Button Functions
 	public void Use()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		// If a Repeat has already been used. Player is stacking repeats
 		if (snNumRepeatsLeft > 0)
 		{

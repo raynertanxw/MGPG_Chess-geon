@@ -71,6 +71,8 @@ public class ControlAreaManager : MonoBehaviour
 	#region Main controls
 	public void EndTurnButton()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		GameManager.Instance.EndPlayerPhase();
 	}
 
@@ -149,6 +151,8 @@ public class ControlAreaManager : MonoBehaviour
 	#region Card Panel Funcitons
 	public void CancelButton()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		DeckManager.Instance.ReturnExecutedCard();
 		HideAllCardPanels();
 	}

@@ -67,6 +67,8 @@ public class MovementJokerPanelControls : MonoBehaviour
 	#region Button Functions
 	public void Use()
 	{
+		AudioManager.PlayButtonClickSound();
+
 		switch (sJokerTier)
 		{
 		case CardTier.Bronze:
@@ -124,6 +126,8 @@ public class MovementJokerPanelControls : MonoBehaviour
 
 	public void SelectCard(int _id)
 	{
+		AudioManager.PlayButtonClickSound();
+
 		RepeatPanelControls.UseRepeat();
 		if (RepeatPanelControls.NumRepeatsLeft > 0)
 		{
