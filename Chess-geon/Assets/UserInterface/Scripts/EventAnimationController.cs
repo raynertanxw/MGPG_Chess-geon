@@ -151,6 +151,8 @@ public class EventAnimationController : MonoBehaviour
 
 	public void ShowGameOver()
 	{
+		AudioManager.PlayLoseChimeSound();
+
 		ControlAreaManager.Instance.SetControlBlockerEnabled(true);
 
 		GameOverCG.blocksRaycasts = true;
@@ -168,6 +170,8 @@ public class EventAnimationController : MonoBehaviour
 
 	public void ShowFloorCleared()
 	{
+		AudioManager.PlayWinChimeSound();
+
 		ControlAreaManager.Instance.SetControlBlockerEnabled(true);
 
 		FloorClearedCG.blocksRaycasts = true;

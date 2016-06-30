@@ -104,4 +104,14 @@ public class AudioManager : MonoBehaviour
 	{
 		sInstance.mSFX[13].Play();
 	}
+
+	public static void PlayWinChimeSound()
+	{
+		sInstance.mSFX[14].Play();
+	}
+
+	public static void PlayLoseChimeSound()
+	{
+		sInstance.mSFX[15].Play();
+	}
 }
