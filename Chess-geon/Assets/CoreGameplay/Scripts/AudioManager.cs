@@ -94,4 +94,14 @@ public class AudioManager : MonoBehaviour
 	{
 		sInstance.mSFX[11].Play();
 	}
+
+	public static void PlayShieldUpSound()
+	{
+		sInstance.mSFX[12].Play();
+	}
+
+	public static void PlayShieldDownSound()
+	{
+		sInstance.mSFX[13].Play();
+	}
 }

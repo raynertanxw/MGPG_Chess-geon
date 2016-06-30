@@ -231,6 +231,8 @@ public class PlayerPiece : MonoBehaviour
 
 	public void AddShieldPoints(int _shieldPoints)
 	{
+		AudioManager.PlayShieldUpSound();
+
 		// If re-adding the shield.
 		if (Shield <= 0)
 		{
@@ -267,6 +269,8 @@ public class PlayerPiece : MonoBehaviour
 		// Check if shield got broken.
 		if (mPlayerData.Shield <= 0)
 		{
+			AudioManager.PlayShieldDownSound();
+
 			mTurnStatus = PlayerTurnStatus.Running;
 
 			// Broken sheild animation.
