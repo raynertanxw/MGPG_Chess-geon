@@ -84,4 +84,14 @@ public class AudioManager : MonoBehaviour
 	{
 		sInstance.mSFX[9].Play();
 	}
+
+	public static void PlayEnemyAtkImpactSound()
+	{
+		sInstance.mSFX[10].Play();
+	}
+
+	public static void PlayEnemyAtkImpactWithShieldSound()
+	{
+		sInstance.mSFX[11].Play();
+	}
 }

@@ -194,6 +194,8 @@ public class PlayerPiece : MonoBehaviour
 		// Let Shield Take Damage.
 		if (Shield > 0)
 		{
+			AudioManager.PlayEnemyAtkImpactWithShieldSound();
+
 			DeductShieldPoints(_damage);
 
 			ShakeAction2D camShake = new ShakeAction2D(Camera.main.transform, 10, 1.25f, Graph.InverseLinear);
@@ -201,6 +203,8 @@ public class PlayerPiece : MonoBehaviour
 			ActionHandler.RunAction(camShake);
 			return;
 		}
+
+		AudioManager.PlayEnemyAtkImpactSound();
 
 		mPlayerData.Health -= _damage;
 		PlayerInfoManager.Instance.UpdateHealth(mPlayerData.Health);
