@@ -14,6 +14,8 @@ public class LandingSceneManager : MonoBehaviour
 	private Text mTapToStartText, mHighscoreText;
 	private Button mStartButton;
 
+	private CanvasGroup mAboutPanel;
+
 	private Sprite mSpriteCardBack;
 	private Sprite[] mCardSprites;
 
@@ -44,6 +46,9 @@ public class LandingSceneManager : MonoBehaviour
 		mStartButton = transform.FindChild("Start Button").GetComponent<Button>();
 		mStartButton.interactable = false;
 
+		mAboutPanel = transform.FindChild("About Panel").GetComponent<CanvasGroup>();
+		CloseAboutPanel();
+
 		DelayAction prePulseDelay = new DelayAction(1.5f);
 		PulseAction clickPulse = new PulseAction(
 			mLogoTransform,
@@ -65,6 +70,9 @@ public class LandingSceneManager : MonoBehaviour
 
 		DelayAction preFadeDelay = new DelayAction(0.2f);
 		CanvasGroupAlphaFadeToAction fadeCGAway = new CanvasGroupAlphaFadeToAction(mSplashPanelCG, 0.0f, 1.5f);
+		fadeCGAway.OnActionFinish += () => {
+			mSplashPanelCG.blocksRaycasts = false;
+		};
 
 		DelayAction TurnOn = new DelayAction(0.5f);
 		TurnOn.OnActionFinish += () => {
@@ -111,6 +119,7 @@ public class LandingSceneManager : MonoBehaviour
 		ActionHandler.RunAction(new ActionSequence(initSpin, new ActionRepeatForever(cardSpinSeq)));
 	}
 
+	#region Buttons
 	public void StartGame()
 	{
 		mStartButton.enabled = false;
@@ -125,4 +134,19 @@ public class LandingSceneManager : MonoBehaviour
 
 		AudioManager.PlayButtonClickSound();
 	}
+
+	public void PresentAboutPanel()
+	{
+		mAboutPanel.alpha = 1.0f;
+		mAboutPanel.interactable = true;
+		mAboutPanel.blocksRaycasts = true;
+	}
+
+	public void CloseAboutPanel()
+	{
+		mAboutPanel.alpha = 0.0f;
+		mAboutPanel.interactable = false;
+		mAboutPanel.blocksRaycasts = false;
+	}
+	#endregion
 }
