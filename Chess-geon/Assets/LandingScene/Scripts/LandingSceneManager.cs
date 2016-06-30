@@ -52,6 +52,7 @@ public class LandingSceneManager : MonoBehaviour
 			0.25f,
 			Vector3.one,
 			Vector3.one * 0.8f);
+		clickPulse.OnActionStart += () => { AudioManager.PlayPenClickSound(); };
 		DelayAction postPulseDelay = new DelayAction(0.25f);
 
 		MoveByAction anticipateLeft = new MoveByAction(mLogoTransform, Graph.InverseExponential, Vector3.left * (100) * (Screen.height / 1920.0f), 0.5f);

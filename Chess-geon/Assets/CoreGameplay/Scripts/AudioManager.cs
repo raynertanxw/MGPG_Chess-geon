@@ -114,4 +114,9 @@ public class AudioManager : MonoBehaviour
 	{
 		sInstance.mSFX[15].Play();
 	}
+
+	public static void PlayPenClickSound()
+	{
+		sInstance.mSFX[16].Play();
+	}
 }
