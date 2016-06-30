@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 	private bool mbIsGameOver;
 	public bool IsGameOver { get { return mbIsGameOver; } }
 	private bool mbGameStarted;
-	private int mnFloorNumber;
+	private int mnFloorNumber = 0;
 	public int FloorNumber { get { return mnFloorNumber; } }
 
 	private List<EnemyPiece> mEnemyList;
