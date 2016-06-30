@@ -39,4 +39,19 @@ public class AudioManager : MonoBehaviour
 	{
 		sInstance.mSFX[0].Play();
 	}
+
+	public static void PlayCoinGetSound()
+	{
+		sInstance.mSFX[1].Play();
+	}
+
+	public static void PlayCoinSpendSound()
+	{
+		sInstance.mSFX[2].Play();
+	}
+
+	public static void PlayCardDrawSound()
+	{
+		sInstance.mSFX[3].Play();
+	}
 }

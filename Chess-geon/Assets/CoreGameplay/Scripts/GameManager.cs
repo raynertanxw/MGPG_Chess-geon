@@ -441,7 +441,6 @@ public class GameManager : MonoBehaviour
 
 	private void GenerateNPlaceEnemies()
 	{
-		// TODO: TEMP IMPLEMENTATION.
 		int numBlack, numStone, numSlime, numGlass, numGold, numCursed;
 
 		if (FloorNumber < 5)

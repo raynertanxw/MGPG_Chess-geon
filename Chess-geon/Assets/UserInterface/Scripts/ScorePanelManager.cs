@@ -47,7 +47,7 @@ public class ScorePanelManager : MonoBehaviour
 	{
 		mScoreText.text = _score.ToString("N0");
 
-		// TODO: Pulse attention!
+		// Pulse attention!
 		if (mPulse == null)
 		{
 			mPulse = new PulseAction(

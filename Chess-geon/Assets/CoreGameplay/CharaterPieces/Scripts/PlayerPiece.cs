@@ -279,14 +279,13 @@ public class PlayerPiece : MonoBehaviour
 	private const float kfCoinAnimDuration = 0.2f;
 	public void AddCoins(int _numCoins)
 	{
-		// TODO: Coin sound.
-
 		// Play coin get animation.
 		MoveByAction moveUp = new MoveByAction(mCoinTransform, Graph.Linear, Vector3.up * 1.4f, kfCoinAnimDuration);
 		moveUp.OnActionStart += () => {
 			mCoinTransform.position = transform.position;
 			mCoinSpriteRen.enabled = true;
 			mPlayerData.Coins++;
+			AudioManager.PlayCoinGetSound();
 			PlayerInfoManager.Instance.UpdateCoins(mPlayerData.Coins);
 		};
 		ActionRepeat repeatedCoinGet = new ActionRepeat(moveUp, _numCoins);
@@ -300,7 +299,7 @@ public class PlayerPiece : MonoBehaviour
 	// CHECkING FOR ENOUGH COINS should be done first.
 	public void SpendCoins(int _numCoins)
 	{
-		// TODO: Coin spending sound?
+		AudioManager.PlayCoinSpendSound();
 
 		mPlayerData.Coins -= _numCoins;
 		PlayerInfoManager.Instance.UpdateCoins(mPlayerData.Coins);
