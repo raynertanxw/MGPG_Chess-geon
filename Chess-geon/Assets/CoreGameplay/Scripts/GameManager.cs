@@ -467,7 +467,7 @@ public class GameManager : MonoBehaviour
 			numEnemiesToSpawn = numBlack + numStone + numSlime + numGlass + numGold + numCursed;
 		}
 
-		int[] spawnNums = { numBlack, numStone, numSlime, numStone, numGold, numCursed };
+		int[] spawnNums = { numBlack, numStone, numSlime, numGlass, numGold, numCursed };
 		for (int iType = 0; iType < spawnNums.Length; iType++)
 		{
 			int numEnemiesSpawned = 0;
