@@ -131,19 +131,19 @@ public class EnemyPiece : MonoBehaviour
 			break;
 
 		case EnemyUnit.StonePawn:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 2, GridType.Pawn, EnemyType.Stone);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Stone);
 			break;
 		case EnemyUnit.StoneRook:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 2, GridType.Rook, EnemyType.Stone);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Rook, EnemyType.Stone);
 			break;
 		case EnemyUnit.StoneBishop:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 2, GridType.Bishop, EnemyType.Stone);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Bishop, EnemyType.Stone);
 			break;
 		case EnemyUnit.StoneKnight:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 2, GridType.Knight, EnemyType.Stone);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Knight, EnemyType.Stone);
 			break;
 		case EnemyUnit.StoneKing:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 2, GridType.King, EnemyType.Stone);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.King, EnemyType.Stone);
 			break;
 
 		case EnemyUnit.SlimePawn:
@@ -195,19 +195,19 @@ public class EnemyPiece : MonoBehaviour
 			break;
 
 		case EnemyUnit.CursedPawn:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.Pawn, EnemyType.Cursed);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Pawn, EnemyType.Cursed);
 			break;
 		case EnemyUnit.CursedRook:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.Rook, EnemyType.Cursed);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Rook, EnemyType.Cursed);
 			break;
 		case EnemyUnit.CursedBishop:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.Bishop, EnemyType.Cursed);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Bishop, EnemyType.Cursed);
 			break;
 		case EnemyUnit.CursedKnight:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.Knight, EnemyType.Cursed);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.Knight, EnemyType.Cursed);
 			break;
 		case EnemyUnit.CursedKing:
-			curPiece = EnemyPiece.Spawn(_posX, _posY, 3, GridType.King, EnemyType.Cursed);
+			curPiece = EnemyPiece.Spawn(_posX, _posY, 1, GridType.King, EnemyType.Cursed);
 			break;
 		default:
 			Debug.LogError("No enemyType handling found");
