@@ -64,15 +64,14 @@ public class DungeonManager : MonoBehaviour
 			sInstance = this;
 
 		// Set the size based on the floor number.
-		sizeX = 10 + 2;
-		sizeY = 10 + 2;
-		emptyPatternBias = 35;
 		if (PlayerPrefs.HasKey(Constants.kStrFloorNumber))
 		{
 			int floorNum = PlayerPrefs.GetInt(Constants.kStrFloorNumber);
 			if (floorNum < 5)
 			{
-				// Do nothing.
+				sizeX = 10 + 2;
+				sizeY = 10 + 2;
+				emptyPatternBias = 35;
 			}
 			else if (floorNum < 15)
 			{
