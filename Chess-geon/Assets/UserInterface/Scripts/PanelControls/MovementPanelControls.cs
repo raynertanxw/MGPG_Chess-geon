@@ -161,7 +161,7 @@ public class MovementPanelControls : MonoBehaviour
 				mTileButtons[tileID].interactable = true;
 				mTileButtonImages[tileID].sprite = DungeonManager.Instance.selectableSprite;
 			}
-			else if (DungeonManager.Instance.IsExitCell(PlayerPosX, PlayerPosY + 1))
+			else if (DungeonManager.Instance.IsExitCell(PlayerPosX, PlayerPosY - 1))
 			{
 				int tileID = (PlayerPosY - 1 - PlayerPosY + 2) * 5 + (PlayerPosX - PlayerPosX + 2);
 				mTileButtons[tileID].interactable = true;
