@@ -59,4 +59,14 @@ public class AudioManager : MonoBehaviour
 	{
 		sInstance.mSFX[4].Play();
 	}
+
+	public static void PlayPhaseInSound()
+	{
+		sInstance.mSFX[5].Play();
+	}
+
+	public static void PlayPhaseOutSound()
+	{
+		sInstance.mSFX[6].Play();
+	}
 }

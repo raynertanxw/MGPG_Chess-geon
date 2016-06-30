@@ -113,12 +113,14 @@ public class EventAnimationController : MonoBehaviour
 		RotateByAction2D topRotIn = new RotateByAction2D(mPhaseTop.transform, Graph.InverseExponential, -86.0f, 0.6f);
 		RotateByAction2D bottomRotIn = new RotateByAction2D(mPhaseBottom.transform, Graph.InverseExponential, -86.0f, 0.6f);
 		ActionParallel rotateIn = new ActionParallel(topRotIn, bottomRotIn);
+		rotateIn.OnActionStart += () => { AudioManager.PlayPhaseInSound(); };
 
 		DelayAction rotInOutDelay = new DelayAction(0.6f);
 
 		RotateByAction2D topRotOut = new RotateByAction2D(mPhaseTop.transform, Graph.Exponential, -86.0f, 0.6f);
 		RotateByAction2D bottomRotOut = new RotateByAction2D(mPhaseBottom.transform, Graph.Exponential, -86.0f, 0.6f);
 		ActionParallel rotateOut = new ActionParallel(topRotOut, bottomRotOut);
+		rotateOut.OnActionStart += () => { AudioManager.PlayPhaseOutSound(); };
 		
 		ActionSequence rotInOutSeq = new ActionSequence(rotateIn, rotInOutDelay, rotateOut);
 		rotInOutSeq.OnActionFinish += () => {
