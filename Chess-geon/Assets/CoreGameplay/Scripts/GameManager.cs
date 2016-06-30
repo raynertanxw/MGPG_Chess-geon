@@ -32,6 +32,14 @@ public class GameManager : MonoBehaviour
 	private bool mbGameStarted;
 	private int mnFloorNumber = 0;
 	public int FloorNumber { get { return mnFloorNumber; } }
+	private int mnScore;
+	public int Score { get { return mnScore; } }
+	public void AddScore(int _score)
+	{
+		mnScore += (int) (_score * mfFloorScoreMultiplier);
+		ScorePanelManager.Instance.UpdateScore(mnScore);
+	}
+	private float mfFloorScoreMultiplier;
 
 	private List<EnemyPiece> mEnemyList;
 	public List<EnemyPiece> EnemyList { get { return mEnemyList; } }
@@ -63,6 +71,18 @@ public class GameManager : MonoBehaviour
 		{
 			mnFloorNumber = 0;
 			PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
+		}
+		mfFloorScoreMultiplier = 1.0f + (0.1f * mnFloorNumber);
+
+		// Setup Score (if any).
+		if (PlayerPrefs.HasKey(Constants.kStrCurScore))
+		{
+			mnScore = PlayerPrefs.GetInt(Constants.kStrCurScore);
+		}
+		else
+		{
+			mnScore = 0;
+			PlayerPrefs.SetInt(Constants.kStrCurScore, mnScore);
 		}
 		
 		// Variable setups
@@ -422,7 +442,6 @@ public class GameManager : MonoBehaviour
 	private void GenerateNPlaceEnemies()
 	{
 		// TODO: TEMP IMPLEMENTATION.
-		int numEnemiesToSpawn;
 		int numBlack, numStone, numSlime, numGlass, numGold, numCursed;
 
 		if (FloorNumber < 5)
@@ -433,7 +452,6 @@ public class GameManager : MonoBehaviour
 			numGlass = 0;
 			numGold = 0;
 			numCursed = 0;
-			numEnemiesToSpawn = numBlack + numStone + numSlime + numGlass + numGold + numCursed;
 		}
 		else if (FloorNumber < 15)
 		{
@@ -443,7 +461,6 @@ public class GameManager : MonoBehaviour
 			numGlass = Random.Range(1, 5);
 			numGold = Random.Range(0, 3);
 			numCursed = 0;
-			numEnemiesToSpawn = numBlack + numStone + numSlime + numGlass + numGold + numCursed;
 		}
 		else if (FloorNumber < 25)
 		{
@@ -453,7 +470,6 @@ public class GameManager : MonoBehaviour
 			numGlass = Random.Range(1, 5);
 			numGold = Random.Range(0, 4);
 			numCursed = 0;
-			numEnemiesToSpawn = numBlack + numStone + numSlime + numGlass + numGold + numCursed;
 		}
 		else
 		{
@@ -464,7 +480,6 @@ public class GameManager : MonoBehaviour
 			numGlass = Random.Range(FloorNumber - 24, FloorNumber - 20);
 			numGold = Random.Range(FloorNumber - 25, FloorNumber - 20);
 			numCursed = Random.Range(FloorNumber - 25, FloorNumber - 24);
-			numEnemiesToSpawn = numBlack + numStone + numSlime + numGlass + numGold + numCursed;
 		}
 
 		int[] spawnNums = { numBlack, numStone, numSlime, numGlass, numGold, numCursed };
@@ -509,6 +524,21 @@ public class GameManager : MonoBehaviour
 		// Reset Floor Number.
 		PlayerPrefs.DeleteKey(Constants.kStrFloorNumber);
 
+		// Set highscore if any and clear current score.
+		if (PlayerPrefs.HasKey(Constants.kStrHighscore))
+		{
+			int oldHighscore = PlayerPrefs.GetInt(Constants.kStrHighscore);
+			if (mnScore > oldHighscore)
+			{
+				PlayerPrefs.SetInt(Constants.kStrHighscore, mnScore);
+			}
+		}
+		else
+		{
+			PlayerPrefs.SetInt(Constants.kStrHighscore, mnScore);
+		}
+		PlayerPrefs.DeleteKey(Constants.kStrCurScore);
+
 		// Reset PlayerData.
 		PlayerPrefs.DeleteKey(Constants.kStrPlayerHealth);
 		PlayerPrefs.DeleteKey(Constants.kStrPlayerShield);
@@ -532,6 +562,12 @@ public class GameManager : MonoBehaviour
 		// Progress Floor.
 		mnFloorNumber++;
 		PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
+
+		// Add clear floor bonus score.
+		AddScore(100);
+
+		// Save current score.
+		PlayerPrefs.SetInt(Constants.kStrCurScore, mnScore);
 
 		// Save PlayerData.
 		PlayerPrefs.SetInt(Constants.kStrPlayerHealth, Player.Health);

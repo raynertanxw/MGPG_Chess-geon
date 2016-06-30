@@ -4,6 +4,7 @@ using System.Collections;
 public class Constants : MonoBehaviour
 {
 	public const string kStrFloorNumber = "FloorNumber";
+	public const string kStrCurScore = "CurScore";
 	public const string kStrHighscore = "Highscore";
 
 	// Player Data

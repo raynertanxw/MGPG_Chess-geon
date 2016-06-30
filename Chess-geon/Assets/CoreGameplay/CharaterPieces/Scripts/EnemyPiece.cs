@@ -324,6 +324,44 @@ public class EnemyPiece : MonoBehaviour
 		};
 		ActionHandler.RunAction(delayForCoins);
 
+		// Score for the player.
+		int score = 0;
+		switch (MovementType)
+		{
+		case GridType.Pawn:
+			score = 10;
+			break;
+		case GridType.Rook:
+		case GridType.Bishop:
+			score = 15;
+			break;
+		case GridType.Knight:
+			score = 20;
+			break;
+		case GridType.King:
+			score = 25;
+			break;
+		}
+			
+		switch (UnitType)
+		{
+		case EnemyType.Black:
+		case EnemyType.Slime:
+			score *= 1;
+			break;
+		case EnemyType.Stone:
+			score *= 2;
+			break;
+		case EnemyType.Glass:
+		case EnemyType.Gold:
+			score *= 3;
+			break;
+		case EnemyType.Cursed:
+			score *= 5;
+			break;
+		}
+		GameManager.Instance.AddScore(score);
+
 		// Special Die Events
 		typeAlgorithms[(int)UnitType].SpecialDieEvents(this);
 
