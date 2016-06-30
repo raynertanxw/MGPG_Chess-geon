@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
 	private bool mbIsGameOver;
 	public bool IsGameOver { get { return mbIsGameOver; } }
 	private bool mbGameStarted;
+	private int mnFloorNumber;
+	public int FloorNumber { get { return mnFloorNumber; } }
 
 	private List<EnemyPiece> mEnemyList;
 	public List<EnemyPiece> EnemyList { get { return mEnemyList; } }
@@ -63,6 +65,17 @@ public class GameManager : MonoBehaviour
 		mPhase = GamePhase.PlayerPhase;
 		mbIsGameOver = false;
 		mbGameStarted = false;
+
+		// Setup Floor number.
+		if (PlayerPrefs.HasKey(Constants.kStrFloorNumber))
+		{
+			mnFloorNumber = PlayerPrefs.GetInt(Constants.kStrFloorNumber);
+		}
+		else
+		{
+			mnFloorNumber = 0;
+			PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
+		}
 	}
 
 	void Start()
@@ -409,12 +422,20 @@ public class GameManager : MonoBehaviour
 
 	public void PlayerDied()
 	{
+		// Reset Floor Number.
+		mnFloorNumber = 0;
+		PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
+
 		mbIsGameOver = true;
 		EventAnimationController.Instance.ShowGameOver();
 	}
 
 	public void ReachedFloorExit()
 	{
+		// Progress Floor.
+		mnFloorNumber++;
+		PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
+
 		mbIsGameOver = true;
 		EventAnimationController.Instance.ShowFloorCleared();
 	}
