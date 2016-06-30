@@ -54,6 +54,17 @@ public class GameManager : MonoBehaviour
 
 	private void Setup()
 	{
+		// Setup Floor number.
+		if (PlayerPrefs.HasKey(Constants.kStrFloorNumber))
+		{
+			mnFloorNumber = PlayerPrefs.GetInt(Constants.kStrFloorNumber);
+		}
+		else
+		{
+			mnFloorNumber = 0;
+			PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
+		}
+		
 		// Variable setups
 		mEnemyList = new List<EnemyPiece>();
 		mPlayerToEndPhase = false;
@@ -66,17 +77,6 @@ public class GameManager : MonoBehaviour
 		mPhase = GamePhase.PlayerPhase;
 		mbIsGameOver = false;
 		mbGameStarted = false;
-
-		// Setup Floor number.
-		if (PlayerPrefs.HasKey(Constants.kStrFloorNumber))
-		{
-			mnFloorNumber = PlayerPrefs.GetInt(Constants.kStrFloorNumber);
-		}
-		else
-		{
-			mnFloorNumber = 0;
-			PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
-		}
 	}
 
 	void Start()
@@ -422,38 +422,73 @@ public class GameManager : MonoBehaviour
 	private void GenerateNPlaceEnemies()
 	{
 		// TODO: TEMP IMPLEMENTATION.
+		int numEnemiesToSpawn;
+		int numBlack, numStone, numSlime, numGlass, numGold, numCursed;
 
-		EnemyUnit[] toBeSpawned = new EnemyUnit[10];
-		toBeSpawned[0] = EnemyUnit.BlackPawn;
-		toBeSpawned[1] = EnemyUnit.BlackRook;
-		toBeSpawned[2] = EnemyUnit.BlackBishop;
-		toBeSpawned[3] = EnemyUnit.BlackKnight;
-		toBeSpawned[4] = EnemyUnit.BlackKing;
-		toBeSpawned[5] = EnemyUnit.StoneKing;
-		toBeSpawned[6] = EnemyUnit.SlimeKing;
-		toBeSpawned[7] = EnemyUnit.GlassKing;
-		toBeSpawned[8] = EnemyUnit.GoldKing;
-		toBeSpawned[9] = EnemyUnit.CursedKing;
-
-		int numEnemiesSpawned = 0;
-		while (numEnemiesSpawned < 10)
+		if (FloorNumber < 5)
 		{
-			int posX = Random.Range(1, DungeonManager.Instance.SizeX - 2);
-			int posY = Random.Range(1, DungeonManager.Instance.SizeY - 2);
+			numBlack = 10 - FloorNumber;
+			numStone = FloorNumber;
+			numSlime = 0;
+			numGlass = 0;
+			numGold = 0;
+			numCursed = 0;
+			numEnemiesToSpawn = numBlack + numStone + numSlime + numGlass + numGold + numCursed;
+		}
+		else if (FloorNumber < 15)
+		{
+			numBlack = Random.Range(1, 7);
+			numStone = Random.Range(1, 11);
+			numSlime = 0;
+			numGlass = Random.Range(1, 5);
+			numGold = Random.Range(0, 3);
+			numCursed = 0;
+			numEnemiesToSpawn = numBlack + numStone + numSlime + numGlass + numGold + numCursed;
+		}
+		else if (FloorNumber < 25)
+		{
+			numBlack = Random.Range(1, 8);
+			numStone = Random.Range(1, 11);
+			numSlime = Random.Range(1, 4);
+			numGlass = Random.Range(1, 5);
+			numGold = Random.Range(0, 4);
+			numCursed = 0;
+			numEnemiesToSpawn = numBlack + numStone + numSlime + numGlass + numGold + numCursed;
+		}
+		else
+		{
+			// Scale the range accordingly to each floor level.
+			numBlack = Random.Range(FloorNumber - 24, FloorNumber - 17);
+			numStone = Random.Range(FloorNumber - 24, FloorNumber - 11);
+			numSlime = Random.Range(FloorNumber - 24, FloorNumber - 20);
+			numGlass = Random.Range(FloorNumber - 24, FloorNumber - 20);
+			numGold = Random.Range(FloorNumber - 25, FloorNumber - 20);
+			numCursed = Random.Range(FloorNumber - 25, FloorNumber - 24);
+			numEnemiesToSpawn = numBlack + numStone + numSlime + numGlass + numGold + numCursed;
+		}
 
-			if (DungeonManager.Instance.IsCellEmpty(posX, posY) &&
-				DungeonManager.Instance.IsPlayerPos(posX, posY) == false)
+		int[] spawnNums = { numBlack, numStone, numSlime, numStone, numGold, numCursed };
+		for (int iType = 0; iType < spawnNums.Length; iType++)
+		{
+			int numEnemiesSpawned = 0;
+
+			while (numEnemiesSpawned < spawnNums[iType])
 			{
-				EnemyPiece.Spawn(posX, posY, EnemyUnit.SlimeKing);
-				numEnemiesSpawned++;
+				int posX = Random.Range(1, DungeonManager.Instance.SizeX - 2);
+				int posY = Random.Range(1, DungeonManager.Instance.SizeY - 2);
+
+				if (DungeonManager.Instance.IsCellEmpty(posX, posY) &&
+					DungeonManager.Instance.IsPlayerPos(posX, posY) == false)
+				{
+					EnemyPiece.Spawn(posX, posY, (EnemyUnit) Random.Range(5 * iType, 5 * (iType + 1)));
+					numEnemiesSpawned++;
+				}
 			}
 		}
 	}
 
 	private void PlacePlayer()
 	{
-		// TODO: Load player health from previous level if any.
-
 		mPlayerPiece = ((GameObject)Instantiate(
 			PlayerPrefab,
 			DungeonManager.Instance.GridPosToWorldPos(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY),
