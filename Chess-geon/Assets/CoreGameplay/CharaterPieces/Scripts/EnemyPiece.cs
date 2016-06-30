@@ -407,6 +407,7 @@ public class EnemyPiece : MonoBehaviour
 		Node targetNode = mPath.First.Next.Value;
 		// Do not move the enemy in the grid for attack.
 		ScaleToAction scaleUp = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.75f, 0.5f);
+		scaleUp.OnActionStart += () => { AudioManager.PlayPreAtkSound(); };
 
 		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.Dipper,
 			DungeonManager.Instance.GridPosToWorldPos(targetNode.PosX, targetNode.PosY), 0.25f);

@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour
 		sInstance.mSFX[8].Play();
 	}
 
-	public static void PlayPlayerPreAtkSound()
+	public static void PlayPreAtkSound()
 	{
 		sInstance.mSFX[9].Play();
 	}

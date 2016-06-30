@@ -134,7 +134,7 @@ public class PlayerPiece : MonoBehaviour
 
 		// Player's logical position values set below, after attack.
 		ScaleToAction scaleUp = new ScaleToAction(this.transform, Graph.SmoothStep, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.75f, 0.5f);
-		scaleUp.OnActionStart += () => { AudioManager.PlayPlayerPreAtkSound(); };
+		scaleUp.OnActionStart += () => { AudioManager.PlayPreAtkSound(); };
 
 		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.Dipper,
 			DungeonManager.Instance.GridPosToWorldPos(_targetX, _targetY), 0.25f);
