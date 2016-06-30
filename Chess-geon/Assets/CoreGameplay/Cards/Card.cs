@@ -16,12 +16,10 @@ public class Card : MonoBehaviour
 	private int mnOriginSiblingIndex;
 	public int OriginSiblingIndex { get { return mnOriginSiblingIndex; } }
 
-	private CardType mCardType = CardType.None;
-	public CardType Type { get { return mCardType; } }
-	private GridType mCardMovementType = GridType.Rook;
-	public GridType MoveType { get { return mCardMovementType; } }
-	private CardTier mCardTier = CardTier.None;
-	public CardTier Tier { get { return mCardTier; } }
+	private CardData mCardData = new CardData(CardType.None, CardTier.None, GridType.Rook);
+	public CardType Type { get { return mCardData.Type; } }
+	public GridType MoveType { get { return mCardData.MoveType; } }
+	public CardTier Tier { get { return mCardData.Tier; } }
 	private Image mImage;
 	public Image CardImage { get { return mImage; } }
 	private bool mbEnabled;
@@ -68,43 +66,43 @@ public class Card : MonoBehaviour
 	public void Execute()
 	{
 		// Execute the card & set the respective panel to visible.
-		CardAlgorithms[(int)mCardType].ExecuteCard(mCardTier, mCardMovementType);
-		ControlAreaManager.SetCardPanelVisibility(mCardType, true);
+		CardAlgorithms[(int)mCardData.Type].ExecuteCard(mCardData.Tier, mCardData.MoveType);
+		ControlAreaManager.SetCardPanelVisibility(mCardData.Type, true);
 		ToggleCard(false);
 	}
 
 	public void NewMovementCard()
 	{
-		mCardType = CardType.Movement;
-		mCardMovementType = (GridType)UnityEngine.Random.Range(0, (int)GridType.Count);
-		mCardTier = CardTier.None;
+		mCardData.Type = CardType.Movement;
+		mCardData.MoveType = (GridType)UnityEngine.Random.Range(0, (int)GridType.Count);
+		mCardData.Tier = CardTier.None;
 	}
 
 	public void SpecificMovementCard(GridType _moveType)
 	{
-		mCardType = CardType.Movement;
-		mCardMovementType = _moveType;
-		mCardTier = CardTier.None;
+		mCardData.Type = CardType.Movement;
+		mCardData.MoveType = _moveType;
+		mCardData.Tier = CardTier.None;
 	}
 
 	public void SetCard(CardType _type, CardTier _tier)
 	{
-		mCardType = _type;
-		mCardTier = _tier;
+		mCardData.Type = _type;
+		mCardData.Tier = _tier;
 	}
 
 	public void UpdateSprite()
 	{
-		switch (mCardType)
+		switch (mCardData.Type)
 		{
 		case CardType.None:
 			mImage.sprite = null;
 			break;
 		case CardType.Movement:
-			mImage.sprite = cardSprites[Array.IndexOf(cardSpriteNames, "Card_Movement_" + mCardMovementType.ToString())];
+			mImage.sprite = cardSprites[Array.IndexOf(cardSpriteNames, "Card_Movement_" + mCardData.MoveType.ToString())];
 			break;
 		default:
-			mImage.sprite = cardSprites[Array.IndexOf(cardSpriteNames, "Card_" + mCardType.ToString() + "_" + mCardTier.ToString())];
+			mImage.sprite = cardSprites[Array.IndexOf(cardSpriteNames, "Card_" + mCardData.Type.ToString() + "_" + mCardData.Tier.ToString())];
 			break;
 		}
 	}
@@ -117,9 +115,9 @@ public class Card : MonoBehaviour
 
 	public void CopyCardData(Card _sourceCard)
 	{
-		mCardType = _sourceCard.Type;
-		mCardMovementType = _sourceCard.MoveType;
-		mCardTier = _sourceCard.Tier;
+		mCardData.Type = _sourceCard.Type;
+		mCardData.MoveType = _sourceCard.MoveType;
+		mCardData.Tier = _sourceCard.Tier;
 
 		mImage.sprite = _sourceCard.CardImage.sprite;
 	}

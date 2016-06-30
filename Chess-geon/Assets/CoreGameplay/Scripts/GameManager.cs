@@ -81,13 +81,43 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		// Draw 3 cards.
-		DelayAction firstDraw = new DelayAction(1.8f);
-		firstDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
-		DelayAction secondDraw = new DelayAction(1.8f + 0.3f);
-		secondDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
-		DelayAction thirdDraw = new DelayAction(1.8f + 0.3f + 0.3f);
-		secondDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
-		ActionParallel drawParallel = new ActionParallel(firstDraw, secondDraw, thirdDraw);
+		ActionParallel drawParallel = new ActionParallel();
+		if (PlayerPrefs.HasKey(Constants.kStrNumCardsInHand))
+		{
+			int numCards = PlayerPrefs.GetInt(Constants.kStrNumCardsInHand);
+			for (int i = 0; i < numCards; i++)
+			{
+				DelayAction draw = new DelayAction(i * 0.3f);
+
+				CardType type = (CardType)PlayerPrefs.GetInt(Constants.kStrCardType[i]);
+				if (type == CardType.Movement)
+				{
+					GridType moveType = (GridType)PlayerPrefs.GetInt(Constants.kStrCardMoveType[i]);
+					draw.OnActionFinish += () => {
+						DeckManager.Instance.DrawCard(moveType);
+					};
+				}
+				else
+				{
+					CardTier tier = (CardTier) PlayerPrefs.GetInt(Constants.kStrCardTier[i]);
+					draw.OnActionFinish += () => {
+						DeckManager.Instance.DrawSpecificCard(type, tier);
+					};
+				}
+
+				drawParallel.Add(draw);
+			}
+		}
+		else
+		{
+			DelayAction firstDraw = new DelayAction(0.1f);
+			firstDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
+			DelayAction secondDraw = new DelayAction(0.1f + 0.3f);
+			secondDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
+			DelayAction thirdDraw = new DelayAction(0.1f + 0.3f + 0.3f);
+			secondDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
+			drawParallel = new ActionParallel(firstDraw, secondDraw, thirdDraw);
+		}
 
 		Vector3 vec3PlayerPos = DungeonManager.Instance.GridPosToWorldPos(Player.PosX, Player.PosY);
 		Vector3 vec3ExitPos = DungeonManager.Instance.GridPosToWorldPos(DungeonManager.Instance.ExitPosX, DungeonManager.Instance.ExitPosY);
@@ -415,7 +445,7 @@ public class GameManager : MonoBehaviour
 			if (DungeonManager.Instance.IsCellEmpty(posX, posY) &&
 				DungeonManager.Instance.IsPlayerPos(posX, posY) == false)
 			{
-				EnemyList.Add(EnemyPiece.Spawn(posX, posY, toBeSpawned[numEnemiesSpawned]));
+				EnemyList.Add(EnemyPiece.Spawn(posX, posY, EnemyUnit.BlackPawn));
 				numEnemiesSpawned++;
 			}
 		}
@@ -443,13 +473,21 @@ public class GameManager : MonoBehaviour
 	public void PlayerDied()
 	{
 		// Reset Floor Number.
-		mnFloorNumber = 0;
-		PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
+		PlayerPrefs.DeleteKey(Constants.kStrFloorNumber);
 
 		// Reset PlayerData.
-		PlayerPrefs.SetInt(Constants.kStrPlayerHealth, 3);
-		PlayerPrefs.SetInt(Constants.kStrPlayerShield, 0);
-		PlayerPrefs.SetInt(Constants.kStrPlayerCoins, 0);
+		PlayerPrefs.DeleteKey(Constants.kStrPlayerHealth);
+		PlayerPrefs.DeleteKey(Constants.kStrPlayerShield);
+		PlayerPrefs.DeleteKey(Constants.kStrPlayerCoins);
+
+		// Clear Cards.
+		for (int i = 0; i < DeckManager.knMaxCardsInHand; i++)
+		{
+			PlayerPrefs.DeleteKey(Constants.kStrCardType[i]);
+			PlayerPrefs.DeleteKey(Constants.kStrCardTier[i]);
+			PlayerPrefs.DeleteKey(Constants.kStrCardMoveType[i]);
+		}
+		PlayerPrefs.DeleteKey(Constants.kStrNumCardsInHand);
 
 		mbIsGameOver = true;
 		EventAnimationController.Instance.ShowGameOver();
@@ -465,6 +503,16 @@ public class GameManager : MonoBehaviour
 		PlayerPrefs.SetInt(Constants.kStrPlayerHealth, Player.Health);
 		PlayerPrefs.SetInt(Constants.kStrPlayerShield, Player.Shield);
 		PlayerPrefs.SetInt(Constants.kStrPlayerCoins, Player.Coins);
+
+		// Save Cards.
+		for (int i = 0; i < DeckManager.Instance.GetNumCardsInHand(); i++)
+		{
+			CardData curCardData = DeckManager.Instance.GetCardDataAt(i);
+			PlayerPrefs.SetInt(Constants.kStrCardType[i], (int)curCardData.Type);
+			PlayerPrefs.SetInt(Constants.kStrCardTier[i], (int)curCardData.Tier);
+			PlayerPrefs.SetInt(Constants.kStrCardMoveType[i], (int)curCardData.MoveType);
+		}
+		PlayerPrefs.SetInt(Constants.kStrNumCardsInHand, DeckManager.Instance.GetNumCardsInHand());
 
 		mbIsGameOver = true;
 		EventAnimationController.Instance.ShowFloorCleared();

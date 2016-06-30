@@ -66,6 +66,12 @@ public class DeckManager : MonoBehaviour
 		return numCards;
 	}
 
+	public CardData GetCardDataAt(int _cardSlot)
+	{
+		CardData data = new CardData(mCards[_cardSlot].Type, mCards[_cardSlot].Tier, mCards[_cardSlot].MoveType);
+		return data;
+	}
+
 	public void DrawCard()
 	{
 		for (int i = 0; i < knMaxCardsInHand; i++)
@@ -217,6 +223,19 @@ public class DeckManager : MonoBehaviour
 		};
 
 		ActionHandler.RunAction(drawCardSeq);
+	}
+
+	// Card pos should be 0-4
+	private void SetCard(int _cardSlotID, CardType _type, CardTier _tier, GridType _moveType)
+	{
+		mCards[_cardSlotID].ToggleCard(true);
+		if (_type == CardType.Movement)
+			mCards[_cardSlotID].SpecificMovementCard(_moveType);
+		else
+			mCards[_cardSlotID].SetCard(_type, _tier);
+
+		mCards[_cardSlotID].UpdateSprite();
+		mCards[_cardSlotID].SetCardDraggable(true);
 	}
 
 	public void ReorganiseCards()

@@ -57,6 +57,8 @@ public class PlayerPiece : MonoBehaviour
 	{
 		SetPosition(_startX, _startY);
 		mPlayerData = _playerData;
+		if (mPlayerData.Shield > 0)
+			mShieldBubbleSpriteRen.enabled = true;
 	}
 
 	private void SetPosition(int _newX, int _newY)
