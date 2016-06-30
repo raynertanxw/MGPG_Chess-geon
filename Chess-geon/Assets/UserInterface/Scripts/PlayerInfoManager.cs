@@ -40,6 +40,8 @@ public class PlayerInfoManager : MonoBehaviour
 	private CanvasGroup mRepeatCG;
 	private Text mNumRepeats;
 
+	private Text mFloorText;
+
 	private void Setup()
 	{
 		Transform playerHealth = transform.FindChild("Player Health");
@@ -62,6 +64,10 @@ public class PlayerInfoManager : MonoBehaviour
 		mRepeatCG = repeatCount.GetComponent<CanvasGroup>();
 		mRepeatCG.alpha = 0.0f;
 		mNumRepeats = repeatCount.FindChild("NumRepeats Text").GetComponent<Text>();
+
+		Transform floorText = transform.FindChild("Player Floor");
+		mFloorText = floorText.FindChild("Floor Text").GetComponent<Text>();
+		PlayerInfoManager.Instance.UpdateFloor(GameManager.Instance.FloorNumber);
 	}
 
 	void Start()
@@ -119,5 +125,10 @@ public class PlayerInfoManager : MonoBehaviour
 		{
 			mRepeatCG.alpha = 0.0f;
 		}
+	}
+
+	public void UpdateFloor(int _floorNum)
+	{
+		mFloorText.text = "Floor:" + _floorNum.ToString();
 	}
 }
