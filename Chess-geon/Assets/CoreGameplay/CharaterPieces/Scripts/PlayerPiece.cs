@@ -111,6 +111,8 @@ public class PlayerPiece : MonoBehaviour
 			// Check if reached the dungeonExit.
 			if (DungeonManager.Instance.IsExitCell(PosX, PosY))
 			{
+				RepeatPanelControls.ClearRepeats();
+				DeckManager.Instance.ReorganiseCards();
 				GameManager.Instance.ReachedFloorExit();
 			}
 
