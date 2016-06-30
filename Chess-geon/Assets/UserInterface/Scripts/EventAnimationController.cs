@@ -31,7 +31,7 @@ public class EventAnimationController : MonoBehaviour
 
 	void Start()
 	{
-		ExecutePhaseAnimation(GamePhase.PlayerPhase);
+		
 	}
 
 	private ControlAreaManager mCtrlArea;

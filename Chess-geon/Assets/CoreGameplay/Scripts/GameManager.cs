@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 	private bool mPlayerToEndPhase;
 	private bool mbIsGameOver;
 	public bool IsGameOver { get { return mbIsGameOver; } }
+	private bool mbGameStarted;
 
 	private List<EnemyPiece> mEnemyList;
 	public List<EnemyPiece> EnemyList { get { return mEnemyList; } }
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
 
 		mPhase = GamePhase.PlayerPhase;
 		mbIsGameOver = false;
+		mbGameStarted = false;
 	}
 
 	void Start()
@@ -72,7 +74,26 @@ public class GameManager : MonoBehaviour
 		secondDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
 		DelayAction thirdDraw = new DelayAction(1.8f + 0.3f + 0.3f);
 		secondDraw.OnActionFinish += () => { DeckManager.Instance.DrawCard(); };
-		ActionHandler.RunAction(firstDraw, secondDraw, thirdDraw);
+		ActionParallel drawParallel = new ActionParallel(firstDraw, secondDraw, thirdDraw);
+
+		Vector3 vec3PlayerPos = DungeonManager.Instance.GridPosToWorldPos(Player.PosX, Player.PosY);
+		Vector3 vec3ExitPos = DungeonManager.Instance.GridPosToWorldPos(DungeonManager.Instance.ExitPosX, DungeonManager.Instance.ExitPosY);
+		DelayAction pan = new DelayAction(2.0f);
+		pan.OnActionStart += () => {
+			BoardScroller.Instance.FocusCameraToPos(vec3ExitPos, 1.5f, Graph.SmoothStep);
+		};
+		pan.OnActionFinish += () => {
+			BoardScroller.Instance.FocusCameraToPos(vec3PlayerPos, 0.5f, Graph.SmoothStep);
+		};
+
+		DelayAction phaseAnimDelay = new DelayAction(0.6f);
+		phaseAnimDelay.OnActionFinish += () => {
+			EventAnimationController.Instance.ExecutePhaseAnimation(GamePhase.PlayerPhase);
+			mbGameStarted = true;
+		};
+
+		ActionSequence startSeq = new ActionSequence(drawParallel, pan, phaseAnimDelay);
+		ActionHandler.RunAction(startSeq);
 	}
 
 	private void InitializePlayerPhaseBehaviourTree()
@@ -252,6 +273,11 @@ public class GameManager : MonoBehaviour
 	
 	private void Update()
 	{
+		if (!mbGameStarted)
+		{
+			return;
+		}
+
 		if (IsGameOver)
 		{
 			return;
