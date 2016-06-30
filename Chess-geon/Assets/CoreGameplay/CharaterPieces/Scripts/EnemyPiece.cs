@@ -25,6 +25,7 @@ public class EnemyPiece : MonoBehaviour
 	private static Sprite[] enemySprites = null;
 	private static string[] enemySpriteNames = null;
 	private static EnemyStratergy[] enemyAlgorithms = null;
+	private static EnemyTypeStrategy[] typeAlgorithms = null;
 
 	private void Awake()
 	{
@@ -45,6 +46,14 @@ public class EnemyPiece : MonoBehaviour
 			enemyAlgorithms[2] = new EnemyStratergyBishop();
 			enemyAlgorithms[3] = new EnemyStratergyKnight();
 			enemyAlgorithms[4] = new EnemyStratergyKing();
+
+			typeAlgorithms = new EnemyTypeStrategy[6];
+			typeAlgorithms[0] = new EnemyTypeStrategyBlack();
+			typeAlgorithms[1] = new EnemyTypeStrategyStone();
+			typeAlgorithms[2] = new EnemyTypeStrategySlime();
+			typeAlgorithms[3] = new EnemyTypeStrategyGlass();
+			typeAlgorithms[4] = new EnemyTypeStrategyGold();
+			typeAlgorithms[5] = new EnemyTypeStrategyCursed();
 		}
 
 		Setup();
@@ -269,6 +278,9 @@ public class EnemyPiece : MonoBehaviour
 
 		mnHealth -= _damage;
 
+		// Special Take Damage events.
+		typeAlgorithms[(int)UnitType].SpecialTakeDamageEvents();
+
 		// Check if piece died. Handling for dying.
 		if (mnHealth <= 0)
 		{
@@ -294,6 +306,9 @@ public class EnemyPiece : MonoBehaviour
 			GameManager.Instance.Player.AddCoins(coinsDropped);
 		};
 		ActionHandler.RunAction(delayForCoins);
+
+		// Special Die Events
+		typeAlgorithms[(int)UnitType].SpecialDieEvents(this);
 
 		// TODO: Diff animations by diff enemy type?
 		ScaleToAction scaleDown = new ScaleToAction(transform, Vector3.zero, 0.4f);
@@ -341,7 +356,7 @@ public class EnemyPiece : MonoBehaviour
 		ScaleToAction scaleDownHit = new ScaleToAction(this.transform, Graph.Dipper, Vector3.one * DungeonManager.Instance.ScaleMultiplier * 1.1f, 0.25f);
 		ActionParallel hitParallel = new ActionParallel(moveToPos, scaleDownHit);
 		hitParallel.OnActionFinish += () => {
-			GameManager.Instance.Player.TakeDamage(1);
+			GameManager.Instance.Player.TakeDamage(typeAlgorithms[(int)UnitType].GetDamagePower());
 		};
 
 		DelayAction returnDelay = new DelayAction(0.1f);
