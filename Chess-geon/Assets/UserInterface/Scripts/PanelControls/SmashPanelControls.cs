@@ -99,7 +99,7 @@ public class SmashPanelControls : MonoBehaviour
 			int x = PlayerPosX + ((i % 5) - 2);
 			int y = PlayerPosY + ((i / 5) - 2);
 			
-			// TODO: Check if Exit Tile.
+			// Check if Exit Tile.
 			if (x == DungeonManager.Instance.ExitPosX && y == DungeonManager.Instance.ExitPosY)
 			{
 				mTileImages[i].sprite = DungeonManager.Instance.exitSprite;

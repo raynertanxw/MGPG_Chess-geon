@@ -80,8 +80,6 @@ public class MovementPanelControls : MonoBehaviour
 			int x = PlayerPosX + ((i % 5) - 2);
 			int y = PlayerPosY + ((i / 5) - 2);
 
-			// Check for special tiles (Shop & Exit)
-			// TODO: Check shop tile.
 			// Check if Exit Tile.
 			if (x == DungeonManager.Instance.ExitPosX && y == DungeonManager.Instance.ExitPosY)
 			{

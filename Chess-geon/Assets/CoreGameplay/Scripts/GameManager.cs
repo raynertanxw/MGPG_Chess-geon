@@ -360,8 +360,6 @@ public class GameManager : MonoBehaviour
 
 	private void ExecutePlayerPhase()
 	{
-		// TODO: Draw card
-
 		mPlayerPhaseBehaviourTree.Tick();
 	}
 

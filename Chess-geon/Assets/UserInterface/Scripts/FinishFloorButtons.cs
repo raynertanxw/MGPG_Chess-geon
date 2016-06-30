@@ -11,8 +11,6 @@ public class FinishFloorButtons : MonoBehaviour
 
 	public void NextFloor()
 	{
-		// TODO: Store player data for next floor.
-
 		SceneManager.LoadScene("DungeonLevelScene");
 	}
 }

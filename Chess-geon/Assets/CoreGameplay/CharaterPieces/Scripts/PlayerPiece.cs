@@ -199,7 +199,7 @@ public class PlayerPiece : MonoBehaviour
 		mPlayerData.Health -= _damage;
 		PlayerInfoManager.Instance.UpdateHealth(mPlayerData.Health);
 
-		// TODO: Check if player died. Handling for dying.
+		// Check if player died. Handling for dying.
 		if (mPlayerData.Health > 0)
 		{
 			// Player hasn't died.
