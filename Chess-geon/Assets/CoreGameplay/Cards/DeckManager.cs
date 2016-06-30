@@ -74,12 +74,11 @@ public class DeckManager : MonoBehaviour
 
 	public void DrawCard()
 	{
-		AudioManager.PlayCardDrawSound();
-
 		for (int i = 0; i < knMaxCardsInHand; i++)
 		{
 			if (mCards[i].Enabled == false)
 			{
+				AudioManager.PlayCardDrawSound();
 				DrawCardTo(i);
 				return;
 			}
@@ -90,12 +89,11 @@ public class DeckManager : MonoBehaviour
 
 	public void DrawCard(GridType _moveType)
 	{
-		AudioManager.PlayCardDrawSound();
-
 		for (int i = 0; i < knMaxCardsInHand; i++)
 		{
 			if (mCards[i].Enabled == false)
 			{
+				AudioManager.PlayCardDrawSound();
 				DrawCardTo(i, _moveType);
 				return;
 			}
@@ -106,12 +104,11 @@ public class DeckManager : MonoBehaviour
 
 	public void DrawSpecificCard(CardType _type, CardTier _tier)
 	{
-		AudioManager.PlayCardDrawSound();
-
 		for (int i = 0; i < knMaxCardsInHand; i++)
 		{
 			if (mCards[i].Enabled == false)
 			{
+				AudioManager.PlayCardDrawSound();
 				DrawCardTo(i, _type, _tier);
 				return;
 			}
