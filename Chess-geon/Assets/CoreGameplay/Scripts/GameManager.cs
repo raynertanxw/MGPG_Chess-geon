@@ -394,8 +394,20 @@ public class GameManager : MonoBehaviour
 	{
 		// TODO: TEMP IMPLEMENTATION.
 
+		EnemyUnit[] toBeSpawned = new EnemyUnit[10];
+		toBeSpawned[0] = EnemyUnit.BlackPawn;
+		toBeSpawned[1] = EnemyUnit.BlackRook;
+		toBeSpawned[2] = EnemyUnit.BlackBishop;
+		toBeSpawned[3] = EnemyUnit.BlackKnight;
+		toBeSpawned[4] = EnemyUnit.BlackKing;
+		toBeSpawned[5] = EnemyUnit.StoneKing;
+		toBeSpawned[6] = EnemyUnit.SlimeKing;
+		toBeSpawned[7] = EnemyUnit.GlassKing;
+		toBeSpawned[8] = EnemyUnit.GoldKing;
+		toBeSpawned[9] = EnemyUnit.CursedKing;
+
 		int numEnemiesSpawned = 0;
-		while (numEnemiesSpawned < 8)
+		while (numEnemiesSpawned < 10)
 		{
 			int posX = Random.Range(1, DungeonManager.Instance.SizeX - 2);
 			int posY = Random.Range(1, DungeonManager.Instance.SizeY - 2);
@@ -403,7 +415,7 @@ public class GameManager : MonoBehaviour
 			if (DungeonManager.Instance.IsCellEmpty(posX, posY) &&
 				DungeonManager.Instance.IsPlayerPos(posX, posY) == false)
 			{
-				EnemyList.Add(EnemyPiece.Spawn(posX, posY, EnemyUnit.BlackKing));
+				EnemyList.Add(EnemyPiece.Spawn(posX, posY, toBeSpawned[numEnemiesSpawned]));
 				numEnemiesSpawned++;
 			}
 		}
@@ -417,7 +429,15 @@ public class GameManager : MonoBehaviour
 			PlayerPrefab,
 			DungeonManager.Instance.GridPosToWorldPos(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY),
 			Quaternion.identity)).GetComponent<PlayerPiece>();
-		mPlayerPiece.Initialise(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY);
+
+		PlayerData playerData = new PlayerData(3, 0, 0);
+		if (PlayerPrefs.HasKey(Constants.kStrPlayerHealth))
+			playerData.Health = PlayerPrefs.GetInt(Constants.kStrPlayerHealth);
+		if (PlayerPrefs.HasKey(Constants.kStrPlayerHealth))
+			playerData.Shield = PlayerPrefs.GetInt(Constants.kStrPlayerShield);
+		if (PlayerPrefs.HasKey(Constants.kStrPlayerHealth))
+			playerData.Coins = PlayerPrefs.GetInt(Constants.kStrPlayerCoins);
+		mPlayerPiece.Initialise(DungeonManager.Instance.SpawnPosX, DungeonManager.Instance.SpawnPosY, playerData);
 	}
 
 	public void PlayerDied()
@@ -425,6 +445,11 @@ public class GameManager : MonoBehaviour
 		// Reset Floor Number.
 		mnFloorNumber = 0;
 		PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
+
+		// Reset PlayerData.
+		PlayerPrefs.SetInt(Constants.kStrPlayerHealth, 3);
+		PlayerPrefs.SetInt(Constants.kStrPlayerShield, 0);
+		PlayerPrefs.SetInt(Constants.kStrPlayerCoins, 0);
 
 		mbIsGameOver = true;
 		EventAnimationController.Instance.ShowGameOver();
@@ -435,6 +460,11 @@ public class GameManager : MonoBehaviour
 		// Progress Floor.
 		mnFloorNumber++;
 		PlayerPrefs.SetInt(Constants.kStrFloorNumber, mnFloorNumber);
+
+		// Save PlayerData.
+		PlayerPrefs.SetInt(Constants.kStrPlayerHealth, Player.Health);
+		PlayerPrefs.SetInt(Constants.kStrPlayerShield, Player.Shield);
+		PlayerPrefs.SetInt(Constants.kStrPlayerCoins, Player.Coins);
 
 		mbIsGameOver = true;
 		EventAnimationController.Instance.ShowFloorCleared();

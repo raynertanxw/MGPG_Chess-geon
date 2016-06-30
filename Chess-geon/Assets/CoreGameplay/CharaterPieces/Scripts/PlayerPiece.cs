@@ -24,12 +24,10 @@ public class PlayerPiece : MonoBehaviour
 	public int PosX { get { return mnPosX; } }
 	public int PosY { get { return mnPosY; } }
 
-	private int mnHealth = -1;
-	public int Health { get { return mnHealth; } }
-	private int mnShield = -1;
-	public int Shield { get { return mnShield; } }
-	private int mnCoin = -1;
-	public int Coins { get { return mnCoin; } }
+	private PlayerData mPlayerData;
+	public int Health { get { return mPlayerData.Health; } }
+	public int Shield { get { return mPlayerData.Shield; } }
+	public int Coins { get { return mPlayerData.Coins; } }
 
 	private PlayerTurnStatus mTurnStatus;
 	public PlayerTurnStatus TurnStatus { get { return mTurnStatus; } }
@@ -55,12 +53,10 @@ public class PlayerPiece : MonoBehaviour
 		transform.localScale *= DungeonManager.Instance.ScaleMultiplier;
 	}
 
-	public void Initialise(int _startX, int _startY)
+	public void Initialise(int _startX, int _startY, PlayerData _playerData)
 	{
 		SetPosition(_startX, _startY);
-		mnHealth = 3;
-		mnShield = 0;
-		mnCoin = 0;
+		mPlayerData = _playerData;
 	}
 
 	private void SetPosition(int _newX, int _newY)
@@ -196,11 +192,11 @@ public class PlayerPiece : MonoBehaviour
 			return;
 		}
 
-		mnHealth -= _damage;
-		PlayerInfoManager.Instance.UpdateHealth(mnHealth);
+		mPlayerData.Health -= _damage;
+		PlayerInfoManager.Instance.UpdateHealth(mPlayerData.Health);
 
 		// TODO: Check if player died. Handling for dying.
-		if (mnHealth > 0)
+		if (mPlayerData.Health > 0)
 		{
 			// Player hasn't died.
 			ShakeAction2D camShake = new ShakeAction2D(Camera.main.transform, 10, 1.25f, Graph.InverseLinear);
@@ -224,9 +220,9 @@ public class PlayerPiece : MonoBehaviour
 		// If re-adding the shield.
 		if (Shield <= 0)
 		{
-			mnShield = 0;
-			mnShield += _shieldPoints;
-			PlayerInfoManager.Instance.UpdateShield(mnShield);
+			mPlayerData.Shield = 0;
+			mPlayerData.Shield += _shieldPoints;
+			PlayerInfoManager.Instance.UpdateShield(mPlayerData.Shield);
 
 			// Show shield bubble and start the animation.
 			mShieldBubbleTransform.localScale = Vector3.zero;
@@ -237,8 +233,8 @@ public class PlayerPiece : MonoBehaviour
 		// Else just adding on top of the shield.
 		else
 		{
-			mnShield += _shieldPoints;
-			PlayerInfoManager.Instance.UpdateShield(mnShield);
+			mPlayerData.Shield += _shieldPoints;
+			PlayerInfoManager.Instance.UpdateShield(mPlayerData.Shield);
 		}
 	}
 
@@ -251,11 +247,11 @@ public class PlayerPiece : MonoBehaviour
 			return;
 		}
 
-		mnShield -= _shieldPoints;
-		PlayerInfoManager.Instance.UpdateShield(mnShield);
+		mPlayerData.Shield -= _shieldPoints;
+		PlayerInfoManager.Instance.UpdateShield(mPlayerData.Shield);
 
 		// Check if shield got broken.
-		if (mnShield <= 0)
+		if (mPlayerData.Shield <= 0)
 		{
 			mTurnStatus = PlayerTurnStatus.Running;
 
@@ -286,8 +282,8 @@ public class PlayerPiece : MonoBehaviour
 		moveUp.OnActionStart += () => {
 			mCoinTransform.position = transform.position;
 			mCoinSpriteRen.enabled = true;
-			mnCoin++;
-			PlayerInfoManager.Instance.UpdateCoins(mnCoin);
+			mPlayerData.Coins++;
+			PlayerInfoManager.Instance.UpdateCoins(mPlayerData.Coins);
 		};
 		ActionRepeat repeatedCoinGet = new ActionRepeat(moveUp, _numCoins);
 		DelayAction hideCoin = new DelayAction(kfCoinAnimDuration * _numCoins + 0.5f);
@@ -302,7 +298,7 @@ public class PlayerPiece : MonoBehaviour
 	{
 		// TODO: Coin spending sound?
 
-		mnCoin -= _numCoins;
-		PlayerInfoManager.Instance.UpdateCoins(mnCoin);
+		mPlayerData.Coins -= _numCoins;
+		PlayerInfoManager.Instance.UpdateCoins(mPlayerData.Coins);
 	}
 }
