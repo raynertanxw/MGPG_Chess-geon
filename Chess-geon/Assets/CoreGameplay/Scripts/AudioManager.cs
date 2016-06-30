@@ -54,4 +54,9 @@ public class AudioManager : MonoBehaviour
 	{
 		sInstance.mSFX[3].Play();
 	}
+
+	public static void PlayCardUseSound()
+	{
+		sInstance.mSFX[4].Play();
+	}
 }

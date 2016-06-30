@@ -130,6 +130,7 @@ public class ControlAreaManager : MonoBehaviour
 		{
 			mCurCard.transform.position = mCurCard.OriginPos;
 			mCurCard.transform.SetSiblingIndex(mCurCard.OriginSiblingIndex);
+			AudioManager.PlayCardUseSound();
 			mCurCard.Execute();
 
 			mExecutedCard = mCurCard;
