@@ -100,10 +100,27 @@ public class EnemyPiece : MonoBehaviour
 			}
 		}
 
-		#if UNITY_EDITOR
 		if (curPiece == null)
-			Debug.LogWarning("EnemyPiece pool out of objects. Consider increasing pool size");
-		#endif
+		{
+			GameObject newEnemyPiece = (GameObject) Instantiate(GameManager.Instance.EnemyPrefab);
+
+			curPiece = newEnemyPiece.GetComponent<EnemyPiece>();
+			curPiece.mbIsAlive = true;
+			curPiece.mSpriteRen.enabled = true;
+
+			curPiece.mnPosX = _posX;
+			curPiece.mnPosY = _posY;
+			curPiece.mnHealth = _health;
+			curPiece.SetMovementType(_movementType);
+			curPiece.SetUnitType(_unitType);
+			int spriteIndex = Array.IndexOf(enemySpriteNames, _unitType.ToString() + "_" + _movementType.ToString());
+			curPiece.mSpriteRen.sprite = enemySprites[spriteIndex];
+
+			DungeonManager.Instance.PlaceEnemy(curPiece, _posX, _posY);
+			curPiece.transform.position = DungeonManager.Instance.GridPosToWorldPos(_posX, _posY);
+		}
+
+		GameManager.Instance.EnemyList.Add(curPiece);
 
 		return curPiece;
 	}

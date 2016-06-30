@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
 
 	public GameObject PlayerPrefab;
+	public GameObject EnemyPrefab;
 
 	private BehaviourTree mPlayerPhaseBehaviourTree;
 	private BehaviourTree mEnemyPhaseBehaviourTree;
@@ -443,7 +444,7 @@ public class GameManager : MonoBehaviour
 			if (DungeonManager.Instance.IsCellEmpty(posX, posY) &&
 				DungeonManager.Instance.IsPlayerPos(posX, posY) == false)
 			{
-				EnemyList.Add(EnemyPiece.Spawn(posX, posY, EnemyUnit.BlackPawn));
+				EnemyPiece.Spawn(posX, posY, EnemyUnit.SlimeKing);
 				numEnemiesSpawned++;
 			}
 		}
