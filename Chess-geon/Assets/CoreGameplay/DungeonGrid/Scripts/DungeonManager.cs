@@ -63,6 +63,37 @@ public class DungeonManager : MonoBehaviour
 		else
 			sInstance = this;
 
+		// Set the size based on the floor number.
+		sizeX = 10 + 2;
+		sizeY = 10 + 2;
+		emptyPatternBias = 35;
+		if (PlayerPrefs.HasKey(Constants.kStrFloorNumber))
+		{
+			int floorNum = PlayerPrefs.GetInt(Constants.kStrFloorNumber);
+			if (floorNum < 5)
+			{
+				// Do nothing.
+			}
+			else if (floorNum < 15)
+			{
+				sizeX = (Random.Range(2, 4) * 5) + 2;
+				sizeY = (Random.Range(2, 4) * 5) + 2;
+				emptyPatternBias = 25;
+			}
+			else if (floorNum < 25)
+			{
+				sizeX = (Random.Range(2, 5) * 5) + 2;
+				sizeY = (Random.Range(2, 6) * 5) + 2;
+				emptyPatternBias = 15;
+			}
+			else
+			{
+				sizeX = (Random.Range(2, 6) * 5) + 2;
+				sizeY = (Random.Range(2, 6) * 5) + 2;
+				emptyPatternBias = Random.Range(0, 6);
+			}
+		}
+
 		Generate();
 
 		mGrids = new GridManager[5];
