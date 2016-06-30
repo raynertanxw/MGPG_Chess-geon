@@ -102,6 +102,8 @@ public class PlayerPiece : MonoBehaviour
 
 	private void ExecuteMove(int _newX, int _newY)
 	{
+		AudioManager.PlayMoveSound();
+
 		SetPosition(_newX, _newY);
 		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.InverseExponential,
 			DungeonManager.Instance.GridPosToWorldPos(_newX, _newY), 0.5f);

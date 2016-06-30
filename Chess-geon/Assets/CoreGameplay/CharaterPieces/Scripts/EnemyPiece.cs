@@ -385,6 +385,8 @@ public class EnemyPiece : MonoBehaviour
 
 	private void ExecuteMove()
 	{
+		AudioManager.PlayMoveSound();
+
 		Node targetNode = mPath.First.Next.Value;
 		MovePosition(targetNode.PosX, targetNode.PosY);
 		MoveToAction moveToPos = new MoveToAction(this.transform, Graph.InverseExponential,

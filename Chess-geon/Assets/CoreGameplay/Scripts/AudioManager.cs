@@ -69,4 +69,9 @@ public class AudioManager : MonoBehaviour
 	{
 		sInstance.mSFX[6].Play();
 	}
+
+	public static void PlayMoveSound()
+	{
+		sInstance.mSFX[7].Play();
+	}
 }
