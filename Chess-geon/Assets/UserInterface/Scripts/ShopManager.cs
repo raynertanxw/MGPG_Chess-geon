@@ -120,13 +120,13 @@ public class ShopManager : MonoBehaviour
 		switch (tier)
 		{
 		case CardTier.Bronze:
-			cost = 1;
-			break;
-		case CardTier.Silver:
 			cost = 2;
 			break;
-		case CardTier.Gold:
+		case CardTier.Silver:
 			cost = 5;
+			break;
+		case CardTier.Gold:
+			cost = 15;
 			break;
 		}
 
