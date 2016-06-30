@@ -249,6 +249,13 @@ public class PlayerPiece : MonoBehaviour
 		// Else just adding on top of the shield.
 		else
 		{
+			PulseAction pulse = new PulseAction(
+				mShieldBubbleTransform, 1,
+				Graph.Exponential, Graph.InverseExponential,
+				0.25f, 0.35f,
+				Vector3.one, Vector3.one * 1.2f);
+			ActionHandler.RunAction(pulse);
+			
 			mPlayerData.Shield += _shieldPoints;
 			PlayerInfoManager.Instance.UpdateShield(mPlayerData.Shield);
 		}
