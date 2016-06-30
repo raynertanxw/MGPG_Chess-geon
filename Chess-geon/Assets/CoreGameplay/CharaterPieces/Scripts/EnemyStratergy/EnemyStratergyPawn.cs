@@ -54,6 +54,10 @@ public class EnemyStratergyPawn : EnemyStratergy
 		// Movement.
 		if (_enemyPosY > GameManager.Instance.Player.PosY)
 		{
+			// retun null. retPath is currently still null.
+			if (DungeonManager.Instance.IsPlayerPos(_enemyPosX, _enemyPosY - 1))
+				return retPath;
+
 			if (DungeonManager.Instance.IsCellEmpty(_enemyPosX, _enemyPosY - 1))
 			{
 				retPath = new LinkedList<Node>();
@@ -63,6 +67,10 @@ public class EnemyStratergyPawn : EnemyStratergy
 		}
 		else if (_enemyPosY < GameManager.Instance.Player.PosY)
 		{
+			// retun null. retPath is currently still null.
+			if (DungeonManager.Instance.IsPlayerPos(_enemyPosX, _enemyPosY + 1))
+				return retPath;
+
 			if (DungeonManager.Instance.IsCellEmpty(_enemyPosX, _enemyPosY + 1))
 			{
 				retPath = new LinkedList<Node>();
