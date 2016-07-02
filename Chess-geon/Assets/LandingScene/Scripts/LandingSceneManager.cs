@@ -10,7 +10,7 @@ public class LandingSceneManager : MonoBehaviour
 	private CanvasGroup mSplashPanelCG;
 	private Transform mLogoTransform;
 	private Transform mSpiningCard;
-	private Image mCardImage;
+	private SpriteRenderer mCardSpriteRen;
 	private Text mTapToStartText, mHighscoreText;
 	private Button mStartButton;
 
@@ -27,9 +27,10 @@ public class LandingSceneManager : MonoBehaviour
 		mSplashPanelCG = transform.FindChild("Splash Panel").GetComponent<CanvasGroup>();
 		mSplashPanelCG.alpha = 1.0f;
 		mLogoTransform = mSplashPanelCG.transform.FindChild("Daburu Logo");
-		mSpiningCard = transform.FindChild("Spining Card");
-		mCardImage = mSpiningCard.FindChild("Card Image").GetComponent<Image>();
-		mCardImage.sprite = mSpriteCardBack;
+//		mSpiningCard = transform.FindChild("Spining Card");
+		mSpiningCard = GameObject.Find("Spining Card").transform;
+		mCardSpriteRen = mSpiningCard.FindChild("Card Sprite").GetComponent<SpriteRenderer>();
+		mCardSpriteRen.sprite = mSpriteCardBack;
 		mTapToStartText = transform.FindChild("Tap To Start Text").GetComponent<Text>();
 		mTapToStartText.enabled = false;
 		mHighscoreText = transform.FindChild("Highscore Text").GetComponent<Text>();
@@ -101,18 +102,18 @@ public class LandingSceneManager : MonoBehaviour
 		// Timing here doesn't matter. Is used to sync. 0.5f just nice to have card back show when canvas fades.
 		RotateByAction initSpin = new RotateByAction(mSpiningCard, Graph.Linear, Vector3.up * 90.0f, 0.5f);
 		initSpin.OnActionFinish += () => {
-			mCardImage.transform.localScale -= Vector3.right * 2.0f;
-			mCardImage.sprite = mCardSprites[Random.Range(0, mCardSprites.Length)];
+			mCardSpriteRen.transform.localScale -= Vector3.right * 2.0f;
+			mCardSpriteRen.sprite = mCardSprites[Random.Range(0, mCardSprites.Length)];
 		};
 		RotateByAction spinA = new RotateByAction(mSpiningCard, Graph.Linear, Vector3.up * 180.0f, 3.0f);
 		spinA.OnActionFinish += () => {
-			mCardImage.transform.localScale += Vector3.right * 2.0f;
-			mCardImage.sprite = mSpriteCardBack;
+			mCardSpriteRen.transform.localScale += Vector3.right * 2.0f;
+			mCardSpriteRen.sprite = mSpriteCardBack;
 		};
 		RotateByAction spinB = new RotateByAction(mSpiningCard, Graph.Linear, Vector3.up * 180.0f, 3.0f);
 		spinB.OnActionFinish += () => {
-			mCardImage.transform.localScale -= Vector3.right * 2.0f;
-			mCardImage.sprite = mCardSprites[Random.Range(0, mCardSprites.Length)];
+			mCardSpriteRen.transform.localScale -= Vector3.right * 2.0f;
+			mCardSpriteRen.sprite = mCardSprites[Random.Range(0, mCardSprites.Length)];
 		};
 
 		ActionSequence cardSpinSeq = new ActionSequence(spinA, spinB);
