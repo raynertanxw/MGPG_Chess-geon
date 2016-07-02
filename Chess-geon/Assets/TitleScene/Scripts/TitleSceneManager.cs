@@ -143,6 +143,7 @@ public class TitleSceneManager : MonoBehaviour
 	private void SetupTitle()
 	{
 		mSplashPanelCG.alpha = 0.0f;
+		mLogoTransform.position += Vector3.right * (1024 + 400) * (Screen.height / 1920.0f);
 
 		// Tap to Start text.
 		DelayAction TurnOn = new DelayAction(0.5f);
