@@ -27,7 +27,6 @@ public class LandingSceneManager : MonoBehaviour
 		mSplashPanelCG = transform.FindChild("Splash Panel").GetComponent<CanvasGroup>();
 		mSplashPanelCG.alpha = 1.0f;
 		mLogoTransform = mSplashPanelCG.transform.FindChild("Daburu Logo");
-//		mSpiningCard = transform.FindChild("Spining Card");
 		mSpiningCard = GameObject.Find("Spining Card").transform;
 		mCardSpriteRen = mSpiningCard.FindChild("Card Sprite").GetComponent<SpriteRenderer>();
 		mCardSpriteRen.sprite = mSpriteCardBack;
