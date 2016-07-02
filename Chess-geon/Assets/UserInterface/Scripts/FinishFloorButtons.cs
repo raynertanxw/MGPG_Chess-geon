@@ -22,6 +22,6 @@ public class FinishFloorButtons : MonoBehaviour
 	{
 		AudioManager.PlayButtonClickSound();
 
-		SceneManager.LoadScene("LandingScene");
+		SceneManager.LoadScene("TitleScene");
 	}
 }

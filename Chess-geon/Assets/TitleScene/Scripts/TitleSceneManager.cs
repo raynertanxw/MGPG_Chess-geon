@@ -5,7 +5,7 @@ using DaburuTools.Action;
 using DaburuTools;
 using UnityEngine.SceneManagement;
 
-public class LandingSceneManager : MonoBehaviour
+public class TitleSceneManager : MonoBehaviour
 {
 	private static bool sbLoadedGame = false;
 
