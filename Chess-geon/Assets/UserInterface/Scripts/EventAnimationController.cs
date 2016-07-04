@@ -48,6 +48,9 @@ public class EventAnimationController : MonoBehaviour
 	// FinishFloor Variables
 	private CanvasGroup FloorClearedCG;
 
+	// RedFalshPanel Variables
+	private Image mRedFlash;
+
 	private bool mbIsAnimating = false;
 	public bool IsAnimating { get { return mbIsAnimating; } }
 	public void SetIsAnimating(bool _IsAnimating) { mbIsAnimating = _IsAnimating; }
@@ -84,6 +87,9 @@ public class EventAnimationController : MonoBehaviour
 		FloorClearedCG.alpha = 0.0f;
 		FloorClearedCG.blocksRaycasts = false;
 		FloorClearedCG.interactable = false;
+
+		mRedFlash = transform.FindChild("RedFlash").GetComponent<Image>();
+		mRedFlash.enabled = false;
 	}
 
 	public void ExecutePhaseAnimation(GamePhase _phase)
@@ -184,5 +190,15 @@ public class EventAnimationController : MonoBehaviour
 	public void SpawnDamageParticles(Vector3 _pos)
 	{
 		DamageParticles.Spawn(_pos);
+	}
+
+	public void FlashRedDamageIndicator(float _duration = 0.05f)
+	{
+		mRedFlash.enabled = true;
+		DelayAction flashDissapearDelay = new DelayAction(_duration);
+		flashDissapearDelay.OnActionFinish += () => {
+			mRedFlash.enabled = false;
+		};
+		ActionHandler.RunAction(flashDissapearDelay);
 	}
 }

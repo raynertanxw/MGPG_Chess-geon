@@ -209,6 +209,9 @@ public class PlayerPiece : MonoBehaviour
 		mPlayerData.Health -= _damage;
 		PlayerInfoManager.Instance.UpdateHealth(mPlayerData.Health);
 
+		// Damage indicators.
+		EventAnimationController.Instance.FlashRedDamageIndicator();
+
 		// Check if player died. Handling for dying.
 		if (mPlayerData.Health > 0)
 		{
